@@ -1,0 +1,45 @@
+<html lang="ko">
+	<head>
+		<meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="style/reg_style.css">
+  </head>
+
+	<body>
+        <h2>회원 가입</h2>
+    <form  id="registerForm">
+        <div>
+            <label for="profileImage"> 프로필 사진: </label>
+            <input type="file" id="profileImage" name="profileImage" accept="image/*" required>
+        </div>
+        <div>
+            <label for="username"> 이름: </label>
+            <input type="text" id="username" name="username" placeholder="이름을 입력하세요" required>
+        </div>
+      
+        <div>
+            <label for="useremail"> 이메일:</label>
+            <input type="useremail" id="useremail" name="useremail" placeholder="이메일을 입력하세요" required>
+        </div>
+      
+        <div>
+            <label for="password">비밀번호:</label>
+            <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required>  
+        </div>
+
+        <div>
+            <label for="confirmPassword">비밀번호 확인:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호를 다시 입력하세요" required>
+        </div>
+        <div>
+            <label for="nickname">닉네임:</label>
+            <input type="text" id="nickname" name="nickname" placeholder="닉네임을 입력하세요" required>
+        </div>
+      
+        <button type="submit">회원가입</button>
+        <button type="button" id="backBtn" onclick="window.location.href='/'">로그인하러 가기</button>
+    </form>
+    <script src="script/script.js" defer></script>
+	</body>
+</html>

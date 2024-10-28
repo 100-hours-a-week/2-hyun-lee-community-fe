@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 작성</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<body>
+    <header>
+        <h1>게시글 작성</h1>
+    </header>
+    <main>
+        <form id="postForm">
+            <p>제목</p>
+            <input type="text" id="postTitle" placeholder="제목을 입력하세요">
+            <p>내용</p>
+            <textarea id="postContent" placeholder="내용을 입력하세요"></textarea>
+            <p>이미지</p>
+            <input type="file" id="postImage" accept="image/*">
+            <button type="submit">완료</button>
+        </form>
+    </main>
+    <script src="script/script.js"></script>
+</body>
+</html>
