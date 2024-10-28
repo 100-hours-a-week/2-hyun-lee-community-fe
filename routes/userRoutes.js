@@ -10,6 +10,7 @@ router.post('/register', upload.single('profileImage'), userController.createUse
 // 사용자 생성 라우트
 
 
+router.post('/login', userController.login);
 
 router.get('/check-email', userController.checkEmail);
 

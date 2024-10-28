@@ -1,5 +1,5 @@
 const User = require('../models/user');
-
+const bcrypt = require('bcrypt');
 const userController={
     createUser: async (req,res,next)=>{
         const userData = {
@@ -23,6 +23,23 @@ const userController={
             next(error);
         }
     },
+    login: async (req,res)=>{
+        const {useremail,password}=req.body;
+        const userData={useremail,password};
+        try{
+            const result=await User.loginCheck(userData);
+            console.log(result);
+            if(result.success){
+                return res.status(200).json({message: result.message, user:result.user});
+            } else{
+                return res.status(401).json({message:result.message});
+            } 
+
+        } catch(error){
+            res.status(500).json({message:'서버 오류'});
+        }
+    },
+
     getUsers:(req,res)=>{
         User.findAll((err,results)=>{
             if(err){

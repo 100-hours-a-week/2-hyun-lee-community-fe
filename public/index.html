@@ -13,7 +13,7 @@
     <div class="login-form">
     <h2>로그인</h2>
 
-    <form action="/login" method="post">
+    <form id="login" >
     <div><label for="useremail">이메일:</label>
         <input type="text" name="useremail" id="useremail" placeholder="이메일을 입력하세요" >
     </div>
@@ -21,15 +21,11 @@
         <label for="password">비밀번호:</label>
         <input type="password" name="password" id="password" placeholder="비밀번호를 입력하세요">
     </div>
-        <button type="submit">로그인</button>
+        <button type="submit" >로그인</button>
     </form>
    <button id="registerBtn">회원가입</button>
     </div>
     </div>
-    <script >
-         document.getElementById('registerBtn').addEventListener('click', () => {
-            window.location.href = '/register'; // 회원가입 페이지로 이동
-        });
-    </script>
+    <script src="script/login-script.js"></script>
 </body>
 </html>

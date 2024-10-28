@@ -19,6 +19,9 @@ app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'register.html'));
 });
 
+app.get('/community', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'community.html'));
+});
 const PORT=3000;
 
 app.use((err, req, res, next) => {
