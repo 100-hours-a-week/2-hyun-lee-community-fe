@@ -20,7 +20,7 @@ document.getElementById('login').addEventListener('submit', async(e) => {
             alert(result.message)
                 window.location.href='/community';
         } else{
-            console.log("안녕3");
+            
            alert(result.message);
             window.location.href='/';
         }

@@ -1,22 +1,27 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상세 보기</title>
-    <link rel="stylesheet" href="style/detail-style.css">
-</head>
-<body>
-    <div class="top">
+document.addEventListener('DOMContentLoaded', async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const boardId = urlParams.get('board_id')
+
+    try {
+        const response = await fetch(`/details-post?board_id=${boardId}`); 
+        const post = await response.json(); 
+        renderPost(post); 
+    } catch (error) {
+        console.error('게시글 데이터를 불러오는 중 오류가 발생했습니다:', error);
+    }
+});
+
+
+function renderPost(posts){
+    const postTableBody = document.getElementById('container');
+    const post=posts[0];
+    postTableBody.innerHTML=`
+     <div class="top">
         <h1 class="top-title">아무말 대잔치</h1>
         </div>
-        <div id="container">
-            
-        </div>
-
         <div class="container">
    
-            <span class="title">제목 1</span>
+            <span class="title">${post.page_title}</span>
             <div class="post-header">
                 <div class="post-footer">
                     <div class="author-avatar"></div>
@@ -30,7 +35,7 @@
             </div>
         <div class="post-details">
             <div class="post-image">
-              
+              <img src="sample_image.png" alt="본문 이미지">
             </div>
         </div>
         <div class="post-content">
@@ -106,8 +111,8 @@
                 </div>
 
         </div>
-      
-    </div>
-    <script src="script/detail-script.js"></script>
-</body>
-</html>
+    </div>`;
+  
+        
+    
+}

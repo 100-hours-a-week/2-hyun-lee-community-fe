@@ -51,6 +51,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center; 
+    width: 570px;
     margin-top: 100px;
 }
 
@@ -65,15 +66,16 @@ body {
 }
 
 .container input {
-    width: 100%;
-    padding: 8px;
+    width: 570px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     margin-bottom: 5px;
     border: 1px solid #000000;
     border-radius: 4px;
 }
 
 .container button[type="submit"] {
-    width: 106%;
+    width: 400px;
     height: 30px;
     font-size: 14px;
     line-height: 16.71px;
@@ -96,7 +98,7 @@ body {
 .container textarea{
     resize: none;
     height: 150px;
-    width: 105%;
+    width: 570px;
 }
 
 input[type="file"] {

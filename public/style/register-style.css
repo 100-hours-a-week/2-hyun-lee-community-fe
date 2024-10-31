@@ -34,24 +34,17 @@ body {
     margin: 0 auto; 
 }
 .register{
-    height: 38px; 
     position: absolute;
-    top: 24.54vh;  
-    left: 46vw;
-    gap: 0px;
-    opacity: 0px;
-    font-size: 32px;   
-    font-weight: 700;
-    line-height: 38.19px; 
-    text-align: center;
-    margin: 20px 0;
+    top: 20%;
+    right: 47%;
+
 }
 .container {
     display: flex;
     flex-direction: column;
     justify-content: center; 
     margin-top: 150px;
-    width: 300;
+    width: 355px;
 }
 
 .container label {
