@@ -1,3 +1,44 @@
+const postModal = document.querySelector('.post-modal');
+const postDeleteBtn = document.querySelector('.delete-post-button'); 
+const postCancelBtn = document.querySelector('.post-cancel');
+const postConfirmBtn = document.querySelector('.post-confirm');
+
+const commentModal = document.querySelector('.comment-modal');
+const commentDeleteBtn = document.querySelector('.delete-comment-button'); 
+const commentCancelBtn = document.querySelector('.comment-cancel');
+const commentConfirmBtn = document.querySelector('.comment-confirm');
+
+
+
+postDeleteBtn.addEventListener('click',()=>{
+    postModal.style.display='flex';
+})
+
+commentDeleteBtn.addEventListener('click',()=>{
+    commentModal.style.display='flex';
+})
+
+
+postCancelBtn.addEventListener('click',()=>{
+    postModal.style.display='none';
+})
+
+commentCancelBtn.addEventListener('click',()=>{
+    commentModal.style.display='none';
+})
+
+commentConfirmBtn.addEventListener('click', () => {
+    commentModal.style.display = 'none';
+    alert('댓글이 삭제되었습니다.');
+});
+
+
+postConfirmBtn.addEventListener('click', () => {
+    postModal.style.display = 'none';
+    alert('게시글이 삭제되었습니다.');
+});
+
+
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const boardId = urlParams.get('board_id')
