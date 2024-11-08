@@ -26,3 +26,43 @@ export function renderPosts(posts){
         
     });
 }
+
+export function renderDetailsPost(post){
+    const postContainer = document.getElementById('container');
+    postContainer.innerHTML = `
+        <span class="title">${post.page_title}</span>
+        <div class="post-header">
+            <div class="post-footer">
+                <div class="author-avatar"></div>
+                <span class="author-name">${post.nickname}</span>
+                <span class="post-date">${formatDate(post.create_at)}</span>
+            </div>
+            <span class="work-post">
+                <button class="modify-post-button">수정</button>
+                <button class="delete-post-button">삭제</button>
+            </span>
+        </div>
+        <div class="post-details">
+            <div class="post-image">
+                <img src="${post.page_image}" alt="본문 이미지">
+            </div>
+        </div>
+        <div class="post-content">
+            <p>${post.page_content}</p>
+        </div>
+        <div class="post-stats">
+            <div class="stat-item">
+                <span class="stat-number">${post.likes_count}</span>
+                <span class="stat-label">좋아요수</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">${post.view_count}</span>
+                <span class="stat-label">조회수</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-number">${post.comment_count}</span>
+                <span class="stat-label">댓글</span>
+            </div>
+        </div>
+    `;
+}

@@ -1,11 +1,6 @@
 const BASE_URL ='http://localhost:3000';
 
 
-export async function fetchPosts(){
-    const response = await fetch(`${BASE_URL}/posts`);
-    return response.json();
-}
-
 
 export async function loginUser(useremail,password){
     const response = await fetch(`/${BASE_URL}/login`,{
@@ -66,6 +61,45 @@ export async function registerUser(formData) {
     const response = await fetch(`${BASE_URL}/register`, {
         method: 'POST',
         body: formData,
+    });
+    return response.json();
+}
+
+
+export async function fetchPosts(){
+    const response = await fetch(`${BASE_URL}/posts`);
+    return response.json();
+}
+
+
+export async function fetchPostDetails(boardId){
+    const response = await fetch(`${BASE_URL}/api/detail-post?board_id=${boardId}`);
+    return response.json();
+}
+
+export async function fetchComments(boardId){
+    const response = await fetch(`${BASE_URL}/comments?board_id=${boardId}`);
+    return response.json();
+}
+
+export async function deletePost(boardId){
+    const response = await fetch(`${BASE_URL}/details-post/deletePost?board_id=${boardId}`,{
+        method:'DELETE'
+    });
+    return response.json();
+}   
+
+export async function deleteComment(boardId, commentId){
+    const response = await fetch(`${BASE_URL}/comment/${boardId}/deleteComment/${commentId}`,{
+        method:'DELETE'
+    }); 
+    return response.json();
+}
+
+export async function addComment(boardId,content){
+    const response = await fetch(`${BASE_URL}/comment`,{
+        method:'POST',
+        body: JSON.stringify({boardId,content})
     });
     return response.json();
 }

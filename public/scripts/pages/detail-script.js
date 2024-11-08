@@ -1,159 +1,143 @@
-const postModal = document.querySelector('.post-modal');
-const postDeleteBtn = document.querySelector('.delete-post-button'); 
-const postCancelBtn = document.querySelector('.post-cancel');
-const postConfirmBtn = document.querySelector('.post-confirm');
-
-const commentModal = document.querySelector('.comment-modal');
-const commentDeleteBtn = document.querySelector('.delete-comment-button'); 
-const commentCancelBtn = document.querySelector('.comment-cancel');
-const commentConfirmBtn = document.querySelector('.comment-confirm');
+import { renderDetailsPost } from '../components/post-component.js';
+import { addCommentToList } from '../components/comment-component.js';
+import { createModal, openModal, closeModal } from '../components/modal-component.js';
+import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment } from '../api/api.js';
 
 
+//더미 데이터
+const dummyPost = {
+    board_id: 1,
+    page_title: "더미 게시글 제목",
+    nickname: "작성자",
+    create_at: "2024-11-08T12:00:00Z",
+    page_image: "https://via.placeholder.com/150",
+    page_content: "이것은 더미 게시글 내용입니다.",
+    likes_count: 10,
+    view_count: 100,
+    comment_count: 5
+};
 
-postDeleteBtn.addEventListener('click',()=>{
-    postModal.style.display='flex';
-})
-
-commentDeleteBtn.addEventListener('click',()=>{
-    commentModal.style.display='flex';
-})
-
-
-postCancelBtn.addEventListener('click',()=>{
-    postModal.style.display='none';
-})
-
-commentCancelBtn.addEventListener('click',()=>{
-    commentModal.style.display='none';
-})
-
-commentConfirmBtn.addEventListener('click', () => {
-    commentModal.style.display = 'none';
-    alert('댓글이 삭제되었습니다.');
-});
-
-
-postConfirmBtn.addEventListener('click', () => {
-    postModal.style.display = 'none';
-    alert('게시글이 삭제되었습니다.');
-});
+const dummyComments = [
+    {
+        comment_id: 1,
+        user_id: 1,
+        nickname: "사용자1",
+        create_at: "2024-11-08T12:30:00Z",
+        content: "첫 번째 더미 댓글입니다.",
+        profile: "https://via.placeholder.com/36"
+    },
+    {
+        comment_id: 2,
+        user_id: 2,
+        nickname: "사용자2",
+        create_at: "2024-11-08T13:00:00Z",
+        content: "두 번째 더미 댓글입니다.",
+        profile: "https://via.placeholder.com/36"
+    }
+];
 
 
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const boardId = urlParams.get('board_id')
+    const boardId = urlParams.get('board_id');
+    
 
     try {
-        const response = await fetch(`/details-post?board_id=${boardId}`); 
-        const post = await response.json(); 
-        renderPost(post); 
+        //const response = await fetchPostDetails(boardId); 
+        //const post = await response.json(); 
+        renderDetailsPost(dummyPost); 
+
+         //const results = await fetchComments(boardId);
+         //console.log(results.resultData);
+        // const comments=results.resultData;
+         const userId=1// 유저 아이디 임의 설정 results.userId; 
+         
+         dummyComments.forEach(comment => addCommentToList(comment,userId)); 
+
+         document.querySelector('.delete-post-button').addEventListener('click', () => {
+            const { modal, confirmButton } = createModal({
+                title: '게시글을 삭제하시겠습니까?',
+                message: '삭제한 내용은 복구할 수 없습니다.',
+                confirmText: '확인',
+                cancelText: '취소'
+            });
+            openModal(modal);
+
+            confirmButton.addEventListener('click', async () => {
+                try {
+                   // const result = await deletePost(boardId);
+                    closeModal(modal);
+                    window.location.href = '/board';
+                } catch (error) {
+                    console.error(error);
+                    alert('게시글 삭제에 실패했습니다.');
+                }
+            });
+        });
+
+        document.querySelectorAll('.delete-comment-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const commentId = button.closest('.comment-details').getAttribute('data-comment-id');
+                const { modal, confirmButton } = createModal({
+                    title: '댓글을 삭제하시겠습니까?',
+                    message: '삭제한 내용은 복구할 수 없습니다.',
+                    confirmText: '확인',
+                    cancelText: '취소'
+                });
+                openModal(modal);
+
+                confirmButton.addEventListener('click', async () => {
+                    try {
+                        //await deleteComment(boardId, commentId);
+                        closeModal(modal);
+                        document.querySelector(`.comment-details[data-comment-id="${commentId}"]`).parentElement.remove();
+                    } catch (error) {
+                        console.error(error);
+                        alert('댓글 삭제에 실패했습니다.');
+                    }
+                });
+            });
+        });
     } catch (error) {
         console.error('게시글 데이터를 불러오는 중 오류가 발생했습니다:', error);
     }
 });
-
-
-function renderPost(posts){
-    const postTableBody = document.getElementById('container');
-    const post=posts[0];
-    postTableBody.innerHTML=`
-     <div class="top">
-        <h1 class="top-title">아무말 대잔치</h1>
-        </div>
-        <div class="container">
-   
-            <span class="title">${post.page_title}</span>
-            <div class="post-header">
-                <div class="post-footer">
-                    <div class="author-avatar"></div>
-                    <span class="author-name">더미 작성자 1</span>
-                    <span class="post-date">2021-01-01 00:00:00</span>
-                </div>
-                <span class="work-post">
-                    <button class="modify-post-button">수정</button>
-                    <button class="delete-post-button">삭제</button>
-                </span>
-            </div>
-        <div class="post-details">
-            <div class="post-image">
-              <img src="sample_image.png" alt="본문 이미지">
-            </div>
-        </div>
-        <div class="post-content">
-            <p>
-                무엇을 얘기할까요? 아무말이라면, 삶은 항상 놀라운 모험이라고 생각합니다. 우리는 매일 새로운 경험을 하고 배우며 성장합니다. 때로는 어려움과 도전이 있지만, 그것들이 우리를 더 강하고 지혜롭게 만듭니다. 또한 우리는 주변의 사람들과 연결되며 사랑과 지지를 받습니다. 그래서 우리의 삶은 소중하고 의미가 있습니다.
-                자연도 아름다운 이야기입니다. 우리 주변의 자연은 끝없는 아름다움과 신비로움을 담고 있습니다. 산, 바다, 숲, 하늘 등 모든 것이 우리를 놀라게 만들고 감동시킵니다. 자연은 우리의 생명과 안정을 지키며 우리에게 힘을 주는 곳입니다.
-                마지막으로, 지식을 향한 탐구는 항상 흥미로운 여정입니다. 우리는 끝없는 지식의 바다에서 배우고 발견할 수 있으며, 이것이 우리를 더 깊이 이해하고 세상을 더 넓게 보게 해줍니다.
-                그런 의미에서, 삶은 놀라움과 경이로움으로 가득 차 있습니다. 새로운 경험을 즐기고 항상 앞으로 나아가는 것이 중요하다고 생각합니다.
-            </p>
-        </div>
-
-     
-        <div class="post-stats">
-            <div class="stat-item">
-                 <span class="stat-number">123</span>
-                 <span class="stat-label">좋아요수</span>
-            </div>
-
-            <div class="stat-item">
-                <span class="stat-number">123</span>
-                <span class="stat-label">조회수</span>
-            </div>
-
-            <div class="stat-item">
-            <span class="stat-number">123</span>
-            <span class="stat-label">댓글</span>
-            </div>
-        </div>
-
-     
-          <div class="comment-section">
-            <textarea placeholder="댓글을 남겨주세요! "></textarea>
-            <button class="comment-submit">댓글 등록</button>
-        </div>
-
-   
-        <div class="comment">
-                <div class="comment-author">
-                    <div class="author-avatar"></div>
-                    <div class="comment-details">
-                    <span class="author-name">더미 작성자 1</span>
-                    <span class="comment-date">2021-01-01 00:00:00</span>
-                    <p class="comment-content">댓글 내용</p>
-                    </div>
-                </div>
-                <div class="comment-author">
-                    <div class="author-avatar"></div>
-                    <div class="comment-details">
-                    <span class="author-name">더미 작성자 1</span>
-                    <span class="comment-date">2021-01-01 00:00:00</span>
-                    <p class="comment-content">댓글 내용</p>
-                    </div>
-                </div>
-                <div class="comment-author">
-                    <div class="author-avatar"></div>
-                    <div class="comment-details">
-                    <span class="author-name">더미 작성자 1</span>
-                    <span class="comment-date">2021-01-01 00:00:00</span>
-                    <p class="comment-content">댓글 내용</p>
-                    </div>
-                </div>
-                <div class="comment-author">
-                    <div class="author-avatar"></div>
-                    <div class="comment-details">
-                    <span class="author-name">더미 작성자 1</span>
-                    <span class="comment-date">2021-01-01 00:00:00</span>
-                    <p class="comment-content">댓글 내용</p>
-                    </div>
-                </div>
-                <div class="action">
-                <button class="comment-action">수정</button>
-                <button class="comment-action">삭제</button>
-                </div>
-
-        </div>
-    </div>`;
-  
-        
     
-}
+
+document.getElementById('comment-submit').addEventListener('click', async () => {
+    const commentContent = document.getElementById('commentInput').value;
+    const urlParams = new URLSearchParams(window.location.search);
+    const boardId =  parseInt(urlParams.get('board_id'), 10);
+
+    if (!commentContent.trim()) {
+        alert("댓글 내용을 입력해주세요.");
+        return;
+    }
+    // 임시 더미 댓글 추가
+    const newDummyComment = {
+        board_id : 1,
+        comment_id: Date.now(),  // 고유 ID 대체
+        user_id: 1,
+        nickname: "현재 사용자",
+        create_at: new Date().toISOString(),
+        content: commentContent,
+        profile: "https://via.placeholder.com/36"
+    };
+
+    try {
+        // const result = await addComment(boardId, commentContent);
+        // if(result){
+        //     document.getElementById('commentInput').value = ''; 
+        //     addCommentToList(result.resultData, result.userId);
+         
+        // } else {
+        //     alert(result.message);
+        // }
+        document.getElementById('commentInput').value = ''; 
+        addCommentToList(newDummyComment, newDummyComment.user_id);
+
+    } catch (error) {
+        console.error("댓글 작성 중 오류:", error);
+    }
+});
+
