@@ -1,18 +1,6 @@
-document.getElementById('createBtn').addEventListener('click', () => {
-    window.location.href = '/create-post'; 
-});
+import {formatDate} from '../utils/format-Date.js';
 
-document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        const response = await fetch('/posts'); 
-        const posts = await response.json(); 
-        renderPosts(posts); 
-    } catch (error) {
-        console.error('게시글 데이터를 불러오는 중 오류가 발생했습니다:', error);
-    }
-});
-
-function renderPosts(posts){
+export function renderPosts(posts){
     const postTableBody = document.getElementById('postTableBody');
     postTableBody.innerHTML='';
     posts[0].forEach(post => {
@@ -24,10 +12,10 @@ function renderPosts(posts){
                 </div>
                 <div class="post-details">
                     <div class="post-details2"><span>좋아요 ${post.likes_count}</span> <span>댓글 ${post.comment_count}</span> <span>조회수 ${post.view_count}</span></div>
-                    <span class="post-date">${post.create_at}</span>
+                    <span class="post-date">${formatDate(post.create_at)}</span>
                 </div>
                 <div class="post-footer">
-                    <div class="author-avatar"></div>
+                    <img class="author-avatar" src=${post.profile}></img>
                     <span class="author-name">${post.nickname}</span>
                 </div>
         `;

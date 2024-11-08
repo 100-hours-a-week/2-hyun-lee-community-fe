@@ -1,0 +1,71 @@
+const BASE_URL ='http://localhost:3000';
+
+
+export async function fetchPosts(){
+    const response = await fetch(`${BASE_URL}/posts`);
+    return response.json();
+}
+
+
+export async function loginUser(useremail,password){
+    const response = await fetch(`/${BASE_URL}/login`,{
+        method:'POST',
+        body: JSON.stringify({useremail, password}),
+    });
+    const result= await response.json();
+    return { ok: response.ok, message:result.message};
+}
+
+
+export async function isLoginDuplicated(email, password) {
+    try {
+        const response = await fetch(`${BASE_URL}/check-login`, {
+            method: 'POST',
+            body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+        return data.success;
+    } catch (error) {
+        console.error('비밀번호 확인 중 오류 발생:', error);
+        return false;
+    }
+}
+
+export async function isEmailDuplicated(email) {
+    try {
+        const response = await fetch(`${BASE_URL}/check-email?email=${encodeURIComponent(email)}`);
+        if (!response.ok) {
+            throw new Error('서버 응답 오류');
+        }
+        const data = await response.json();
+        return data.isDuplicated;
+    } catch (error) {
+        console.error('이메일 중복 확인 중 오류 발생:', error);
+        return true; 
+    }
+}
+
+
+export async function isNicknameDuplicated(nickname) {
+    try {
+        const response = await fetch(`${BASE_URL}/check-nickname?nickname=${encodeURIComponent(nickname)}`);
+        if (!response.ok) {
+            throw new Error('서버 응답 오류');
+        }
+        const data = await response.json();
+        return data.isDuplicated;
+    } catch (error) {
+        console.error('닉네임 중복 확인 중 오류 발생:', error);
+        return true; 
+    }
+}
+
+
+export async function registerUser(formData) {
+    const response = await fetch(`${BASE_URL}/register`, {
+        method: 'POST',
+        body: formData,
+    });
+    return response.json();
+}
