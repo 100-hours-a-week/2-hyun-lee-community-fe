@@ -1,34 +1,39 @@
+import { createPost } from '../api/api.js';
+import { validatePostTitle, validatePostContent } from '../utils/validators.js';
+
+
 document.getElementById('postForm').addEventListener('submit',async (e)=>{
     e.preventDefault();
 
     const postTitle=document.getElementById('postTitle').value;
     const postContent=document.getElementById('postContent').value;
+    const postImage = document.getElementById('postImage').files[0];
 
 
-    let errorMessage='';
 
-    if(postTitle.length>26) errorMessage+='제목을 26자 이하로 작성해주세요.';
+    let errorMessage = '';
+    errorMessage += validatePostTitle(postTitle);
+    errorMessage += validatePostContent(postContent);
 
     if (errorMessage) {
         alert(errorMessage);
-        return; // 유효성 검사 실패 시 서버로 데이터 전송하지 않음
+        return;
     }
 
-    const formData = new FormData(document.getElementById('postForm'));
-
+    const formData = new FormData();
+    formData.append('postTitle',postTitle);
+    formData.append('postContent',postContent);
+    if(postImage){
+        formData.append('postImage',postImage);
+    }
     try{
-        const response= await fetch('/createPost',{
-            method: 'POST',
-            body: formData,
-        });
-        const result= await response.json();
-        console.log('result:',result);
-        if(response.ok){
-            alert(result.message);
-            window.location.href='/community';
+       const result = await createPost(formData);
+       alert(result.message);
+        if(result.ok){
+            window.location.href='/board';
         } else{
-            alert(result.message);
-        }
+            window.location.href='/create-post'
+            }
     } catch(error){
         console.error('Error:',error);
         alert('서버 오류 발생');

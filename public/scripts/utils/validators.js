@@ -73,3 +73,18 @@ export function validateProfile(profile,profileHelper){
         profileHelper.style.visibility="hidden";
     }
 }
+
+
+export function validatePostTitle(postTitle) {
+    if (postTitle.length > 26) {
+        return '제목을 26자 이하로 작성해주세요.';
+    }
+    return '';
+}
+
+export function validatePostContent(postContent) {
+    if (!postContent.trim()) {
+        return '내용을 입력해주세요.';
+    }
+    return '';
+}

@@ -103,3 +103,11 @@ export async function addComment(boardId,content){
     });
     return response.json();
 }
+
+export async function createPost(formData){
+    const response= await fetch(`${BASE_URL}/createPost`,{
+        method: 'POST',
+        body: formData,
+    });
+    return response.json();
+}

@@ -66,3 +66,7 @@ export function renderDetailsPost(post){
         </div>
     `;
 }
+
+function readerCreatePost(post){
+
+}
