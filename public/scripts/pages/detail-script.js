@@ -37,14 +37,16 @@ const dummyComments = [
 ];
 
 
+
+
+
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const boardId = urlParams.get('board_id');
     
 
     try {
-        //const response = await fetchPostDetails(boardId); 
-        //const post = await response.json(); 
+        //const post = await fetchPostDetails(boardId); 
         renderDetailsPost(dummyPost); 
 
          //const results = await fetchComments(boardId);
@@ -97,6 +99,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     }
                 });
             });
+        });
+
+        document.querySelector('.modify-post-button').addEventListener('click', () => {     
+            window.location.href = `/edit-post/${boardId}`;
         });
     } catch (error) {
         console.error('게시글 데이터를 불러오는 중 오류가 발생했습니다:', error);

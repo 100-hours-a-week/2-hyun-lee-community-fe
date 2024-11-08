@@ -67,6 +67,28 @@ export function renderDetailsPost(post){
     `;
 }
 
-function readerCreatePost(post){
-
+export function renderEditPost(post){
+    const postContainer = document.querySelector('.container');
+    postContainer.innerHTML = `
+        <form id="postForm">
+            <div>
+                <label for="postTitle"> 제목* </label>
+                <input type="text" id="postTitle" name="postTitle" value="${post.page_title}">
+                <p class="helper-text" id="titleHelper" style="visibility: hidden;">*helper text</p>
+            </div>
+            <div>
+            <label for="postContent">내용* </label>
+            <textarea id="postContent" name="postContent" >${post.page_content}</textarea>
+            <p class="helper-text" id="contentHelper">*helper text</p> 
+            </div>
+            <div>
+                <label for="postImage"> 이미지* </label>
+                  <div class="post-image">
+                   <input type="file" id="postImage" name="postImage" accept="image/*"  >
+                </div>
+            </div>
+            <button type="submit">완료</button>
+        </form>
+    </div>
+    `
 }

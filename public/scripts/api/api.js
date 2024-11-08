@@ -111,3 +111,12 @@ export async function createPost(formData){
     });
     return response.json();
 }
+
+export async function editPost(boardId,formData) {
+    const response = await fetch(`${BASE_URL}/posts/{boardId}`,{
+        method:'PATCH',
+        body: formData,
+    });
+    return response.json();
+    
+}
