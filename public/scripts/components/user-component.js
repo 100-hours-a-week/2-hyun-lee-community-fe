@@ -1,52 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원정보수정</title>
-    <link rel="stylesheet" href="styles/edit-user-style.css">
-</head>
-<body>
-    <div class="top">
-        <h1 class="top-title">아무말 대잔치</h1>
-        <img id="imagePreview" class="preview" src="https://i.namu.wiki/i/w0EpKNuIk2iwenOmuET2OTAbqGUq3INBmRFL1EyLNsd6ABCj_I4JcEnMW8w423ekWqZZJwn1JfTRJhMck5FEx6v97zCLU8jnbpGKt4qmtV6jt1PosBEjRmDyfxyJi4yi6vr4m6kI_B8WhxUPVDoLBg.webp" alt="">
 
-        </div>
-        <div class="dropdown-menu">
-            <div class="menu">
-            <button type="edit-user">회원정보수정</button>
-            <button type="edit-password">비밀번호수정</button>
-            <button type="logout">로그아웃</button>
-            </div>
-        </div>
-        <div class="container">
-            <div class="edit-header">
+
+
+export function editUser(userData){
+    const userContainer = document.querySelector('.container');
+    userContainer.innerHTML=`
+    <div class="edit-header">
                 <p>회원정보수정</p>
             </div>
+             <form id="userForm">
             <div class="user-container-profile">
                 <div class="profile-container"><label for="profile">프로필 사진*</label></div>
                 <div class="profile-picture-container">
                     <label for="profileImage" class="circle">
                         <canvas id="profileCanvas" width="100" height="100" style="border-radius: 50%;"></canvas>
-                        <span for="profileImage" class="change-button">변경</span>
+                         <span for="profileImage" class="change-button">변경</span>
                     </label>
                     <input type="file" id="profileImage" name="profileImage" accept="image/*" style="display: none;">
-                   
                 </div>
             </div>
             <div class="user-container">
             <div class="user-container-email">
                 <label for="email">이메일</label>
-                <p id="fix-email">startupcode@gmail.com</p>
+                <p id="fix-email">${userData.useremail}</p>
             </div>
             <div class="user-container-nickname">
                 <label for="nickname">닉네임</label>
-                <input type="text" id="nickname" class="input-field2" value="스타트업코드">
-                <p class="helper-text">*helper text</p> 
+                <input type="text" id="nickname" class="input-field2" value="${userData.nickname}">
+                <p class="helper-text" id="nicknameHelper">*helper text</p> 
             </div>
-            <button type="submit" id="editBtn">수정하기</button>
+            
+            <button type="submit" id="editBtn" >수정하기</button>
             <button type="button" id="withdrawBtn">회원탈퇴</button>
             <button type="button2" id="withdrawBtn" onclick="window.location.href='/'"><span>수정완료</span></button>
+            </form>
             </div>
             <div id="withdrawModal" class="modal">
                 <div class="modal-content">
@@ -58,7 +44,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <script type="module" src="scripts/pages/edit-user-script.js"></script>
-</body>
-</html>
+    `
+}
+
