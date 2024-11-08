@@ -8,17 +8,18 @@ document.getElementById('postForm').addEventListener('submit',async (e)=>{
     const postTitle=document.getElementById('postTitle').value;
     const postContent=document.getElementById('postContent').value;
     const postImage = document.getElementById('postImage').files[0];
+    
+    const titleHelper = document.getElementById('titleHelper');
+    const contentHelper = document.getElementById('contentHelper');
+
+    let isValid=true;
+    
+    isValid=validatePostTitle(postTitle,titleHelper) && isValid;
+    isValid=validatePostContent(postContent,contentHelper) && isValid;
 
 
 
-    let errorMessage = '';
-    errorMessage += validatePostTitle(postTitle);
-    errorMessage += validatePostContent(postContent);
-
-    if (errorMessage) {
-        alert(errorMessage);
-        return;
-    }
+    if(isValid){
 
     const formData = new FormData();
     formData.append('postTitle',postTitle);
@@ -27,15 +28,16 @@ document.getElementById('postForm').addEventListener('submit',async (e)=>{
         formData.append('postImage',postImage);
     }
     try{
-       const result = await createPost(formData);
-       alert(result.message);
-        if(result.ok){
-            window.location.href='/board';
-        } else{
-            window.location.href='/create-post'
-            }
+    //    //const result = await createPost(formData);
+    //    alert(result.message);
+    //     if(result.ok){
+    //         window.location.href='/board';
+    //     } else{
+    //         window.location.href='/create-post'
+    //         }
     } catch(error){
         console.error('Error:',error);
         alert('서버 오류 발생');
     }
+}
 })

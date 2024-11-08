@@ -19,11 +19,13 @@
             <div>
                 <label for="postTitle"> 제목* </label>
                 <input type="text" id="postTitle" name="postTitle" placeholder="제목을 입력해주세요 (최대 26글자)" >
+                <p class="helper-text" id="titleHelper" style="visibility: hidden;">*helper text</p> 
+           
             </div>
             <div>
             <label for="postContent">내용* </label>
             <textarea id="postContent" name="postContent" placeholder="내용을 입력하세요"></textarea>
-            <p class="helper-text">*helper text</p> 
+            <p class="helper-text" id="contentHelper">*helper text</p> 
             </div>
             <div>
                 <label for="postImage"> 이미지* </label>
@@ -32,6 +34,6 @@
             <button type="submit">완료</button>
         </form>
     </div>
-    <script src="./scripts/pages/post-script.js"></script>
+    <script type="module" src="./scripts/pages/post-script.js"></script>
 </body>
 </html>

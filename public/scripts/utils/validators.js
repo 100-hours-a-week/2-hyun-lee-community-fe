@@ -68,23 +68,36 @@ export function validateProfile(profile,profileHelper){
     if(!profile){
         profileHelper.textContent = "*프로필 사진을 추가해주세요.";
         profileHelper.style.visibility="visible";
-        isValid=false;
+        return false;
     } else{
         profileHelper.style.visibility="hidden";
+        return true;
     }
 }
 
 
-export function validatePostTitle(postTitle) {
+export function validatePostTitle(postTitle,titleHelper) {
     if (postTitle.length > 26) {
-        return '제목을 26자 이하로 작성해주세요.';
+        titleHelper.textContent="*제목을 26자 이하로 작성해주세요.";
+        titleHelper.style.visibility="visible";
+        return false;
+    } else if(!postTitle.trim()){
+        titleHelper.textContent="*제목을 입력해주세요.";
+        titleHelper.style.visibility="visible";
+        return false;
+    } else{
+        titleHelper.style.visibility="hidden";
+        return true;
     }
-    return '';
 }
 
-export function validatePostContent(postContent) {
+export function validatePostContent(postContent,contentHelper) {
     if (!postContent.trim()) {
-        return '내용을 입력해주세요.';
+        contentHelper.textContent = '내용을 입력해주세요.';
+        contentHelper.style.visibility = "visible";
+        return false;
+    }   else{
+        contentHelper.style.visibility="hidden";
+        return true;
     }
-    return '';
 }
