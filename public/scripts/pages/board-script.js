@@ -34,7 +34,7 @@ document.getElementById('createBtn').addEventListener('click', () => {
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const posts = await fetchPosts();
+        //const posts = await fetchPosts();
         //더미 데이터 
         renderPosts(dummyPosts); 
     } catch (error) {

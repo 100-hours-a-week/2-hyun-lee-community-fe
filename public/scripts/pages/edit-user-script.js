@@ -21,7 +21,7 @@ const dummyUser =
             nickname: 'test1'
         }
     
-    window.addEventListener('DOMContentLoaded', async() => {
+window.addEventListener('DOMContentLoaded', async() => {
          //세션에 있는 로그인 정보 가져오기?
 
         editUser(dummyUser);
@@ -68,7 +68,7 @@ const dummyUser =
         
         })
 
-    });
+});
 
 
 

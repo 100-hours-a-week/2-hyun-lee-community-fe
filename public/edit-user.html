@@ -12,11 +12,11 @@
         <img id="imagePreview" class="preview" src="https://i.namu.wiki/i/w0EpKNuIk2iwenOmuET2OTAbqGUq3INBmRFL1EyLNsd6ABCj_I4JcEnMW8w423ekWqZZJwn1JfTRJhMck5FEx6v97zCLU8jnbpGKt4qmtV6jt1PosBEjRmDyfxyJi4yi6vr4m6kI_B8WhxUPVDoLBg.webp" alt="">
 
         </div>
-        <div class="dropdown-menu">
+        <div id= "dropdownMenu"class="dropdown-menu" style="display: none;">
             <div class="menu">
-            <button type="edit-user">회원정보수정</button>
-            <button type="edit-password">비밀번호수정</button>
-            <button type="logout">로그아웃</button>
+            <button id="editUserBtn" type="button">회원정보수정</button>
+            <button id= "editPasswordBtn"type="button">비밀번호수정</button>
+            <button id = "logoutBtn"type="button">로그아웃</button>
             </div>
         </div>
         <div class="container">
@@ -59,6 +59,7 @@
                 </div>
             </div>
         </div>
+        <script src="scripts/pages/user-menu.js"></script>
         <script type="module" src="scripts/pages/edit-user-script.js"></script>
 </body>
 </html>

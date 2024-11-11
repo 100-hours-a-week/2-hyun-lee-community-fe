@@ -146,3 +146,28 @@ body {
     background-color: #d9d9d9;
     border-radius: 50%;
 }
+
+.dropdown-menu{
+    position: absolute;
+    display: flex;
+    top: 80px;
+    left: 900px;
+    width: 163px;
+    height: 219px;
+}
+.menu{
+    width: 115px;
+    height: 105px;
+    background-color: #d9d9d9;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.dropdown-menu button{
+    border: none;
+    background-color: #d9d9d9;
+    margin: 10px;
+    cursor: pointer;
+}
