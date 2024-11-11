@@ -94,30 +94,6 @@ window.addEventListener('DOMContentLoaded', async() => {
 
 
 
-withdrawBtn.addEventListener('click', () => {
-    withdrawModal.style.display = 'flex';
-});
-
-
-withdrawCancelBtn.addEventListener('click', () => {
-    withdrawModal.style.display = 'none';
-});
-
-withdrawConfirmBtn.addEventListener('click', () => {
-    withdrawModal.style.display = 'none';
-    alert("회원 탈퇴되었습니다.")
-    window.location.href = '/'; 
-});
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -137,3 +137,13 @@ export async function deleteUser(userId){
     });
     return response.json();
 }   
+
+
+
+export async function editPassword(formData){
+    const response = await fetch(`${BASE_URL}/user/password/{user_id}`,{
+        method:'PATCH',
+        body: formData
+    });
+    return response.json();
+}   

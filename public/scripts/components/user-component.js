@@ -1,6 +1,3 @@
-
-
-
 export function editUser(userData){
     const userContainer = document.querySelector('.container');
     userContainer.innerHTML=`
@@ -37,4 +34,5 @@ export function editUser(userData){
           
     `
 }
+
 
