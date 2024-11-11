@@ -31,19 +31,10 @@ export function editUser(userData){
             
             <button type="submit" id="editBtn" >수정하기</button>
             <button type="button" id="withdrawBtn">회원탈퇴</button>
-            <button type="button2" id="withdrawBtn" onclick="window.location.href='/'"><span>수정완료</span></button>
+            <button type="button2" onclick="window.location.href='/'"><span>수정완료</span></button>
             </form>
             </div>
-            <div id="withdrawModal" class="modal">
-                <div class="modal-content">
-                    <h2>회원탈퇴 하시겠습니까?</h2>
-                    <p>작성된 게시글과 댓글은 삭제됩니다.</p>
-                    <div class="modal-buttons">
-                        <button class="btn cancel" id="withdrawCancelBtn">취소</button>
-                        <button class="btn confirm" id="withdrawConfirmBtn">확인</button>
-                    </div>
-                </div>
-            </div>
+          
     `
 }
 

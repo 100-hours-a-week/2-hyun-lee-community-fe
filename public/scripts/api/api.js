@@ -129,3 +129,11 @@ export async function editUser(userId,formData) {
     return response.json();
     
 }
+
+
+export async function deleteUser(userId){
+    const response = await fetch(`${BASE_URL}/user/deleteUser/{user_id}`,{
+        method:'DELETE'
+    });
+    return response.json();
+}   

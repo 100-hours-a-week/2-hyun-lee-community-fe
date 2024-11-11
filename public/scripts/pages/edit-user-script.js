@@ -1,6 +1,7 @@
 import { editUser } from '../components/user-component.js';
 import { validateNickname } from '../utils/validators.js'
 import { isNicknameDuplicated } from "../api/api.js";
+import { createModal, openModal, closeModal } from '../components/modal-component.js';
 
 const withdrawBtn = document.getElementById('withdrawBtn');
 const withdrawModal = document.getElementById('withdrawModal');
@@ -28,7 +29,7 @@ window.addEventListener('DOMContentLoaded', async() => {
         loadImageToCanvas(dummyUser);
         setupProfileImageChange();
         
-
+        
         document.getElementById('userForm').addEventListener('submit',async (e)=>{
             e.preventDefault();
             
@@ -67,6 +68,27 @@ window.addEventListener('DOMContentLoaded', async() => {
         
         
         })
+
+        document.getElementById('withdrawBtn').addEventListener('click', () => {
+            const { modal, confirmButton } = createModal({
+                title: '회원탈퇴 하시겠습니까?',
+                message: '작성된 게시글과 댓글은 삭제됩니다.',
+                confirmText: '확인',
+                cancelText: '취소'
+            });
+            openModal(modal);
+
+            confirmButton.addEventListener('click', async () => {
+                try {
+                   // const result = await deleteUser(userId);
+                    closeModal(modal);
+                    window.location.href = '/';
+                } catch (error) {
+                    console.error(error);
+                    alert('회원탈퇴에 실패했습니다.');
+                }
+            });
+        });
 
 });
 
