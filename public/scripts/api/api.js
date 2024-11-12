@@ -3,11 +3,17 @@ const BASE_URL ='http://localhost:3000';
 
 
 export async function loginUser(useremail,password){
-    const response = await fetch(`/${BASE_URL}/login`,{
+    const response = await fetch(`${BASE_URL}/login`,{
         method:'POST',
+        headers: {
+            'Content-Type': 'application/json'  
+        },    
+        credentials: 'include',
         body: JSON.stringify({useremail, password}),
     });
+
     const result= await response.json();
+    console.log(result);
     return { ok: response.ok, message:result.message};
 }
 
@@ -34,6 +40,7 @@ export async function isEmailDuplicated(email) {
             throw new Error('서버 응답 오류');
         }
         const data = await response.json();
+        console.log(data);
         return data.isDuplicated;
     } catch (error) {
         console.error('이메일 중복 확인 중 오류 발생:', error);
@@ -67,7 +74,13 @@ export async function registerUser(formData) {
 
 
 export async function fetchPosts(){
-    const response = await fetch(`${BASE_URL}/posts`);
+    const response = await fetch(`${BASE_URL}/posts`,{
+        method:'GET',
+        headers: {
+            'Content-Type': 'application/json'  
+        },
+        credentials: 'include',     
+    });
     return response.json();
 }
 
@@ -108,6 +121,7 @@ export async function createPost(formData){
     const response= await fetch(`${BASE_URL}/createPost`,{
         method: 'POST',
         body: formData,
+        credentials: 'include'
     });
     return response.json();
 }
@@ -119,6 +133,17 @@ export async function editPost(boardId,formData) {
     });
     return response.json();
     
+}
+
+export async function likes(boardId,likeCnt){
+    const response = await fetch(`${BASE_URL}/detalis-post/{board_id}/likes`,{
+        method:'POST',
+        headers:{
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify({board_id:boardId})
+    });
+    return response.json();
 }
 
 export async function editUser(userId,formData) {
@@ -147,3 +172,7 @@ export async function editPassword(formData){
     });
     return response.json();
 }   
+
+
+
+

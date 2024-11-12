@@ -28,13 +28,13 @@ document.getElementById('postForm').addEventListener('submit',async (e)=>{
         formData.append('postImage',postImage);
     }
     try{
-    //    //const result = await createPost(formData);
-    //    alert(result.message);
-    //     if(result.ok){
-    //         window.location.href='/board';
-    //     } else{
-    //         window.location.href='/create-post'
-    //         }
+        const result = await createPost(formData);
+          alert(result.message);
+           if(result.ok){
+           window.location.href='/public/board.html';
+         } else{
+             window.location.href='/public/create-post.html'
+             }
     } catch(error){
         console.error('Error:',error);
         alert('서버 오류 발생');

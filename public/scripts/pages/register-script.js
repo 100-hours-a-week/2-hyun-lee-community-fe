@@ -85,22 +85,31 @@ document.getElementById('registerForm').addEventListener('submit',async (e)=>{
     isValid = validateConfirmPassword(password,confirmPassword,confirmPasswordHelper) && isValid;
     isValid = validateNickname(nickname,nicknameHelper) && isValid;
 
+    if (isValid) {
+        const [isEmailDup, isNicknameDup] = await Promise.all([
+            isEmailDuplicated(email),
+            isNicknameDuplicated(nickname)
+        ]);
+    
 
-    if(isValid && ! await isEmailDuplicated(email)){
-        emailHelper.style.visibility = "hidden";
-    } else{
-        emailHelper.textContent = "*중복된 이메일입니다.";
-        emailHelper.style.visibility = "visible";
-        isValid = false;
+        if (isEmailDup) {
+            emailHelper.textContent = "*중복된 이메일입니다.";
+            emailHelper.style.visibility = "visible";
+            isValid = false;
+        } else {
+            emailHelper.style.visibility = "hidden";
+        }
+    
+     
+        if (isNicknameDup) {
+            nicknameHelper.textContent = "*중복된 닉네임입니다.";
+            nicknameHelper.style.visibility = "visible";
+            isValid = false;
+        } else {
+            nicknameHelper.style.visibility = "hidden";
+        }
     }
 
-    if (isValid && !await isNicknameDuplicated(nickname)) {
-        nicknameHelper.style.visibility = "hidden";
-    } else {
-        nicknameHelper.textContent = '*중복된 닉네임입니다.';
-        nicknameHelper.style.visibility = "visible";
-        isValid = false;
-    }
 
     if(isValid){
     const formData = new FormData(document.getElementById('registerForm'));
@@ -109,10 +118,10 @@ document.getElementById('registerForm').addEventListener('submit',async (e)=>{
         
         const response = await registerUser(formData);
         alert(response.message);
+        console.log(response.message);
         if(response.ok){
-            window.location.href='/';
-        } else{
-        }
+            window.location.href = '/public/login.html';
+        } 
     } catch(error){
         console.error('Error:',error);
         alert('서버 오류 발생');

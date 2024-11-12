@@ -1,4 +1,5 @@
 import {formatDate} from '../utils/format-Date.js';
+const BASE_URL ='http://localhost:3000';
 
 export function renderPosts(posts){
     const postTableBody = document.getElementById('postTableBody');
@@ -15,7 +16,7 @@ export function renderPosts(posts){
                     <span class="post-date">${formatDate(post.create_at)}</span>
                 </div>
                 <div class="post-footer">
-                    <img class="author-avatar" src=${post.profile}></img>
+                    <img class="author-avatar" src=${BASE_URL}/${post.profile}></img>
                     <span class="author-name">${post.nickname}</span>
                 </div>
         `;
@@ -51,10 +52,10 @@ export function renderDetailsPost(post){
             <p>${post.page_content}</p>
         </div>
         <div class="post-stats">
-            <div class="stat-item">
-                <span class="stat-number">${post.likes_count}</span>
+            <button class="stat-item" id="likeBtn">
+                <span class="stat-number" id="likeCnt">${post.likes_count}</span>
                 <span class="stat-label">좋아요수</span>
-            </div>
+            </button>
             <div class="stat-item">
                 <span class="stat-number">${post.view_count}</span>
                 <span class="stat-label">조회수</span>

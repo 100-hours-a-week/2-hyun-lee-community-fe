@@ -1,7 +1,7 @@
 import { renderDetailsPost } from '../components/post-component.js';
 import { addCommentToList } from '../components/comment-component.js';
 import { createModal, openModal, closeModal } from '../components/modal-component.js';
-import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment } from '../api/api.js';
+import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, likes } from '../api/api.js';
 
 
 //더미 데이터
@@ -43,12 +43,12 @@ const dummyComments = [
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const boardId = urlParams.get('board_id');
-    
+    let liked=false;
 
     try {
         //const post = await fetchPostDetails(boardId); 
         renderDetailsPost(dummyPost); 
-
+     
          //const results = await fetchComments(boardId);
          //console.log(results.resultData);
         // const comments=results.resultData;
@@ -107,6 +107,30 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (error) {
         console.error('게시글 데이터를 불러오는 중 오류가 발생했습니다:', error);
     }
+
+
+    document.getElementById('likeBtn').addEventListener('click',async()=>{
+        const likeButton=document.getElementById('likeBtn');
+        const likeCnt = document.getElementById('likeCnt');
+        
+        if(!liked){
+        
+        let currentLikes = parseInt(likeCnt.textContent, 10);
+        currentLikes += 1;
+        likeCnt.textContent = currentLikes;
+        liked=true;
+        try{
+            //const result = await likes(boardId,likeCnt);
+            if(!result.ok){
+                throw new Error('좋아요 실패');
+            }
+        } catch(error){
+            console.error('좋아요 클릭 오류:',error);
+        }
+    }
+    
+    })
+
 });
     
 
@@ -146,4 +170,3 @@ document.getElementById('comment-submit').addEventListener('click', async () => 
         console.error("댓글 작성 중 오류:", error);
     }
 });
-

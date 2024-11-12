@@ -29,14 +29,13 @@ const dummyPosts = [
 
 
 document.getElementById('createBtn').addEventListener('click', () => {
-    window.location.href = '/create-post'; 
+    window.location.href = '/public/create-post.html'; 
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        //const posts = await fetchPosts();
-        //더미 데이터 
-        renderPosts(dummyPosts); 
+        const posts = await fetchPosts();
+        renderPosts(posts); 
     } catch (error) {
         console.error('게시글 데이터를 불러오는 중 오류가 발생했습니다:', error);
     }

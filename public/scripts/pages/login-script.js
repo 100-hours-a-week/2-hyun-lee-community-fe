@@ -6,7 +6,7 @@ import { validateEmail, validatePassword } from "../utils/validators.js";
 
 
 document.getElementById('registerBtn').addEventListener('click', () => {
-    window.location.href = '/register'; 
+    window.location.href = '/public/register.html'; 
 });
 
 
@@ -28,17 +28,16 @@ document.getElementById('login').addEventListener('submit', async(e) => {
         isValid=false;
     }
     
-    
-    
+     
     if(isValid){
     //로그인 확인
     try{
         const {ok, message} = await loginUser(email,password);
-        alert(message);
         if(ok){
-                window.location.href='/board';
+                window.location.href='/public/board.html';
         } else{
-            window.location.href='/';
+            passwordHelper.textContent="*비밀번호가 다릅니다.";
+            passwordHelper.style.visibility = 'visible';
         }
     } catch(error){
         console.log('로그인 요청 중 오류 발생:',error);
