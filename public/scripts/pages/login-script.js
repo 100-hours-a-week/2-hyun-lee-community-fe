@@ -32,9 +32,10 @@ document.getElementById('login').addEventListener('submit', async(e) => {
     if(isValid){
     //로그인 확인
     try{
-        const {ok, message} = await loginUser(email,password);
-        if(ok){
-                window.location.href='/public/board.html';
+        const result = await loginUser(email,password);
+        if(result.success){
+            
+             window.location.href='/public/board.html';
         } else{
             passwordHelper.textContent="*비밀번호가 다릅니다.";
             passwordHelper.style.visibility = 'visible';
@@ -45,3 +46,8 @@ document.getElementById('login').addEventListener('submit', async(e) => {
     }
 }
 });
+
+// 세션 확인 함수
+
+
+

@@ -1,7 +1,7 @@
 import { renderDetailsPost } from '../components/post-component.js';
 import { addCommentToList } from '../components/comment-component.js';
 import { createModal, openModal, closeModal } from '../components/modal-component.js';
-import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, likes } from '../api/api.js';
+import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, likes, commentsCount } from '../api/api.js';
 
 
 //더미 데이터
@@ -46,15 +46,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     let liked=false;
 
     try {
-        //const post = await fetchPostDetails(boardId); 
-        renderDetailsPost(dummyPost); 
+        
+        const post = await fetchPostDetails(boardId); 
+        renderDetailsPost(post); 
      
-         //const results = await fetchComments(boardId);
-         //console.log(results.resultData);
-        // const comments=results.resultData;
-         const userId=1// 유저 아이디 임의 설정 results.userId; 
-         
-         dummyComments.forEach(comment => addCommentToList(comment,userId)); 
+         const results = await fetchComments(boardId);
+   
+         const userId=results.userId
+        
+         results.comment.forEach(c=> addCommentToList(c,userId)); 
 
          document.querySelector('.delete-post-button').addEventListener('click', () => {
             const { modal, confirmButton } = createModal({
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             confirmButton.addEventListener('click', async () => {
                 try {
-                   // const result = await deletePost(boardId);
+                    const result = await deletePost(boardId);
                     closeModal(modal);
                     window.location.href = '/board';
                 } catch (error) {
@@ -90,7 +90,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 confirmButton.addEventListener('click', async () => {
                     try {
-                        //await deleteComment(boardId, commentId);
+                       
+                       await deleteComment(boardId, commentId);
                         closeModal(modal);
                         document.querySelector(`.comment-details[data-comment-id="${commentId}"]`).parentElement.remove();
                     } catch (error) {
@@ -120,8 +121,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         likeCnt.textContent = currentLikes;
         liked=true;
         try{
-            //const result = await likes(boardId,likeCnt);
-            if(!result.ok){
+            const result = await likes(boardId,likeCnt);
+            if(!result.success){
                 throw new Error('좋아요 실패');
             }
         } catch(error){
@@ -143,29 +144,21 @@ document.getElementById('comment-submit').addEventListener('click', async () => 
         alert("댓글 내용을 입력해주세요.");
         return;
     }
-    // 임시 더미 댓글 추가
-    const newDummyComment = {
-        board_id : 1,
-        comment_id: Date.now(),  // 고유 ID 대체
-        user_id: 1,
-        nickname: "현재 사용자",
-        create_at: new Date().toISOString(),
-        content: commentContent,
-        profile: "https://via.placeholder.com/36"
-    };
 
     try {
-        // const result = await addComment(boardId, commentContent);
-        // if(result){
-        //     document.getElementById('commentInput').value = ''; 
-        //     addCommentToList(result.resultData, result.userId);
-         
-        // } else {
-        //     alert(result.message);
-        // }
-        document.getElementById('commentInput').value = ''; 
-        addCommentToList(newDummyComment, newDummyComment.user_id);
+        console.log(boardId,commentContent);
 
+        const result = await addComment(boardId, commentContent);
+        console.log(result);
+        if(result.success){
+            document.getElementById('commentInput').value = ''; 
+            addCommentToList(result.comment, result.userId);
+            await commentsCount(boardId);
+            window.location.href = `/public/detail-post.html?board_id=${boardId}`;
+        } else {
+            alert(result.message);
+        }
+       
     } catch (error) {
         console.error("댓글 작성 중 오류:", error);
     }

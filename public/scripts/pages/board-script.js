@@ -34,10 +34,14 @@ document.getElementById('createBtn').addEventListener('click', () => {
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const posts = await fetchPosts();
-        renderPosts(posts); 
+        const result = await fetchPosts();
+        console.log(result.posts);
+        if(Array.isArray(result.posts) && result.posts.length !== 0){
+            renderPosts(result.posts); 
+        }
     } catch (error) {
         console.error('게시글 데이터를 불러오는 중 오류가 발생했습니다:', error);
     }
 });
+
 

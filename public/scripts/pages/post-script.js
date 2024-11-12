@@ -29,8 +29,7 @@ document.getElementById('postForm').addEventListener('submit',async (e)=>{
     }
     try{
         const result = await createPost(formData);
-          alert(result.message);
-           if(result.ok){
+           if(result.success){
            window.location.href='/public/board.html';
          } else{
              window.location.href='/public/create-post.html'

@@ -85,30 +85,30 @@ document.getElementById('registerForm').addEventListener('submit',async (e)=>{
     isValid = validateConfirmPassword(password,confirmPassword,confirmPasswordHelper) && isValid;
     isValid = validateNickname(nickname,nicknameHelper) && isValid;
 
-    if (isValid) {
-        const [isEmailDup, isNicknameDup] = await Promise.all([
-            isEmailDuplicated(email),
-            isNicknameDuplicated(nickname)
-        ]);
+    // if (isValid) {
+    //     const [isEmailDup, isNicknameDup] = await Promise.all([
+    //         isEmailDuplicated(email),
+    //         isNicknameDuplicated(nickname)
+    //     ]);
     
 
-        if (isEmailDup) {
-            emailHelper.textContent = "*중복된 이메일입니다.";
-            emailHelper.style.visibility = "visible";
-            isValid = false;
-        } else {
-            emailHelper.style.visibility = "hidden";
-        }
+    //     if (isEmailDup) {
+    //         emailHelper.textContent = "*중복된 이메일입니다.";
+    //         emailHelper.style.visibility = "visible";
+    //         isValid = false;
+    //     } else {
+    //         emailHelper.style.visibility = "hidden";
+    //     }
     
      
-        if (isNicknameDup) {
-            nicknameHelper.textContent = "*중복된 닉네임입니다.";
-            nicknameHelper.style.visibility = "visible";
-            isValid = false;
-        } else {
-            nicknameHelper.style.visibility = "hidden";
-        }
-    }
+    //     if (isNicknameDup) {
+    //         nicknameHelper.textContent = "*중복된 닉네임입니다.";
+    //         nicknameHelper.style.visibility = "visible";
+    //         isValid = false;
+    //     } else {
+    //         nicknameHelper.style.visibility = "hidden";
+    //     }
+    // }
 
 
     if(isValid){
@@ -117,7 +117,14 @@ document.getElementById('registerForm').addEventListener('submit',async (e)=>{
     try{
         
         const response = await registerUser(formData);
-        alert(response.message);
+        if(response.result==="email"){
+            emailHelper.textContent = "*중복된 이메일입니다.";
+            emailHelper.style.visibility = "visible";
+        } else if (response.result==="nickname"){
+            nicknameHelper.textContent = "*중복된 닉네임입니다.";
+            nicknameHelper.style.visibility = "visible";
+        } 
+        
         console.log(response.message);
         if(response.ok){
             window.location.href = '/public/login.html';

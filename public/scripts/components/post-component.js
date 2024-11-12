@@ -4,7 +4,7 @@ const BASE_URL ='http://localhost:3000';
 export function renderPosts(posts){
     const postTableBody = document.getElementById('postTableBody');
     postTableBody.innerHTML='';
-    posts[0].forEach(post => {
+    posts.forEach(post => {
         const newRow=document.createElement('tr');
         newRow.className = 'post-item'; 
         newRow.innerHTML=`
@@ -22,7 +22,7 @@ export function renderPosts(posts){
         `;
         postTableBody.appendChild(newRow);
         newRow.querySelector('.post-header').addEventListener('click', () => {
-            window.location.href = `/detail-post?board_id=${post.board_id}`;
+            window.location.href = `/public/detail-post.html?board_id=${post.board_id}`;
         });
         
     });
@@ -34,7 +34,9 @@ export function renderDetailsPost(post){
         <span class="title">${post.page_title}</span>
         <div class="post-header">
             <div class="post-footer">
-                <div class="author-avatar"></div>
+                <div class="author-avatar">
+                 <img class="author-avatar" src=${BASE_URL}/${post.profile}></img>
+                 </div>
                 <span class="author-name">${post.nickname}</span>
                 <span class="post-date">${formatDate(post.create_at)}</span>
             </div>
@@ -45,7 +47,7 @@ export function renderDetailsPost(post){
         </div>
         <div class="post-details">
             <div class="post-image">
-                <img src="${post.page_image}" alt="본문 이미지">
+                <img src="${BASE_URL}/${post.page_image}" alt="본문 이미지">
             </div>
         </div>
         <div class="post-content">

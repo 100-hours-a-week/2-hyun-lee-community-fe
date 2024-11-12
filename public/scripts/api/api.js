@@ -14,7 +14,7 @@ export async function loginUser(useremail,password){
 
     const result= await response.json();
     console.log(result);
-    return { ok: response.ok, message:result.message};
+    return result;
 }
 
 
@@ -86,12 +86,16 @@ export async function fetchPosts(){
 
 
 export async function fetchPostDetails(boardId){
-    const response = await fetch(`${BASE_URL}/api/detail-post?board_id=${boardId}`);
+    const response = await fetch(`${BASE_URL}/detail-post?board_id=${boardId}`,{
+        method:'PATCH'
+    });
     return response.json();
 }
 
 export async function fetchComments(boardId){
-    const response = await fetch(`${BASE_URL}/comments?board_id=${boardId}`);
+    const response = await fetch(`${BASE_URL}/comments?board_id=${boardId}`,{
+        method:'GET'
+    });
     return response.json();
 }
 
@@ -112,6 +116,9 @@ export async function deleteComment(boardId, commentId){
 export async function addComment(boardId,content){
     const response = await fetch(`${BASE_URL}/comment`,{
         method:'POST',
+        headers: {
+            'Content-Type': 'application/json'  
+        },
         body: JSON.stringify({boardId,content})
     });
     return response.json();
@@ -136,8 +143,8 @@ export async function editPost(boardId,formData) {
 }
 
 export async function likes(boardId,likeCnt){
-    const response = await fetch(`${BASE_URL}/detalis-post/{board_id}/likes`,{
-        method:'POST',
+    const response = await fetch(`${BASE_URL}/details-post/{board_id}/likes`,{
+        method:'PATCH',
         headers:{
             'Content-Type' : 'application/json'
         },
@@ -146,6 +153,16 @@ export async function likes(boardId,likeCnt){
     return response.json();
 }
 
+export async function commentsCount(boardId){
+    const response = await fetch(`${BASE_URL}/details-post/{board_id}/commentCount`,{
+        method:'PATCH',
+        headers:{
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify({board_id:boardId})
+    });
+    return response.json();
+}
 export async function editUser(userId,formData) {
     const response = await fetch(`${BASE_URL}/user/{UserId}`,{
         method:'PATCH',
