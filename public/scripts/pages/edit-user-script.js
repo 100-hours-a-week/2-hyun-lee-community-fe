@@ -1,7 +1,11 @@
 import { editUser } from '../components/user-component.js';
-import { validateNickname } from '../utils/validators.js'
-import { isNicknameDuplicated } from "../api/api.js";
+import { validateNickname, validateProfile } from '../utils/validators.js'
+import { isNicknameDuplicated, loadUser,updateUser } from "../api/api.js";
 import { createModal, openModal, closeModal } from '../components/modal-component.js';
+import { loadImageToCanvas, setupProfileImageChange } from '../utils/loadImage.js';
+
+const BASE_URL ='http://localhost:3000';
+
 
 const withdrawBtn = document.getElementById('withdrawBtn');
 const withdrawModal = document.getElementById('withdrawModal');
@@ -23,10 +27,13 @@ const dummyUser =
         }
     
 window.addEventListener('DOMContentLoaded', async() => {
-         //세션에 있는 로그인 정보 가져오기?
 
-        editUser(dummyUser);
-        loadImageToCanvas(dummyUser);
+        const result = await loadUser();
+        const userInfo=result.userInfo;
+        const user_id=userInfo.userId;
+
+        editUser(userInfo);
+        loadImageToCanvas(userInfo);
         setupProfileImageChange();
         
         
@@ -34,32 +41,48 @@ window.addEventListener('DOMContentLoaded', async() => {
             e.preventDefault();
             
             const nickname=document.getElementById('nickname').value;
-            const profileImage = document.getElementById('profileImage').files[0];
+            let profileImage = document.getElementById('profileImage').files[0];
         
+            if(!profileImage){
+                profileImage = `${BASE_URL}/${userInfo.profile}`;
+            }
+            const profileHelper = document.getElementById('profileHelper');
             const nicknameHelper = document.getElementById('nicknameHelper');
-              
+             
+            
             let isValid=true;
         
+            isValid = validateProfile(profileImage,profileHelper) && isValid;
             isValid=validateNickname(nickname,nicknameHelper) && isValid;
         
-            console.log(isValid);
-            if (isValid && !await isNicknameDuplicated(nickname)) {
-                nicknameHelper.style.visibility = "hidden";
-            } else {
-                nicknameHelper.textContent = '*중복된 닉네임입니다.';
-                nicknameHelper.style.visibility = "visible";
-                isValid = false;
-            }
+            
+            // if (isValid && !await isNicknameDuplicated(nickname)) {
+            //     nicknameHelper.style.visibility = "hidden";
+            // } else {
+            //     nicknameHelper.textContent = '*중복된 닉네임입니다.';
+            //     nicknameHelper.style.visibility = "visible";
+            //     isValid = false;
+            // }
+
         
             if(isValid){
                 const formData = new FormData();
                 formData.append('profileImage',profileImage);
                 formData.append('nickname',nickname);
+                formData.append('user_id',user_id);
                
+                console.log("user_id:",user_id);
+                console.log("profile:",profileImage);
+                console.log("nickname:",nickname);
                 try{
-                    //    //const result = await editUser(formData);
-                    //    alert(result.message);
-                    //    window.location.href='/user/${userId}';
+
+                       const result = await updateUser(formData);
+                        if (result.result==="nickname"){
+                        nicknameHelper.textContent = "*중복된 닉네임입니다.";
+                        nicknameHelper.style.visibility = "visible";
+                        } else {
+                                alert(result.message);
+                        }
                     } catch(error){
                         console.error('Error:',error);
                         alert('서버 오류 발생');
@@ -93,64 +116,3 @@ window.addEventListener('DOMContentLoaded', async() => {
 });
 
 
-
-
-
-
-
-
-function loadImageToCanvas(dummyUser) {
-    const profileCanvas = document.getElementById('profileCanvas');
-    const ctx = profileCanvas.getContext('2d');
-    const img = new Image();
-   console.log(dummyUser.profile);
-    img.src =dummyUser.profile;
-
-    img.onload = function() {
-        ctx.clearRect(0, 0, profileCanvas.width, profileCanvas.height);
-        ctx.drawImage(img, 0, 0, profileCanvas.width, profileCanvas.height);
-    };
-}
-
-
-
-function setupProfileImageChange() {
-    const profileImageInput = document.getElementById('profileImage');
-    const profileCanvas = document.getElementById('profileCanvas');
-    const ctx = profileCanvas.getContext('2d');
-
-    profileImageInput.addEventListener('change', function() {
-        const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-            
-            reader.onload = function(event) {
-                const img = new Image();
-                img.src = event.target.result;
-
-                img.onload = function() {
-                    const targetWidth = 100;
-                    const targetHeight = 100;
-                    const aspectRatio = img.width / img.height;
-                    let drawWidth = targetWidth;
-                    let drawHeight = targetHeight;
-
-                    if (aspectRatio > 1) { 
-                        drawHeight = targetHeight;
-                        drawWidth = targetHeight * aspectRatio;
-                    } else { 
-                        drawWidth = targetWidth;
-                        drawHeight = targetWidth / aspectRatio;
-                    }
-
-                    ctx.clearRect(0, 0, profileCanvas.width, profileCanvas.height);
-                    ctx.globalAlpha = 0.7; 
-                    ctx.drawImage(img, 0, 0, drawWidth, drawHeight);
-                    ctx.globalAlpha = 1.0;
-                };
-            };
-
-            reader.readAsDataURL(file);
-        }
-    });
-}

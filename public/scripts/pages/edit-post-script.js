@@ -47,9 +47,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const result = await editPost(formData);
             if(result.success){
-                window.location.href='/public/board.html';
+                window.location.href=`/public/detail-post.html?board_id=${boardId}`;
             } else{
-                window.location.href=`public/edit-post.html/${boardId}`;
+                window.location.href=`/public/edit-post.html?board_id=${boardId}`;
                 }
         } catch(error){
             console.error('Error:',error);

@@ -175,8 +175,8 @@ export async function commentsCount(boardId){
     });
     return response.json();
 }
-export async function editUser(userId,formData) {
-    const response = await fetch(`${BASE_URL}/user/{UserId}`,{
+export async function updateUser(formData) {
+    const response = await fetch(`${BASE_URL}/user/{user_Id}`,{
         method:'PATCH',
         body: formData,
     });
@@ -210,8 +210,8 @@ export async function logout(){
 }
 
 
-export async function loadProfile(){
-    const response = await fetch(`${BASE_URL}/loadProfile`)
+export async function loadUser(){
+    const response = await fetch(`${BASE_URL}/loadUser`)
     return response.json();
 }
 
