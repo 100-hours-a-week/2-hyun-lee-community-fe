@@ -1,6 +1,6 @@
 import { renderEditPost } from '../components/post-component.js';
 import { validatePostTitle, validatePostContent } from '../utils/validators.js';
-
+import {fetchPostDetails, editPost } from '../api/api.js'
 
 const dummyPost = {
     board_id: 1,
@@ -14,9 +14,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const boardId = urlParams.get('board_id');
   
-    //const post= await fetchPostDetails(boardId);
+    const postData= await fetchPostDetails(boardId);
     
-    renderEditPost(dummyPost);
+    renderEditPost(postData.post);
 
 
     document.getElementById('postForm').addEventListener('submit',async (e)=>{
@@ -42,14 +42,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         if(postImage){
             formData.append('postImage',postImage);
         }
+        formData.append('boardId',boardId);
         try{
-        //    //const result = await editPost(boardId,formData);
-        //    alert(result.message);
-        //     if(result.ok){
-        //         window.location.href='/board';
-        //     } else{
-        //         window.location.href='/edit-post/${boardId}'
-        //         }
+
+        const result = await editPost(formData);
+            if(result.success){
+                window.location.href='/public/board.html';
+            } else{
+                window.location.href=`public/edit-post.html/${boardId}`;
+                }
         } catch(error){
             console.error('Error:',error);
             alert('서버 오류 발생');

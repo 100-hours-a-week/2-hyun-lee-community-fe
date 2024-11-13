@@ -145,10 +145,10 @@ export async function createPost(formData){
     return response.json();
 }
 
-export async function editPost(boardId,formData) {
-    const response = await fetch(`${BASE_URL}/detail-post/{boardId}`,{
+export async function editPost(formData) {
+    const response = await fetch(`${BASE_URL}/detail-post/{board_id}/editPost`,{
         method:'PATCH',
-        body: formData,
+        body: formData
     });
     return response.json();
     
