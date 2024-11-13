@@ -1,3 +1,6 @@
+import { logout } from "../api/api.js";
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const profileImage = document.getElementById('imagePreview');
     const dropdownMenu = document.getElementById('dropdownMenu');
@@ -16,14 +19,20 @@ document.addEventListener('click', (event) => {
     }
 });
 editUserBtn.addEventListener('click', () => {
-    window.location.href = '/edit-user';
+    window.location.href = '/public/edit-user.html';
 });
 
 editPasswordBtn.addEventListener('click', () => {
-    window.location.href = '/edit-password'; 
+    window.location.href = '/public/edit-user-password.html'; 
 });
 
-logoutBtn.addEventListener('click', () => {
-    window.location.href = '/';
+logoutBtn.addEventListener('click', async() => {
+    const result= await logout();
+    if(result.success){
+        window.location.href = '/public/login.html';
+    } else{
+        alert(result.message);
+    }
+    
 });    
 });

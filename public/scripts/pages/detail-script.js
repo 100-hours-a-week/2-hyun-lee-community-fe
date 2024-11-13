@@ -48,35 +48,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         
-        const post = await fetchPostDetails(boardId); 
-        renderDetailsPost(post); 
+        const postData = await fetchPostDetails(boardId); 
+        console.log(postData);
+        renderDetailsPost(postData.post,postData.userId); 
      
          const results = await fetchComments(boardId);
    
          const userId=results.userId
         
          results.comment.forEach(c=> addCommentToList(c,userId)); 
-
-         document.querySelector('.delete-post-button').addEventListener('click', () => {
-            const { modal, confirmButton } = createModal({
-                title: '게시글을 삭제하시겠습니까?',
-                message: '삭제한 내용은 복구할 수 없습니다.',
-                confirmText: '확인',
-                cancelText: '취소'
-            });
-            openModal(modal);
-
-            confirmButton.addEventListener('click', async () => {
-                try {
-                   // const result = await deletePost(boardId);
-                    closeModal(modal);
-                    window.location.href = '/board';
-                } catch (error) {
-                    console.error(error);
-                    alert('게시글 삭제에 실패했습니다.');
-                }
-            });
-        });
 
         document.querySelectorAll('.delete-comment-button').forEach(button => {
             button.addEventListener('click', () => {
@@ -103,6 +83,35 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         });
 
+        const deleteButton = document.querySelector('.delete-post-button');
+        const modifyButton = document.querySelector('.modify-post-button');
+
+        if(deleteButton){
+            deleteButton.addEventListener('click', () => {
+            const { modal, confirmButton } = createModal({
+                title: '게시글을 삭제하시겠습니까?',
+                message: '삭제한 내용은 복구할 수 없습니다.',
+                confirmText: '확인',
+                cancelText: '취소'
+            });
+            openModal(modal);
+
+            confirmButton.addEventListener('click', async () => {
+                try {
+                    const result = await deletePost(boardId);
+                    closeModal(modal);
+                    window.location.href = '/public/board.html';
+                } catch (error) {
+                    console.error(error);
+                    alert('게시글 삭제에 실패했습니다.');
+                }
+                });
+            });
+            modifyButton.addEventListener('click', () => {     
+            window.location.href = `/public/edit-post.html?board_id=${boardId}`;
+                });
+        }
+
 
        
 
@@ -124,10 +133,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
         });
 
-
-        document.querySelector('.modify-post-button').addEventListener('click', () => {     
-            window.location.href = `/edit-post/${boardId}`;
-        });
     } catch (error) {
         console.error('게시글 데이터를 불러오는 중 오류가 발생했습니다:', error);
     }
@@ -157,6 +162,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 });
     
+
+
 
 document.getElementById('comment-submit').addEventListener('click', async () => {
     const commentContent = document.getElementById('commentInput').value;

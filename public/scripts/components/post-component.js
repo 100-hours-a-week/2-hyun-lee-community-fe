@@ -28,8 +28,17 @@ export function renderPosts(posts){
     });
 }
 
-export function renderDetailsPost(post){
+export function renderDetailsPost(post,userId){
     const postContainer = document.getElementById('container');
+    const isOwner = post.userId === userId;
+    console.log(isOwner);
+
+    const editButtons = isOwner ? `   <span class="work-post">
+                <button class="modify-post-button">수정</button>
+                <button class="delete-post-button">삭제</button>
+            </span>`
+    : ''; 
+    
     postContainer.innerHTML = `
         <span class="title">${post.page_title}</span>
         <div class="post-header">
@@ -40,10 +49,7 @@ export function renderDetailsPost(post){
                 <span class="author-name">${post.nickname}</span>
                 <span class="post-date">${formatDate(post.create_at)}</span>
             </div>
-            <span class="work-post">
-                <button class="modify-post-button">수정</button>
-                <button class="delete-post-button">삭제</button>
-            </span>
+            ${editButtons}
         </div>
         <div class="post-details">
             <div class="post-image">

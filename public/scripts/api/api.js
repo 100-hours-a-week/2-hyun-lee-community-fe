@@ -202,6 +202,13 @@ export async function editPassword(formData){
     return response.json();
 }   
 
+export async function logout(){
+    const response =await fetch(`${BASE_URL}/logout`,{
+        method :'GET'
+    });
+    return response.json();
+}
+
 
 
 
