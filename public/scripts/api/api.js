@@ -124,6 +124,18 @@ export async function addComment(boardId,content){
     return response.json();
 }
 
+export async function updateComment(boardId,commentId,content){
+    const response = await fetch(`${BASE_URL}/comment/${boardId}/updateComment/${commentId}`,{
+        method:'PATCH',
+        headers: {
+            'Content-Type': 'application/json'  
+        },
+        body: JSON.stringify({content})
+    });
+    return response.json();
+}
+
+
 export async function createPost(formData){
     const response= await fetch(`${BASE_URL}/createPost`,{
         method: 'POST',

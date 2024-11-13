@@ -1,7 +1,7 @@
 import { renderDetailsPost } from '../components/post-component.js';
 import { addCommentToList } from '../components/comment-component.js';
 import { createModal, openModal, closeModal } from '../components/modal-component.js';
-import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, likes, commentsCount } from '../api/api.js';
+import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, likes, commentsCount, updateComment } from '../api/api.js';
 
 
 //더미 데이터
@@ -38,7 +38,8 @@ const dummyComments = [
 
 
 
-
+let isEditing = false; 
+let editingCommentId = null; 
 
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -67,7 +68,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             confirmButton.addEventListener('click', async () => {
                 try {
-                    const result = await deletePost(boardId);
+                   // const result = await deletePost(boardId);
                     closeModal(modal);
                     window.location.href = '/board';
                 } catch (error) {
@@ -101,6 +102,28 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
             });
         });
+
+
+       
+
+        document.querySelectorAll('.modify-comment-button').forEach(button => {
+            button.addEventListener('click', (event) => {
+                const commentElement = event.target.closest('.comment-details');
+                const commentContent = commentElement.querySelector('.comment-content').textContent; 
+        
+                
+                const commentInput = document.getElementById('commentInput');
+                commentInput.value = commentContent;
+        
+                
+                const submitButton = document.getElementById('comment-submit');
+                submitButton.textContent = '댓글 수정';
+        
+                isEditing=true;
+                editingCommentId = commentElement.getAttribute('data-comment-id'); 
+            });
+        });
+
 
         document.querySelector('.modify-post-button').addEventListener('click', () => {     
             window.location.href = `/edit-post/${boardId}`;
@@ -145,9 +168,9 @@ document.getElementById('comment-submit').addEventListener('click', async () => 
         return;
     }
 
+    if(!isEditing){
     try {
-        console.log(boardId,commentContent);
-
+        
         const result = await addComment(boardId, commentContent);
         console.log(result);
         if(result.success){
@@ -161,5 +184,22 @@ document.getElementById('comment-submit').addEventListener('click', async () => 
        
     } catch (error) {
         console.error("댓글 작성 중 오류:", error);
+    } 
+    } else{
+        try {
+        
+            const result = await updateComment(boardId,editingCommentId, commentContent);
+            console.log(result);
+            if(result.success){
+                document.getElementById('commentInput').value = ''; 
+                window.location.href = `/public/detail-post.html?board_id=${boardId}`;
+            } else {
+                alert(result.message);
+            }
+           
+        } catch (error) {
+            console.error("댓글 수정 중 오류:", error);
+        } 
     }
+
 });
