@@ -210,5 +210,9 @@ export async function logout(){
 }
 
 
+export async function loadProfile(){
+    const response = await fetch(`${BASE_URL}/loadProfile`)
+    return response.json();
+}
 
 

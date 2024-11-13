@@ -1,7 +1,7 @@
 import { logout } from "../api/api.js";
 
 
-document.addEventListener('DOMContentLoaded', () => {
+export function initializeProfileDropdown(){
     const profileImage = document.getElementById('imagePreview');
     const dropdownMenu = document.getElementById('dropdownMenu');
     const editUserBtn = document.getElementById('editUserBtn');
@@ -35,4 +35,4 @@ logoutBtn.addEventListener('click', async() => {
     }
     
 });    
-});
+}

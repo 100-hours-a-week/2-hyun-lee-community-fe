@@ -67,6 +67,15 @@ body {
     width: 392px;
     height: 200px;
  }
+ 
+ .back-button {
+    font-size: 24px;
+    border:  solid #F4F5F7;
+    background-color: #F4F5F7;
+    cursor: pointer;
+    position: relative;
+    right: 65%;
+}
 
  .container label{
     font-size: 15px;
