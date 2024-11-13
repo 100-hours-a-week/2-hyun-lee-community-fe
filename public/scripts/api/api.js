@@ -176,7 +176,7 @@ export async function commentsCount(boardId){
     return response.json();
 }
 export async function updateUser(formData) {
-    const response = await fetch(`${BASE_URL}/user/{user_Id}`,{
+    const response = await fetch(`${BASE_URL}/user/{user_id}`,{
         method:'PATCH',
         body: formData,
     });
@@ -186,7 +186,7 @@ export async function updateUser(formData) {
 
 
 export async function deleteUser(userId){
-    const response = await fetch(`${BASE_URL}/user/deleteUser/{user_id}`,{
+    const response = await fetch(`${BASE_URL}/user/deleteUser/${userId}`,{
         method:'DELETE'
     });
     return response.json();
@@ -215,4 +215,16 @@ export async function loadUser(){
     return response.json();
 }
 
+export async function deleteComments(userId){
+    const response = await fetch(`${BASE_URL}/user/deleteUserComments/${userId}`,{
+        method:'DELETE'
+    });
+    return response.json();
+}
 
+export async function deletePosts(userId){
+    const response = await fetch(`${BASE_URL}/user/deleteUserPosts/${userId}`,{
+        method:'DELETE'
+    });
+    return response.json();
+}

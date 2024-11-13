@@ -1,6 +1,6 @@
 import { editUser } from '../components/user-component.js';
 import { validateNickname, validateProfile } from '../utils/validators.js'
-import { isNicknameDuplicated, loadUser,updateUser } from "../api/api.js";
+import { isNicknameDuplicated, loadUser,updateUser,deleteComments,deletePosts,deleteUser } from "../api/api.js";
 import { createModal, openModal, closeModal } from '../components/modal-component.js';
 import { loadImageToCanvas, setupProfileImageChange } from '../utils/loadImage.js';
 
@@ -103,9 +103,23 @@ window.addEventListener('DOMContentLoaded', async() => {
 
             confirmButton.addEventListener('click', async () => {
                 try {
-                   // const result = await deleteUser(userId);
+                    // 유저 댓글 전부 삭제
+                    const comment=await deleteComments(user_id);
+                    if(!comment.success){
+                        alert(comment.message);
+                    }
+                    //유저 게시글 전부 삭제
+                    const post= await deletePosts(user_id);
+                    if(!post.success){
+                        alert(post.message);
+                    }
+                    const result = await deleteUser(user_id);
+                    if(!result.success){
+                        alert(result.message);
+                    }
+                    
                     closeModal(modal);
-                    window.location.href = '/';
+                    window.location.href = '/public/login.html';
                 } catch (error) {
                     console.error(error);
                     alert('회원탈퇴에 실패했습니다.');
