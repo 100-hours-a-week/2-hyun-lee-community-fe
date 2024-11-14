@@ -1,4 +1,4 @@
-import { loginUser, isLoginDuplicated } from "../api/api.js";
+import { login } from "../api/api.js";
 import { validateEmail, validatePassword } from "../utils/validators.js";
 
 
@@ -32,7 +32,7 @@ document.getElementById('login').addEventListener('submit', async(e) => {
     if(isValid){
     //로그인 확인
     try{
-        const result = await loginUser(email,password);
+        const result = await login(email,password);
         if(result.success){
             
              window.location.href='/public/board.html';

@@ -1,8 +1,8 @@
 const BASE_URL ='http://localhost:3000';
 
 
-
-export async function loginUser(useremail,password){
+// 사용자 인증 관련
+export async function login(useremail,password){
     const response = await fetch(`${BASE_URL}/login`,{
         method:'POST',
         headers: {
@@ -18,7 +18,7 @@ export async function loginUser(useremail,password){
 }
 
 
-export async function isLoginDuplicated(email, password) {
+export async function checkLogin(email, password) {
     try {
         const response = await fetch(`${BASE_URL}/check-login`, {
             method: 'POST',
@@ -33,7 +33,7 @@ export async function isLoginDuplicated(email, password) {
     }
 }
 
-export async function isEmailDuplicated(email) {
+export async function checkEmailExists(email) {
     try {
         const response = await fetch(`${BASE_URL}/check-email?email=${encodeURIComponent(email)}`);
         if (!response.ok) {
@@ -49,7 +49,7 @@ export async function isEmailDuplicated(email) {
 }
 
 
-export async function isNicknameDuplicated(nickname) {
+export async function checkNicknameExists(nickname) {
     try {
         const response = await fetch(`${BASE_URL}/check-nickname?nickname=${encodeURIComponent(nickname)}`);
         if (!response.ok) {
@@ -72,7 +72,52 @@ export async function registerUser(formData) {
     return response.json();
 }
 
+export async function logout(){
+    const response =await fetch(`${BASE_URL}/logout`,{
+        method :'GET'
+    });
+    return response.json();
+}
 
+// 사용자 정보 관련
+export async function updateUserProfile(formData) {
+    const response = await fetch(`${BASE_URL}/user`,{
+        method:'PATCH',
+        body: formData,
+    });
+    return response.json();
+    
+}
+
+
+export async function deleteUserAccount(userId){
+    const response = await fetch(`${BASE_URL}/user/deleteUser/${userId}`,{
+        method:'DELETE'
+    });
+    return response.json();
+}   
+
+
+
+export async function updateUserPassword(formData){
+    const response = await fetch(`${BASE_URL}/user/updatePassword`,{
+        method:'PATCH',
+        body: formData,
+    });
+    return response.json();
+}   
+
+
+
+export async function getUserProfile(){
+    const response = await fetch(`${BASE_URL}/loadUser`)
+    return response.json();
+}
+
+
+
+
+// 게시글 관련
 export async function fetchPosts(){
     const response = await fetch(`${BASE_URL}/posts`,{
         method:'GET',
@@ -92,11 +137,24 @@ export async function fetchPostDetails(boardId){
     return response.json();
 }
 
-export async function fetchComments(boardId){
-    const response = await fetch(`${BASE_URL}/comments?board_id=${boardId}`,{
-        method:'GET'
+
+export async function createPost(formData){
+    const response= await fetch(`${BASE_URL}/createPost`,{
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
     });
     return response.json();
+}
+
+
+export async function updatePost(formData) {
+    const response = await fetch(`${BASE_URL}/detail-post/{board_id}/editPost`,{
+        method:'PATCH',
+        body: formData
+    });
+    return response.json();
+    
 }
 
 export async function deletePost(boardId){
@@ -106,12 +164,40 @@ export async function deletePost(boardId){
     return response.json();
 }   
 
-export async function deleteComment(boardId, commentId){
-    const response = await fetch(`${BASE_URL}/comment/${boardId}/deleteComment/${commentId}`,{
-        method:'DELETE'
-    }); 
+
+
+
+export async function updatePostLikes(boardId){
+    const response = await fetch(`${BASE_URL}/details-post/{board_id}/likes`,{
+        method:'PATCH',
+        headers:{
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify({board_id:boardId})
+    });
     return response.json();
 }
+
+export async function updatePostCommentsCount(boardId){
+    const response = await fetch(`${BASE_URL}/details-post/{board_id}/commentCount`,{
+        method:'PATCH',
+        headers:{
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify({board_id:boardId})
+    });
+    return response.json();
+}
+
+
+//댓글 관련
+export async function fetchComments(boardId){
+    const response = await fetch(`${BASE_URL}/comments?board_id=${boardId}`,{
+        method:'GET'
+    });
+    return response.json();
+}
+
 
 export async function addComment(boardId,content){
     const response = await fetch(`${BASE_URL}/comment`,{
@@ -136,95 +222,29 @@ export async function updateComment(boardId,commentId,content){
 }
 
 
-export async function createPost(formData){
-    const response= await fetch(`${BASE_URL}/createPost`,{
-        method: 'POST',
-        body: formData,
-        credentials: 'include'
-    });
-    return response.json();
-}
-
-export async function editPost(formData) {
-    const response = await fetch(`${BASE_URL}/detail-post/{board_id}/editPost`,{
-        method:'PATCH',
-        body: formData
-    });
-    return response.json();
-    
-}
-
-export async function likes(boardId,likeCnt){
-    const response = await fetch(`${BASE_URL}/details-post/{board_id}/likes`,{
-        method:'PATCH',
-        headers:{
-            'Content-Type' : 'application/json'
-        },
-        body : JSON.stringify({board_id:boardId})
-    });
-    return response.json();
-}
-
-export async function commentsCount(boardId){
-    const response = await fetch(`${BASE_URL}/details-post/{board_id}/commentCount`,{
-        method:'PATCH',
-        headers:{
-            'Content-Type' : 'application/json'
-        },
-        body : JSON.stringify({board_id:boardId})
-    });
-    return response.json();
-}
-export async function updateUser(formData) {
-    const response = await fetch(`${BASE_URL}/user`,{
-        method:'PATCH',
-        body: formData,
-    });
-    return response.json();
-    
-}
-
-
-export async function deleteUser(userId){
-    const response = await fetch(`${BASE_URL}/user/deleteUser/${userId}`,{
+export async function deleteComment(boardId, commentId){
+    const response = await fetch(`${BASE_URL}/comment/${boardId}/deleteComment/${commentId}`,{
         method:'DELETE'
-    });
-    return response.json();
-}   
-
-
-
-export async function updatePassword(formData){
-    const response = await fetch(`${BASE_URL}/user/updatePassword`,{
-        method:'PATCH',
-        body: formData,
-    });
-    return response.json();
-}   
-
-export async function logout(){
-    const response =await fetch(`${BASE_URL}/logout`,{
-        method :'GET'
-    });
+    }); 
     return response.json();
 }
 
 
-export async function loadUser(){
-    const response = await fetch(`${BASE_URL}/loadUser`)
-    return response.json();
-}
-
-export async function deleteComments(userId){
+// 사용자 삭제시 게시글/댓글 일괄 삭제
+export async function deleteUserComments(userId){
     const response = await fetch(`${BASE_URL}/user/deleteUserComments/${userId}`,{
         method:'DELETE'
     });
     return response.json();
 }
 
-export async function deletePosts(userId){
+export async function deleteUserPosts(userId){
     const response = await fetch(`${BASE_URL}/user/deleteUserPosts/${userId}`,{
         method:'DELETE'
     });
     return response.json();
 }
+
+
+
+

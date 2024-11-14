@@ -1,4 +1,4 @@
-import { loadUser } from "../api/api.js";
+import { getUserProfile } from "../api/api.js";
 import { headerComponent } from "../components/header-component.js";
 import { initializeProfileDropdown } from "./user-menu.js";
 
@@ -6,7 +6,7 @@ import { initializeProfileDropdown } from "./user-menu.js";
 
 document.addEventListener("DOMContentLoaded", async()=>{
     try {
-        const result = await loadUser();
+        const result = await getUserProfile();
 
         const isBoardPage = window.location.pathname.includes('/public/board.html');
         headerComponent(result.userInfo, !isBoardPage); 

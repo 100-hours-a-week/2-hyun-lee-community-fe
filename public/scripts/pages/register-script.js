@@ -1,4 +1,4 @@
-import { isEmailDuplicated, isNicknameDuplicated, registerUser } from "../api/api.js";
+import { registerUser } from "../api/api.js";
 import { validateProfile, validateEmail, validatePassword, validateConfirmPassword, validateNickname } from '../utils/validators.js';
 
 
@@ -124,7 +124,7 @@ document.getElementById('registerForm').addEventListener('submit',async (e)=>{
             nicknameHelper.textContent = "*중복된 닉네임입니다.";
             nicknameHelper.style.visibility = "visible";
         } 
-        
+
         console.log(response.message);
         if(response.ok){
             window.location.href = '/public/login.html';

@@ -1,7 +1,7 @@
 import { renderDetailsPost } from '../components/post-component.js';
 import { addCommentToList } from '../components/comment-component.js';
 import { createModal, openModal, closeModal } from '../components/modal-component.js';
-import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, likes, commentsCount, updateComment } from '../api/api.js';
+import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, updatePostLikes, updatePostCommentsCount, updateComment } from '../api/api.js';
 
 
 //더미 데이터
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         likeCnt.textContent = currentLikes;
         liked=true;
         try{
-            const result = await likes(boardId,likeCnt);
+            const result = await updatePostLikes(boardId);
             if(!result.success){
                 throw new Error('좋아요 실패');
             }
@@ -183,7 +183,7 @@ document.getElementById('comment-submit').addEventListener('click', async () => 
         if(result.success){
             document.getElementById('commentInput').value = ''; 
             addCommentToList(result.comment, result.userId);
-            await commentsCount(boardId);
+            await updatePostCommentsCount(boardId);
             window.location.href = `/public/detail-post.html?board_id=${boardId}`;
         } else {
             alert(result.message);

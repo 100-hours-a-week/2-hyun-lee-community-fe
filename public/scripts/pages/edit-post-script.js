@@ -1,6 +1,6 @@
 import { renderEditPost } from '../components/post-component.js';
 import { validatePostTitle, validatePostContent } from '../utils/validators.js';
-import {fetchPostDetails, editPost } from '../api/api.js'
+import {fetchPostDetails, updatePost } from '../api/api.js'
 
 const dummyPost = {
     board_id: 1,
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         formData.append('boardId',boardId);
         try{
 
-        const result = await editPost(formData);
+        const result = await updatePost(formData);
             if(result.success){
                 window.location.href=`/public/detail-post.html?board_id=${boardId}`;
             } else{

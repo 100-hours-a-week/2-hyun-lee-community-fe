@@ -1,8 +1,8 @@
 import { validatePassword, validateConfirmPassword } from '../utils/validators.js';
-import { updatePassword, loadUser } from '../api/api.js';
+import { updateUserPassword, getUserProfile } from '../api/api.js';
 
 
-const result = await loadUser();
+const result = await getUserProfile();
 const userInfo=result.userInfo;
 const user_id=userInfo.userId;
 
@@ -33,7 +33,7 @@ document.getElementById('passwordForm').addEventListener('submit',async (e)=>{
 
        
         try{
-               const result = await updatePassword(formData);
+               const result = await updateUserPassword(formData);
                //alert(result.message);
                //window.location.href='/user/${userId}';
             } catch(error){
