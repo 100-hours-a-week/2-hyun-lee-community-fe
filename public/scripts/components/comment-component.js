@@ -1,12 +1,12 @@
 import { formatDate } from "../utils/format-Date.js";
 
 const BASE_URL ='http://localhost:3000';
-export function addCommentToList(commentData, userId){
+export function addCommentToList(commentData, user_id){
     const commentList = document.getElementById('commentList');
     const newComment = document.createElement('div');
     newComment.classList.add('comment-author');
     
-    const isOwner = commentData.user_id === userId;
+    const isOwner = commentData.user_id === user_id;
     const editButtons = isOwner
 
         ? `  <div class="comment">
