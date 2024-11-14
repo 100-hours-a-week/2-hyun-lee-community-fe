@@ -50,17 +50,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         const postData = await fetchPostDetails(post_id); 
         console.log(postData);
-        renderDetailsPost(postData.post,postData.userId); 
+        renderDetailsPost(postData.post,postData.user_id); 
      
          const results = await fetchComments(post_id);
    
-         const userId=results.userId
-        
-         results.comment.forEach(c=> addCommentToList(c,userId)); 
+         const user_id=results.user_id
+         console.log("uuu",results);
+         results.comment.forEach(c=> addCommentToList(c,user_id)); 
 
         document.querySelectorAll('.delete-comment-button').forEach(button => {
             button.addEventListener('click', () => {
-                const commentId = button.closest('.comment-details').getAttribute('data-comment-id');
+                const comment_id = button.closest('.comment-details').getAttribute('data-comment-id');
                 const { modal, confirmButton } = createModal({
                     title: '댓글을 삭제하시겠습니까?',
                     message: '삭제한 내용은 복구할 수 없습니다.',
@@ -72,9 +72,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 confirmButton.addEventListener('click', async () => {
                     try {
                        
-                       await deleteComment(post_id, commentId);
+                       await deleteComment(post_id, comment_id);
                         closeModal(modal);
-                        document.querySelector(`.comment-details[data-comment-id="${commentId}"]`).parentElement.remove();
+                        document.querySelector(`.comment-details[data-comment-id="${comment_id}"]`).parentElement.remove();
                     } catch (error) {
                         console.error(error);
                         alert('댓글 삭제에 실패했습니다.');
@@ -182,7 +182,7 @@ document.getElementById('comment-submit').addEventListener('click', async () => 
         console.log(result);
         if(result.success){
             document.getElementById('commentInput').value = ''; 
-            addCommentToList(result.comment, result.userId);
+            addCommentToList(result.comment, result.user_id);
             await updatePostCommentsCount(post_id);
             window.location.href = `/public/detail-post.html?post_id=${post_id}`;
         } else {

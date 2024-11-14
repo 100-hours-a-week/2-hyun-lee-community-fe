@@ -5,7 +5,7 @@ import { fetchPosts } from '../api/api.js';
 const dummyPosts = [
     [
         {
-            board_id: 1,
+            post_id: 1,
             page_title: '첫 번째 게시글',
             likes_count: 10,
             comment_count: 5,
@@ -15,7 +15,7 @@ const dummyPosts = [
             nickname: 'User1'
         },
         {
-            board_id: 2,
+            post_id: 2,
             page_title: '두 번째 게시글',
             likes_count: 20,
             comment_count: 10,

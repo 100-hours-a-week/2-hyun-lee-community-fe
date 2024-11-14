@@ -30,7 +30,7 @@ window.addEventListener('DOMContentLoaded', async() => {
 
         const result = await getUserProfile();
         const userInfo=result.userInfo;
-        const user_id=userInfo.userId;
+        const user_id=userInfo.user_id;
 
         editUser(userInfo);
         loadImageToCanvas(userInfo);

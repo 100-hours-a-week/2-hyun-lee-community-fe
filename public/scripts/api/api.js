@@ -195,7 +195,7 @@ export async function updatePostCommentsCount(post_id){
 
 //댓글 관련
 export async function fetchComments(post_id){
-    const response = await fetch(`${BASE_URL}/comments?post_id=${post_id}`,{
+    const response = await fetch(`${BASE_URL}/posts/${post_id}/comments`,{
         method:'GET'
     });
     return response.json();
@@ -203,18 +203,18 @@ export async function fetchComments(post_id){
 
 
 export async function addComment(post_id,content){
-    const response = await fetch(`${BASE_URL}/comment`,{
+    const response = await fetch(`${BASE_URL}/posts/${post_id}/comment`,{
         method:'POST',
         headers: {
             'Content-Type': 'application/json'  
         },
-        body: JSON.stringify({post_id,content})
+        body: JSON.stringify({content})
     });
     return response.json();
 }
 
-export async function updateComment(post_id,commentId,content){
-    const response = await fetch(`${BASE_URL}/comment/${post_id}/updateComment/${commentId}`,{
+export async function updateComment(post_id,comment_id,content){
+    const response = await fetch(`${BASE_URL}/posts/${post_id}/comment/${comment_id}`,{
         method:'PATCH',
         headers: {
             'Content-Type': 'application/json'  
@@ -225,8 +225,8 @@ export async function updateComment(post_id,commentId,content){
 }
 
 
-export async function deleteComment(post_id, commentId){
-    const response = await fetch(`${BASE_URL}/comment/${post_id}/deleteComment/${commentId}`,{
+export async function deleteComment(post_id, comment_id){
+    const response = await fetch(`${BASE_URL}/posts/${post_id}/comment/${comment_id}`,{
         method:'DELETE'
     }); 
     return response.json();
@@ -234,15 +234,15 @@ export async function deleteComment(post_id, commentId){
 
 
 // 사용자 삭제시 게시글/댓글 일괄 삭제
-export async function deleteUserComments(userId){
-    const response = await fetch(`${BASE_URL}/user/deleteUserComments/${userId}`,{
+export async function deleteUserComments(user_id){
+    const response = await fetch(`${BASE_URL}/user/${user_id}/comments`,{
         method:'DELETE'
     });
     return response.json();
 }
 
-export async function deleteUserPosts(userId){
-    const response = await fetch(`${BASE_URL}/user/deleteUserPosts/${userId}`,{
+export async function deleteUserPosts(user_id){
+    const response = await fetch(`${BASE_URL}/user/${user_id}/posts`,{
         method:'DELETE'
     });
     return response.json();

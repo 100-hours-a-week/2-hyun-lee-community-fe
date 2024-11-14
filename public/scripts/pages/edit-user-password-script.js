@@ -4,7 +4,7 @@ import { updateUserPassword, getUserProfile } from '../api/api.js';
 
 const result = await getUserProfile();
 const userInfo=result.userInfo;
-const user_id=userInfo.userId;
+const user_id=userInfo.user_id;
 
 document.getElementById('passwordForm').addEventListener('submit',async (e)=>{
     
@@ -35,7 +35,7 @@ document.getElementById('passwordForm').addEventListener('submit',async (e)=>{
         try{
                const result = await updateUserPassword(formData);
                //alert(result.message);
-               //window.location.href='/user/${userId}';
+               //window.location.href='/user/${user_id}';
             } catch(error){
                 console.error('Error:',error);
                 alert('서버 오류 발생');

@@ -28,9 +28,9 @@ export function renderPosts(posts){
     });
 }
 
-export function renderDetailsPost(post,userId){
+export function renderDetailsPost(post,user_id){
     const postContainer = document.getElementById('container');
-    const isOwner = post.userId === userId;
+    const isOwner = post.user_id === user_id;
     console.log(isOwner);
 
     const editButtons = isOwner ? `   <span class="work-post">
