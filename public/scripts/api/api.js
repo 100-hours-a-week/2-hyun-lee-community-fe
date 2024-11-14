@@ -3,7 +3,7 @@ const BASE_URL ='http://localhost:3000';
 
 // 사용자 인증 관련
 export async function login(useremail,password){
-    const response = await fetch(`${BASE_URL}/login`,{
+    const response = await fetch(`${BASE_URL}/users/login`,{
         method:'POST',
         headers: {
             'Content-Type': 'application/json'  
@@ -20,7 +20,7 @@ export async function login(useremail,password){
 
 export async function checkLogin(email, password) {
     try {
-        const response = await fetch(`${BASE_URL}/check-login`, {
+        const response = await fetch(`${BASE_URL}/users/check`, {
             method: 'POST',
             body: JSON.stringify({ email, password }),
         });
@@ -35,7 +35,7 @@ export async function checkLogin(email, password) {
 
 export async function checkEmailExists(email) {
     try {
-        const response = await fetch(`${BASE_URL}/check-email?email=${encodeURIComponent(email)}`);
+        const response = await fetch(`${BASE_URL}/users/email/check?email=${email}`);
         if (!response.ok) {
             throw new Error('서버 응답 오류');
         }
@@ -51,7 +51,7 @@ export async function checkEmailExists(email) {
 
 export async function checkNicknameExists(nickname) {
     try {
-        const response = await fetch(`${BASE_URL}/check-nickname?nickname=${encodeURIComponent(nickname)}`);
+        const response = await fetch(`${BASE_URL}/users/nickname/check?nickname=${nickname}`);
         if (!response.ok) {
             throw new Error('서버 응답 오류');
         }
@@ -65,7 +65,7 @@ export async function checkNicknameExists(nickname) {
 
 
 export async function registerUser(formData) {
-    const response = await fetch(`${BASE_URL}/register`, {
+    const response = await fetch(`${BASE_URL}/users/register`, {
         method: 'POST',
         body: formData,
     });
@@ -73,7 +73,7 @@ export async function registerUser(formData) {
 }
 
 export async function logout(){
-    const response =await fetch(`${BASE_URL}/logout`,{
+    const response =await fetch(`${BASE_URL}/users/logout`,{
         method :'GET'
     });
     return response.json();
@@ -81,7 +81,7 @@ export async function logout(){
 
 // 사용자 정보 관련
 export async function updateUserProfile(formData) {
-    const response = await fetch(`${BASE_URL}/user`,{
+    const response = await fetch(`${BASE_URL}/user/profile`,{
         method:'PATCH',
         body: formData,
     });
@@ -90,8 +90,8 @@ export async function updateUserProfile(formData) {
 }
 
 
-export async function deleteUserAccount(userId){
-    const response = await fetch(`${BASE_URL}/user/deleteUser/${userId}`,{
+export async function deleteUserAccount(user_id){
+    const response = await fetch(`${BASE_URL}/user/${user_id}`,{
         method:'DELETE'
     });
     return response.json();
@@ -100,7 +100,7 @@ export async function deleteUserAccount(userId){
 
 
 export async function updateUserPassword(formData){
-    const response = await fetch(`${BASE_URL}/user/updatePassword`,{
+    const response = await fetch(`${BASE_URL}/user/password`,{
         method:'PATCH',
         body: formData,
     });
@@ -110,7 +110,7 @@ export async function updateUserPassword(formData){
 
 
 export async function getUserProfile(){
-    const response = await fetch(`${BASE_URL}/loadUser`)
+    const response = await fetch(`${BASE_URL}/user/profile`)
     return response.json();
 }
 
@@ -130,8 +130,8 @@ export async function fetchPosts(){
 }
 
 
-export async function fetchPostDetails(boardId){
-    const response = await fetch(`${BASE_URL}/detail-post?board_id=${boardId}`,{
+export async function fetchPostDetails(post_id){
+    const response = await fetch(`${BASE_URL}/posts/${post_id}`,{
         method:'PATCH'
     });
     return response.json();
@@ -139,17 +139,20 @@ export async function fetchPostDetails(boardId){
 
 
 export async function createPost(formData){
-    const response= await fetch(`${BASE_URL}/createPost`,{
+    const response= await fetch(`${BASE_URL}/posts`,{
         method: 'POST',
         body: formData,
         credentials: 'include'
     });
     return response.json();
 }
+/*
+여기서부터 다시 하기
+formdata 말고 post_id도 파라미터로 전달할수있도록
+*/
 
-
-export async function updatePost(formData) {
-    const response = await fetch(`${BASE_URL}/detail-post/{board_id}/editPost`,{
+export async function updatePost(formData,post_id) {
+    const response = await fetch(`${BASE_URL}/posts/update/${post_id}`,{
         method:'PATCH',
         body: formData
     });
@@ -157,8 +160,8 @@ export async function updatePost(formData) {
     
 }
 
-export async function deletePost(boardId){
-    const response = await fetch(`${BASE_URL}/details-post/deletePost?board_id=${boardId}`,{
+export async function deletePost(post_id){
+    const response = await fetch(`${BASE_URL}/posts/${post_id}`,{
         method:'DELETE'
     });
     return response.json();
@@ -167,51 +170,51 @@ export async function deletePost(boardId){
 
 
 
-export async function updatePostLikes(boardId){
-    const response = await fetch(`${BASE_URL}/details-post/{board_id}/likes`,{
+export async function updatePostLikes(post_id){
+    const response = await fetch(`${BASE_URL}/posts/likes/${post_id}`,{
         method:'PATCH',
         headers:{
             'Content-Type' : 'application/json'
         },
-        body : JSON.stringify({board_id:boardId})
+        body : JSON.stringify({post_id:post_id})
     });
     return response.json();
 }
 
-export async function updatePostCommentsCount(boardId){
-    const response = await fetch(`${BASE_URL}/details-post/{board_id}/commentCount`,{
+export async function updatePostCommentsCount(post_id){
+    const response = await fetch(`${BASE_URL}/posts/comments/counts/${post_id}`,{
         method:'PATCH',
         headers:{
             'Content-Type' : 'application/json'
         },
-        body : JSON.stringify({board_id:boardId})
+        body : JSON.stringify({post_id:post_id})
     });
     return response.json();
 }
 
 
 //댓글 관련
-export async function fetchComments(boardId){
-    const response = await fetch(`${BASE_URL}/comments?board_id=${boardId}`,{
+export async function fetchComments(post_id){
+    const response = await fetch(`${BASE_URL}/comments?post_id=${post_id}`,{
         method:'GET'
     });
     return response.json();
 }
 
 
-export async function addComment(boardId,content){
+export async function addComment(post_id,content){
     const response = await fetch(`${BASE_URL}/comment`,{
         method:'POST',
         headers: {
             'Content-Type': 'application/json'  
         },
-        body: JSON.stringify({boardId,content})
+        body: JSON.stringify({post_id,content})
     });
     return response.json();
 }
 
-export async function updateComment(boardId,commentId,content){
-    const response = await fetch(`${BASE_URL}/comment/${boardId}/updateComment/${commentId}`,{
+export async function updateComment(post_id,commentId,content){
+    const response = await fetch(`${BASE_URL}/comment/${post_id}/updateComment/${commentId}`,{
         method:'PATCH',
         headers: {
             'Content-Type': 'application/json'  
@@ -222,8 +225,8 @@ export async function updateComment(boardId,commentId,content){
 }
 
 
-export async function deleteComment(boardId, commentId){
-    const response = await fetch(`${BASE_URL}/comment/${boardId}/deleteComment/${commentId}`,{
+export async function deleteComment(post_id, commentId){
+    const response = await fetch(`${BASE_URL}/comment/${post_id}/deleteComment/${commentId}`,{
         method:'DELETE'
     }); 
     return response.json();

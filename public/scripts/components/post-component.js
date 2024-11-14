@@ -9,7 +9,7 @@ export function renderPosts(posts){
         newRow.className = 'post-item'; 
         newRow.innerHTML=`
              <div class="post-header">
-                    <h2 class=post-title data-id=${post.board_id}> ${post.page_title}</h2>
+                    <h2 class=post-title data-id=${post.post_id}> ${post.page_title}</h2>
                 </div>
                 <div class="post-details">
                     <div class="post-details2"><span>좋아요 ${post.likes_count}</span> <span>댓글 ${post.comment_count}</span> <span>조회수 ${post.view_count}</span></div>
@@ -22,7 +22,7 @@ export function renderPosts(posts){
         `;
         postTableBody.appendChild(newRow);
         newRow.querySelector('.post-header').addEventListener('click', () => {
-            window.location.href = `/public/detail-post.html?board_id=${post.board_id}`;
+            window.location.href = `/public/detail-post.html?post_id=${post.post_id}`;
         });
         
     });

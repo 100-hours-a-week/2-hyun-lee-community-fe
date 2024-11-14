@@ -1,6 +1,6 @@
 import { editUser } from '../components/user-component.js';
 import { validateNickname, validateProfile } from '../utils/validators.js'
-import { isNicknameDuplicated, getUserProfile,updateUserProfile,deleteUserComments,deleteUserPosts,deleteUserAccount } from "../api/api.js";
+import { getUserProfile,updateUserProfile,deleteUserComments,deleteUserPosts,deleteUserAccount } from "../api/api.js";
 import { createModal, openModal, closeModal } from '../components/modal-component.js';
 import { loadImageToCanvas, setupProfileImageChange } from '../utils/loadImage.js';
 

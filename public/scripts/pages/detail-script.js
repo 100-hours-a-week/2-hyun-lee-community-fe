@@ -6,7 +6,7 @@ import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment,
 
 //더미 데이터
 const dummyPost = {
-    board_id: 1,
+    post_id: 1,
     page_title: "더미 게시글 제목",
     nickname: "작성자",
     create_at: "2024-11-08T12:00:00Z",
@@ -43,16 +43,16 @@ let editingCommentId = null;
 
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const boardId = urlParams.get('board_id');
+    const post_id = urlParams.get('post_id');
     let liked=false;
 
     try {
         
-        const postData = await fetchPostDetails(boardId); 
+        const postData = await fetchPostDetails(post_id); 
         console.log(postData);
         renderDetailsPost(postData.post,postData.userId); 
      
-         const results = await fetchComments(boardId);
+         const results = await fetchComments(post_id);
    
          const userId=results.userId
         
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 confirmButton.addEventListener('click', async () => {
                     try {
                        
-                       await deleteComment(boardId, commentId);
+                       await deleteComment(post_id, commentId);
                         closeModal(modal);
                         document.querySelector(`.comment-details[data-comment-id="${commentId}"]`).parentElement.remove();
                     } catch (error) {
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             confirmButton.addEventListener('click', async () => {
                 try {
-                    const result = await deletePost(boardId);
+                    const result = await deletePost(post_id);
                     closeModal(modal);
                     window.location.href = '/public/board.html';
                 } catch (error) {
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
             });
             modifyButton.addEventListener('click', () => {     
-            window.location.href = `/public/edit-post.html?board_id=${boardId}`;
+            window.location.href = `/public/edit-post.html?post_id=${post_id}`;
                 });
         }
 
@@ -149,7 +149,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         likeCnt.textContent = currentLikes;
         liked=true;
         try{
-            const result = await updatePostLikes(boardId);
+            const result = await updatePostLikes(post_id);
             if(!result.success){
                 throw new Error('좋아요 실패');
             }
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 document.getElementById('comment-submit').addEventListener('click', async () => {
     const commentContent = document.getElementById('commentInput').value;
     const urlParams = new URLSearchParams(window.location.search);
-    const boardId =  parseInt(urlParams.get('board_id'), 10);
+    const post_id =  parseInt(urlParams.get('post_id'), 10);
 
     if (!commentContent.trim()) {
         alert("댓글 내용을 입력해주세요.");
@@ -178,13 +178,13 @@ document.getElementById('comment-submit').addEventListener('click', async () => 
     if(!isEditing){
     try {
         
-        const result = await addComment(boardId, commentContent);
+        const result = await addComment(post_id, commentContent);
         console.log(result);
         if(result.success){
             document.getElementById('commentInput').value = ''; 
             addCommentToList(result.comment, result.userId);
-            await updatePostCommentsCount(boardId);
-            window.location.href = `/public/detail-post.html?board_id=${boardId}`;
+            await updatePostCommentsCount(post_id);
+            window.location.href = `/public/detail-post.html?post_id=${post_id}`;
         } else {
             alert(result.message);
         }
@@ -195,11 +195,11 @@ document.getElementById('comment-submit').addEventListener('click', async () => 
     } else{
         try {
         
-            const result = await updateComment(boardId,editingCommentId, commentContent);
+            const result = await updateComment(post_id,editingCommentId, commentContent);
             console.log(result);
             if(result.success){
                 document.getElementById('commentInput').value = ''; 
-                window.location.href = `/public/detail-post.html?board_id=${boardId}`;
+                window.location.href = `/public/detail-post.html?post_id=${post_id}`;
             } else {
                 alert(result.message);
             }
