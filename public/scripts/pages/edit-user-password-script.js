@@ -1,5 +1,10 @@
 import { validatePassword, validateConfirmPassword } from '../utils/validators.js';
+import { updatePassword, loadUser } from '../api/api.js';
 
+
+const result = await loadUser();
+const userInfo=result.userInfo;
+const user_id=userInfo.userId;
 
 document.getElementById('passwordForm').addEventListener('submit',async (e)=>{
     
@@ -16,17 +21,21 @@ document.getElementById('passwordForm').addEventListener('submit',async (e)=>{
     isValid = validatePassword(password,passwordHelper) & isValid;
     isValid = validateConfirmPassword(password,confirmPassword,confirmPasswordHelper) & isValid;
 
+    console.log(password);
+    console.log(confirmPassword);
 
     if(isValid){
         const formData = new FormData();
         formData.append('password',password);
         formData.append('confirmPassword',confirmPassword);
-            
+        formData.append('user_id',user_id);   
     
+
+       
         try{
-            //    //const result = await editPassword(formData);
-            //    alert(result.message);
-            //    window.location.href='/user/${userId}';
+               const result = await updatePassword(formData);
+               //alert(result.message);
+               //window.location.href='/user/${userId}';
             } catch(error){
                 console.error('Error:',error);
                 alert('서버 오류 발생');

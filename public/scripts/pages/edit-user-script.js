@@ -44,7 +44,10 @@ window.addEventListener('DOMContentLoaded', async() => {
             let profileImage = document.getElementById('profileImage').files[0];
         
             if(!profileImage){
-                profileImage = `${BASE_URL}/${userInfo.profile}`;
+                const response = await fetch(`${BASE_URL}/${userInfo.profile}`);
+                const blob = await response.blob();
+
+                profileImage = new File([blob], 'profile.jpg', { type: blob.type });
             }
             const profileHelper = document.getElementById('profileHelper');
             const nicknameHelper = document.getElementById('nicknameHelper');

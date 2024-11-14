@@ -176,7 +176,7 @@ export async function commentsCount(boardId){
     return response.json();
 }
 export async function updateUser(formData) {
-    const response = await fetch(`${BASE_URL}/user/{user_id}`,{
+    const response = await fetch(`${BASE_URL}/user`,{
         method:'PATCH',
         body: formData,
     });
@@ -194,10 +194,10 @@ export async function deleteUser(userId){
 
 
 
-export async function editPassword(formData){
-    const response = await fetch(`${BASE_URL}/user/password/{user_id}`,{
+export async function updatePassword(formData){
+    const response = await fetch(`${BASE_URL}/user/updatePassword`,{
         method:'PATCH',
-        body: formData
+        body: formData,
     });
     return response.json();
 }   
