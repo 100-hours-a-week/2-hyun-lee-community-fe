@@ -2,6 +2,17 @@ import { login } from "../api/api.js";
 import { validateEmail, validatePassword } from "../utils/validators.js";
 
 
+document.getElementById('useremail').addEventListener('input',(e)=>{
+    const email =e.target.value;
+    const emailHelper =document.getElementById('emailHelper');
+    validateEmail(email,emailHelper);
+})
+
+document.getElementById('password').addEventListener('input',(e)=>{
+    const password = e.target.value;
+    const passwordHelper = document.getElementById('passwordHelper');
+    validatePassword(password,passwordHelper);
+})
 
 
 

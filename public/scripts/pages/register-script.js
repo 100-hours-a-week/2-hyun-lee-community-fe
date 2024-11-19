@@ -111,3 +111,33 @@ document.getElementById('registerForm').addEventListener('submit',async (e)=>{
     }
 })
 
+document.getElementById('profileImage').addEventListener('input',(e)=>{
+    const profile = e.target.value;
+    const profileHelper = document.getElementById('profileHelper');
+    validateProfile(profile,profileHelper);
+});
+
+document.getElementById('useremail').addEventListener('input',(e)=>{
+    const email = e.target.value;
+    const emailHelper = document.getElementById('emailHelper');
+    validateEmail(email,emailHelper);
+});
+
+document.getElementById('password').addEventListener('input',(e)=>{
+    const password = e.target.value;
+    const passwordHelper = document.getElementById('passwordHelper');
+    validatePassword(password,passwordHelper);
+});
+
+document.getElementById('confirmPassword').addEventListener('input',(e)=>{
+    const password= document.getElementById('password').value;
+    const confirmPassword = e.target.value;
+    const confirmPasswordHelper = document.getElementById('confirmPasswordHelper');
+    validateConfirmPassword(password,confirmPassword,confirmPasswordHelper);
+});
+
+document.getElementById('nickname').addEventListener('input',(e)=>{
+    const nickname = e.target.value;
+    const nicknameHelper = document.getElementById('nicknameHelper');
+    validateNickname(nickname,nicknameHelper);
+});
