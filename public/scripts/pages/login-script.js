@@ -33,6 +33,7 @@ document.getElementById('login').addEventListener('submit', async(e) => {
     //로그인 확인
     try{
         const result = await login(email,password);
+        console.log(result);
         if(result.success){
             
              window.location.href='/public/board.html';

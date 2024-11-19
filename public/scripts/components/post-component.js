@@ -96,7 +96,7 @@ export function renderEditPost(post){
                    <input type="file" id="postImage" name="postImage" accept="image/*"  >
                 </div>
             </div>
-            <button type="submit">완료</button>
+            <button type="submit">수정하기</button>
         </form>
     </div>
     `

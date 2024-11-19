@@ -23,6 +23,7 @@ export async function checkLogin(email, password) {
         const response = await fetch(`${BASE_URL}/users/check`, {
             method: 'POST',
             body: JSON.stringify({ email, password }),
+            credentials: 'include'
         });
 
         const data = await response.json();
@@ -35,7 +36,10 @@ export async function checkLogin(email, password) {
 
 export async function checkEmailExists(email) {
     try {
-        const response = await fetch(`${BASE_URL}/users/email/check?email=${email}`);
+        const response = await fetch(`${BASE_URL}/users/email/check?email=${email}`,{
+            method : 'GET',
+            credentials: 'include'
+        });
         if (!response.ok) {
             throw new Error('서버 응답 오류');
         }
@@ -51,7 +55,10 @@ export async function checkEmailExists(email) {
 
 export async function checkNicknameExists(nickname) {
     try {
-        const response = await fetch(`${BASE_URL}/users/nickname/check?nickname=${nickname}`);
+        const response = await fetch(`${BASE_URL}/users/nickname/check?nickname=${nickname}`,{
+            method: 'GET',
+            credentials: 'include'
+        });
         if (!response.ok) {
             throw new Error('서버 응답 오류');
         }
@@ -68,13 +75,15 @@ export async function registerUser(formData) {
     const response = await fetch(`${BASE_URL}/users/register`, {
         method: 'POST',
         body: formData,
+        credentials: 'include'
     });
     return response.json();
 }
 
 export async function logout(){
     const response =await fetch(`${BASE_URL}/users/logout`,{
-        method :'GET'
+        method :'GET',
+        credentials: 'include'
     });
     return response.json();
 }
@@ -84,6 +93,7 @@ export async function updateUserProfile(formData) {
     const response = await fetch(`${BASE_URL}/user/profile`,{
         method:'PATCH',
         body: formData,
+        credentials: 'include'
     });
     return response.json();
     
@@ -92,7 +102,8 @@ export async function updateUserProfile(formData) {
 
 export async function deleteUserAccount(user_id){
     const response = await fetch(`${BASE_URL}/user/${user_id}`,{
-        method:'DELETE'
+        method:'DELETE',
+        credentials: 'include'
     });
     return response.json();
 }   
@@ -103,6 +114,7 @@ export async function updateUserPassword(formData){
     const response = await fetch(`${BASE_URL}/user/password`,{
         method:'PATCH',
         body: formData,
+        credentials: 'include'
     });
     return response.json();
 }   
@@ -110,7 +122,10 @@ export async function updateUserPassword(formData){
 
 
 export async function getUserProfile(){
-    const response = await fetch(`${BASE_URL}/user/profile`)
+    const response = await fetch(`${BASE_URL}/user/profile`,{
+        method :'GET',
+        credentials: 'include'
+    })
     return response.json();
 }
 
@@ -132,7 +147,8 @@ export async function fetchPosts(){
 
 export async function fetchPostDetails(post_id){
     const response = await fetch(`${BASE_URL}/posts/${post_id}`,{
-        method:'PATCH'
+        method:'PATCH',
+        credentials: 'include'
     });
     return response.json();
 }
@@ -154,7 +170,8 @@ formdata 말고 post_id도 파라미터로 전달할수있도록
 export async function updatePost(formData,post_id) {
     const response = await fetch(`${BASE_URL}/posts/update/${post_id}`,{
         method:'PATCH',
-        body: formData
+        body: formData,
+        credentials: 'include'
     });
     return response.json();
     
@@ -162,7 +179,8 @@ export async function updatePost(formData,post_id) {
 
 export async function deletePost(post_id){
     const response = await fetch(`${BASE_URL}/posts/${post_id}`,{
-        method:'DELETE'
+        method:'DELETE',
+        credentials: 'include'
     });
     return response.json();
 }   
@@ -176,7 +194,8 @@ export async function updatePostLikes(post_id){
         headers:{
             'Content-Type' : 'application/json'
         },
-        body : JSON.stringify({post_id:post_id})
+        body : JSON.stringify({post_id:post_id}),
+        credentials: 'include'
     });
     return response.json();
 }
@@ -187,7 +206,8 @@ export async function updatePostCommentsCount(post_id){
         headers:{
             'Content-Type' : 'application/json'
         },
-        body : JSON.stringify({post_id:post_id})
+        body : JSON.stringify({post_id:post_id}),
+        credentials: 'include'
     });
     return response.json();
 }
@@ -196,7 +216,8 @@ export async function updatePostCommentsCount(post_id){
 //댓글 관련
 export async function fetchComments(post_id){
     const response = await fetch(`${BASE_URL}/posts/${post_id}/comments`,{
-        method:'GET'
+        method:'GET',
+        credentials: 'include'
     });
     return response.json();
 }
@@ -208,7 +229,8 @@ export async function addComment(post_id,content){
         headers: {
             'Content-Type': 'application/json'  
         },
-        body: JSON.stringify({content})
+        body: JSON.stringify({content}),
+        credentials: 'include'
     });
     return response.json();
 }
@@ -219,7 +241,8 @@ export async function updateComment(post_id,comment_id,content){
         headers: {
             'Content-Type': 'application/json'  
         },
-        body: JSON.stringify({content})
+        body: JSON.stringify({content}),
+        credentials: 'include'
     });
     return response.json();
 }
@@ -227,7 +250,8 @@ export async function updateComment(post_id,comment_id,content){
 
 export async function deleteComment(post_id, comment_id){
     const response = await fetch(`${BASE_URL}/posts/${post_id}/comment/${comment_id}`,{
-        method:'DELETE'
+        method:'DELETE',
+        credentials: 'include'
     }); 
     return response.json();
 }
@@ -236,14 +260,16 @@ export async function deleteComment(post_id, comment_id){
 // 사용자 삭제시 게시글/댓글 일괄 삭제
 export async function deleteUserComments(user_id){
     const response = await fetch(`${BASE_URL}/user/${user_id}/comments`,{
-        method:'DELETE'
+        method:'DELETE',
+        credentials: 'include'
     });
     return response.json();
 }
 
 export async function deleteUserPosts(user_id){
     const response = await fetch(`${BASE_URL}/user/${user_id}/posts`,{
-        method:'DELETE'
+        method:'DELETE',
+        credentials: 'include'
     });
     return response.json();
 }

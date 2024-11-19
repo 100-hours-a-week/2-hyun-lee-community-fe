@@ -85,31 +85,6 @@ document.getElementById('registerForm').addEventListener('submit',async (e)=>{
     isValid = validateConfirmPassword(password,confirmPassword,confirmPasswordHelper) && isValid;
     isValid = validateNickname(nickname,nicknameHelper) && isValid;
 
-    // if (isValid) {
-    //     const [isEmailDup, isNicknameDup] = await Promise.all([
-    //         isEmailDuplicated(email),
-    //         isNicknameDuplicated(nickname)
-    //     ]);
-    
-
-    //     if (isEmailDup) {
-    //         emailHelper.textContent = "*중복된 이메일입니다.";
-    //         emailHelper.style.visibility = "visible";
-    //         isValid = false;
-    //     } else {
-    //         emailHelper.style.visibility = "hidden";
-    //     }
-    
-     
-    //     if (isNicknameDup) {
-    //         nicknameHelper.textContent = "*중복된 닉네임입니다.";
-    //         nicknameHelper.style.visibility = "visible";
-    //         isValid = false;
-    //     } else {
-    //         nicknameHelper.style.visibility = "hidden";
-    //     }
-    // }
-
 
     if(isValid){
     const formData = new FormData(document.getElementById('registerForm'));
@@ -126,7 +101,7 @@ document.getElementById('registerForm').addEventListener('submit',async (e)=>{
         } 
 
         console.log(response.message);
-        if(response.ok){
+        if(response.success){
             window.location.href = '/public/login.html';
         } 
     } catch(error){
