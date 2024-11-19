@@ -8,11 +8,7 @@ document.getElementById('useremail').addEventListener('input',(e)=>{
     validateEmail(email,emailHelper);
 })
 
-document.getElementById('password').addEventListener('input',(e)=>{
-    const password = e.target.value;
-    const passwordHelper = document.getElementById('passwordHelper');
-    validatePassword(password,passwordHelper);
-})
+document.getElementById('password').addEventListener('input', handlePasswordInput);
 
 
 
@@ -23,43 +19,49 @@ document.getElementById('registerBtn').addEventListener('click', () => {
 
 document.getElementById('login').addEventListener('submit', async(e) => {
     e.preventDefault();
-    const email=document.getElementById('useremail').value;
-    const password=document.getElementById('password').value;
-    const emailHelper=document.getElementById('emailHelper');
-    const passwordHelper=document.getElementById('passwordHelper');
-
-    let isValid=true;
-
-    passwordHelper.textContent="";
-    
-    
-    isValid = validateEmail(email, emailHelper) && isValid;
-
-    if(!validatePassword(password,passwordHelper)){
-        isValid=false;
-    }
-    
-     
-    if(isValid){
-    //로그인 확인
-    try{
-        const result = await login(email,password);
-        console.log(result);
-        if(result.success){
-            
-             window.location.href='/public/board.html';
-        } else{
-            passwordHelper.textContent="*비밀번호가 다릅니다.";
-            passwordHelper.style.visibility = 'visible';
-        }
-    } catch(error){
-        console.log('로그인 요청 중 오류 발생:',error);
-        alert('로그인 중 오류가 발생하였습니다. 다시 시도해주세요.');
-    }
-}
+    window.location.href='/public/board.html';
 });
 
-// 세션 확인 함수
 
 
 
+async function handlePasswordInput(e){
+    const password = e.target.value;
+    const email = document.getElementById('useremail').value;
+    const passwordHelper = document.getElementById('passwordHelper');
+
+    const isValid = validatePassword(password, passwordHelper);
+
+    if (!isValid) {
+        updateLoginButton(false);
+        return;
+    }
+    try {
+        const result = await login(email, password);
+
+        if (result.success) {
+            updateLoginButton(true);
+        } else {
+            passwordHelper.textContent = "*비밀번호가 다릅니다.";
+            passwordHelper.style.visibility = "visible";
+            updateLoginButton(false);
+        }
+    } catch (error) {
+        console.error('로그인 요청 중 오류 발생:', error);
+        alert('로그인 중 오류가 발생하였습니다. 다시 시도해주세요.');
+        updateLoginButton(false);
+    }
+}
+
+
+
+function updateLoginButton(isEnabled) {
+    const loginButton = document.getElementById('loginBtn');
+    if (isEnabled) {
+        loginButton.style.backgroundColor = '#7F6AEE';
+        loginButton.disabled = false;
+    } else {
+        loginButton.style.backgroundColor = '#ACA0EB';
+        loginButton.disabled = true;
+    }
+}

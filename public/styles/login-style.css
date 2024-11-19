@@ -93,12 +93,13 @@ body {
     font-size: 16px;
     line-height: 16.71px;
     font-weight: 700;
-    background-color: #7f6aee;
+    background-color: #ACA0EB;
     color: #ffffff;
     border-radius: 4px;
     display: inline-block;
     text-align: center;
     border: none;
+    
 }
 
 #registerBtn {
