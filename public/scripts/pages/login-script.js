@@ -60,8 +60,11 @@ function updateLoginButton(isEnabled) {
     if (isEnabled) {
         loginButton.style.backgroundColor = '#7F6AEE';
         loginButton.disabled = false;
+        loginButton.style.cursor='pointer';
     } else {
         loginButton.style.backgroundColor = '#ACA0EB';
         loginButton.disabled = true;
+        loginButton.style.cursor = 'not-allowed';
+        
     }
 }

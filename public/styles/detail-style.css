@@ -269,6 +269,10 @@ body {
     cursor: pointer;
     font-size: 14px;
 }
+#comment-submit:hover{
+    background-color: #7f6aee;
+}
+
 
 .modify-comment-button, .delete-comment-button{
     border: 1px solid #aca0eb;

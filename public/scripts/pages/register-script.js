@@ -85,9 +85,11 @@ function updateRegisterButton() {
     if (allValid) {
         registerButton.style.background = '#7F6AEE';
         registerButton.disabled = false;
+        registerButton.style.cursor = 'pointer';
     } else {
         registerButton.style.background = '#ACA0EB';
         registerButton.disabled = true;
+        registerButton.style.cursor = 'not-allowed';
     }
 }
 

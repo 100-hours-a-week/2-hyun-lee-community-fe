@@ -1,4 +1,5 @@
-import {formatDate} from '../utils/format-Date.js';
+import {formatDate} from '../utils/format-date.js';
+import {formatCount} from '../utils/format-count.js'
 const BASE_URL ='http://localhost:3000';
 
 export function renderPosts(posts){
@@ -12,7 +13,7 @@ export function renderPosts(posts){
                     <h2 class=post-title data-id=${post.post_id}> ${post.page_title}</h2>
                 </div>
                 <div class="post-details">
-                    <div class="post-details2"><span>좋아요 ${post.likes_count}</span> <span>댓글 ${post.comment_count}</span> <span>조회수 ${post.view_count}</span></div>
+                    <div class="post-details2"><span>좋아요 ${formatCount(post.likes_count)}</span> <span>댓글 ${formatCount(post.comment_count)}</span> <span>조회수 ${formatCount(post.view_count)}</span></div>
                     <span class="post-date">${formatDate(post.create_at)}</span>
                 </div>
                 <div class="post-footer">
@@ -61,15 +62,15 @@ export function renderDetailsPost(post,user_id){
         </div>
         <div class="post-stats">
             <button class="stat-item" id="likeBtn">
-                <span class="stat-number" id="likeCnt">${post.likes_count}</span>
+                <span class="stat-number" id="likeCnt">${formatCount(post.likes_count)}</span>
                 <span class="stat-label">좋아요수</span>
             </button>
             <div class="stat-item">
-                <span class="stat-number">${post.view_count}</span>
+                <span class="stat-number">${formatCount(post.view_count)}</span>
                 <span class="stat-label">조회수</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number">${post.comment_count}</span>
+                <span class="stat-number">${formatCount(post.comment_count)}</span>
                 <span class="stat-label">댓글</span>
             </div>
         </div>

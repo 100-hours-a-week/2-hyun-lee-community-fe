@@ -71,7 +71,7 @@ body {
 }
 
 .create-post-button {
-    background-color: #7f6aee;
+    background-color: #ACA0EB;
     color: #ffffff;
     border: none;
     padding: 10px 20px;
@@ -86,6 +86,10 @@ body {
     align-items: center;
     text-align: center;
     position: relative;
+}
+
+.create-post-button:hover{
+    background-color: #7f6aee;
 }
 
 .post-header {

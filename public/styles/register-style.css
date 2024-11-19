@@ -90,10 +90,7 @@ body {
     margin: 0 auto;
 }
 
-.container button[type="submit"]:hover,
-#registerBtn:hover {
-    opacity: 0.9;
-}
+
 
 
 

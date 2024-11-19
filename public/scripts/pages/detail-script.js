@@ -140,27 +140,30 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     document.getElementById('likeBtn').addEventListener('click',async()=>{
         const likeButton=document.getElementById('likeBtn');
-        const likeCnt = document.getElementById('likeCnt');
-        
-        if(!liked){
-        
-        let currentLikes = parseInt(likeCnt.textContent, 10);
-        currentLikes += 1;
-        likeCnt.textContent = currentLikes;
-        liked=true;
-        try{
-            const result = await updatePostLikes(post_id);
-            if(!result.success){
-                throw new Error('좋아요 실패');
+    
+        try {
+            const postData = await fetchPostDetails(post_id); 
+            let likeCnt= postData.likes_count;
+            if(!liked){
+                likeCnt++;
+                liked=true;
+                try{
+                    const result = await updatePostLikes(post_id);
+                    if(!result.success){
+                        throw new Error('좋아요 실패');
+                    }
+                } catch(error){
+                    console.error('좋아요 클릭 오류:',error);
+                }
             }
-        } catch(error){
-            console.error('좋아요 클릭 오류:',error);
+        } catch (error) {
+            console.error(error);
+            alert('게시글 불러오기 실패하였습니다.');
         }
-    }
+        });
     
     })
 
-});
     
 
 
