@@ -1,4 +1,4 @@
-import { registerUser } from "../api/api.js";
+import { registerUser,checkEmailExists, checkNicknameExists } from "../api/api.js";
 import { validateProfile, validateEmail, validatePassword, validateConfirmPassword, validateNickname } from '../utils/validators.js';
 
 
@@ -6,6 +6,14 @@ const profileImageInput = document.getElementById('profileImage');
 const profileCanvas = document.getElementById('profileCanvas');
 const ctx = profileCanvas.getContext('2d');
 let resizedImageBlob;
+
+const formValidity = {
+    profile: false,
+    email: false,
+    password: false,
+    confirmPassword: false,
+    nickname: false,
+};
 
 profileImageInput.addEventListener('change', function() {
     const file = this.files[0];
@@ -50,55 +58,12 @@ profileImageInput.addEventListener('change', function() {
 });
 
 
-
-
 document.getElementById('registerForm').addEventListener('submit',async (e)=>{
     e.preventDefault();
-   
-    const profile = document.getElementById('profileImage').value;
-    const email = document.getElementById('useremail').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const nickname = document.getElementById('nickname').value;
-    
-
-    const profileHelper = document.getElementById('profileHelper');
-    const emailHelper = document.getElementById('emailHelper');
-    const passwordHelper = document.getElementById('passwordHelper');
-    const confirmPasswordHelper = document.getElementById('confirmPasswordHelper');
-    const nicknameHelper = document.getElementById('nicknameHelper');
-
-    profileHelper.textContent="";
-    emailHelper.textContent = "";
-    passwordHelper.textContent = "";
-    confirmPasswordHelper.textContent = "";
-    nicknameHelper.textContent = "";
-
-  
-   
-    let isValid=true;
-
-
-    isValid = validateProfile(profile,profileHelper) && isValid;
-    isValid = validateEmail(email,emailHelper) && isValid;
-    isValid = validatePassword(password,passwordHelper) && isValid;
-    isValid = validateConfirmPassword(password,confirmPassword,confirmPasswordHelper) && isValid;
-    isValid = validateNickname(nickname,nicknameHelper) && isValid;
-
-
-    if(isValid){
     const formData = new FormData(document.getElementById('registerForm'));
-
     try{
         
         const response = await registerUser(formData);
-        if(response.result==="email"){
-            emailHelper.textContent = "*중복된 이메일입니다.";
-            emailHelper.style.visibility = "visible";
-        } else if (response.result==="nickname"){
-            nicknameHelper.textContent = "*중복된 닉네임입니다.";
-            nicknameHelper.style.visibility = "visible";
-        } 
 
         console.log(response.message);
         if(response.success){
@@ -108,36 +73,86 @@ document.getElementById('registerForm').addEventListener('submit',async (e)=>{
         console.error('Error:',error);
         alert('서버 오류 발생');
     }
-    }
 })
 
-document.getElementById('profileImage').addEventListener('input',(e)=>{
+
+
+
+function updateRegisterButton() {
+    const allValid = Object.values(formValidity).every((isValid) => isValid);
+    const registerButton = document.getElementById('registerBtn');
+
+    if (allValid) {
+        registerButton.style.background = '#7F6AEE';
+        registerButton.disabled = false;
+    } else {
+        registerButton.style.background = '#ACA0EB';
+        registerButton.disabled = true;
+    }
+}
+
+
+document.getElementById('profileImage').addEventListener('input', (e) => {
     const profile = e.target.value;
     const profileHelper = document.getElementById('profileHelper');
-    validateProfile(profile,profileHelper);
+    formValidity.profile = validateProfile(profile, profileHelper);
+    updateRegisterButton();
 });
 
-document.getElementById('useremail').addEventListener('input',(e)=>{
+document.getElementById('useremail').addEventListener('input', async (e) => {
     const email = e.target.value;
     const emailHelper = document.getElementById('emailHelper');
-    validateEmail(email,emailHelper);
+    const isValid = validateEmail(email, emailHelper);
+    formValidity.email = isValid;
+
+    if (isValid) {
+        try {
+            const response = await checkEmailExists(email);
+            if (response.success) {
+                emailHelper.textContent = "*중복된 이메일입니다.";
+                emailHelper.style.visibility = "visible";
+                formValidity.email = false;
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('서버 오류 발생');
+        }
+    }
+    updateRegisterButton();
 });
 
-document.getElementById('password').addEventListener('input',(e)=>{
+document.getElementById('password').addEventListener('input', (e) => {
     const password = e.target.value;
     const passwordHelper = document.getElementById('passwordHelper');
-    validatePassword(password,passwordHelper);
+    formValidity.password = validatePassword(password, passwordHelper);
+    updateRegisterButton();
 });
 
-document.getElementById('confirmPassword').addEventListener('input',(e)=>{
-    const password= document.getElementById('password').value;
+document.getElementById('confirmPassword').addEventListener('input', (e) => {
+    const password = document.getElementById('password').value;
     const confirmPassword = e.target.value;
     const confirmPasswordHelper = document.getElementById('confirmPasswordHelper');
-    validateConfirmPassword(password,confirmPassword,confirmPasswordHelper);
+    formValidity.confirmPassword = validateConfirmPassword(password, confirmPassword, confirmPasswordHelper);
+    updateRegisterButton();
 });
 
-document.getElementById('nickname').addEventListener('input',(e)=>{
+document.getElementById('nickname').addEventListener('input', async (e) => {
     const nickname = e.target.value;
     const nicknameHelper = document.getElementById('nicknameHelper');
-    validateNickname(nickname,nicknameHelper);
+    const isValid = validateNickname(nickname, nicknameHelper);
+    formValidity.nickname = isValid;
+
+    if (isValid) {
+        try {
+            const response = await checkNicknameExists(nickname);
+            if (response.success) {
+                nicknameHelper.textContent = "*중복된 닉네임입니다.";
+                nicknameHelper.style.visibility = "visible";
+                formValidity.nickname = false;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    updateRegisterButton();
 });

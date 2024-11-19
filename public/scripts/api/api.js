@@ -36,16 +36,12 @@ export async function checkLogin(email, password) {
 
 export async function checkEmailExists(email) {
     try {
-        const response = await fetch(`${BASE_URL}/users/email/check?email=${email}`,{
+        const encodedEmail = encodeURIComponent(email);
+        const response = await fetch(`${BASE_URL}/users/email/check?email=${encodedEmail}`,{
             method : 'GET',
             credentials: 'include'
         });
-        if (!response.ok) {
-            throw new Error('서버 응답 오류');
-        }
-        const data = await response.json();
-        console.log(data);
-        return data.isDuplicated;
+        return response.json();
     } catch (error) {
         console.error('이메일 중복 확인 중 오류 발생:', error);
         return true; 
@@ -59,11 +55,7 @@ export async function checkNicknameExists(nickname) {
             method: 'GET',
             credentials: 'include'
         });
-        if (!response.ok) {
-            throw new Error('서버 응답 오류');
-        }
-        const data = await response.json();
-        return data.isDuplicated;
+        return response.json();
     } catch (error) {
         console.error('닉네임 중복 확인 중 오류 발생:', error);
         return true; 
