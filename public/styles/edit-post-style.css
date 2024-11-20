@@ -108,14 +108,8 @@ body {
     margin: 0 auto;
 }
 
-.container button:hover{
-    background-color: #7f6aee;
-}
 
-.container button[type="submit"]:hover,
-#registerBtn:hover {
-    opacity: 0.9;
-}
+
 
 .container textarea{
     width: 100%;
