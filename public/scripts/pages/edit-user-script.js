@@ -49,6 +49,7 @@ window.addEventListener('DOMContentLoaded', async() => {
 
                 profileImage = new File([blob], 'profile.jpg', { type: blob.type });
             }
+            
             const profileHelper = document.getElementById('profileHelper');
             const nicknameHelper = document.getElementById('nicknameHelper');
              
