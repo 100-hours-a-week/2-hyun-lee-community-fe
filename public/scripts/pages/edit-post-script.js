@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const result = await updatePost(formData,post_id);
             if(result.success){
-                //window.location.href=`/public/detail-post.html?post_id=${post_id}`;
+                window.location.href=`/public/detail-post.html?post_id=${post_id}`;
             } else{
                 window.location.href=`/public/edit-post.html?post_id=${post_id}`;
                 }

@@ -107,8 +107,17 @@ body {
     display: block;
     margin: 0 auto;
 }
+#deleteImage {
+    bottom: 16%;
+    right: 44%;
+    position: absolute;
+}
 
-
+label[for="deleteImage"] {
+   display: flex;
+   margin-top: 9px;
+   font-size: 14px;
+}
 
 
 .container textarea{

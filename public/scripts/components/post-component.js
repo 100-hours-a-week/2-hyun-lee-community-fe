@@ -32,7 +32,6 @@ export function renderPosts(posts){
 export function renderDetailsPost(post,user_id){
     const postContainer = document.getElementById('container');
     const isOwner = post.user_id === user_id;
-    console.log(isOwner);
 
     const editButtons = isOwner ? `   <span class="work-post">
                 <button class="modify-post-button">수정</button>
@@ -54,7 +53,7 @@ export function renderDetailsPost(post,user_id){
         </div>
         <div class="post-details">
             <div class="post-image">
-                <img src="${BASE_URL}/${post.page_image}" alt="본문 이미지">
+                <img src="${BASE_URL}/${post.page_image}" >
             </div>
         </div>
         <div class="post-content">
@@ -96,10 +95,8 @@ export function renderEditPost(post){
                   <div class="post-image">
                     <input type="file" id="postImage" name="postImage" accept="image/*" style="display: none;">
                     <button type="button" id="uploadButton">파일 선택</button>
-                    <span id="fileName">${post.page_image ? post.page_image.match(/[^-]+$/)[0]:"이미지를 선택하세요."}</span>
+                    <span id="fileName">${post.page_image ? post.page_image.match(/[^-]+$/)[0] : "이미지를 선택하세요."}</span>
                     <input type="hidden" name="existingImage" value="기존파일명.jpg">
-                  </div>
-                  <div>
                      <input type="checkbox" id="deleteImage" name="deleteImage">
                      <label for="deleteImage">이미지 삭제</label>
                   </div>
