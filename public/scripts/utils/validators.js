@@ -1,9 +1,9 @@
 export function validateEmail(email,emailHelper){
     if (!email) {
-        emailHelper.textContent = '*올바른 이메일 주소 형식을 입력해주세요. (예: example@example.com)';
+        emailHelper.textContent = '*이메일을 입력해주세요.';
         emailHelper.style.visibility = 'visible';
         return false;
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    } else if (!/^[a-zA-Z]+@[a-zA-Z]+\.[a-zA-Z]+$/.test(email)) {
         emailHelper.textContent = '*올바른 이메일 주소 형식을 입력해주세요. (예: example@example.com)';
         emailHelper.style.visibility = 'visible';
         return false;
