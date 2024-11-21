@@ -111,7 +111,7 @@ document.getElementById('useremail').addEventListener('input', async (e) => {
     if (isValid) {
         try {
             const response = await checkEmailExists(email);
-            if (response.success) {
+            if (!response.success) {
                 emailHelper.textContent = "*중복된 이메일입니다.";
                 emailHelper.style.visibility = "visible";
                 formValidity.email = false;
@@ -148,7 +148,7 @@ document.getElementById('nickname').addEventListener('input', async (e) => {
     if (isValid) {
         try {
             const response = await checkNicknameExists(nickname);
-            if (response.success) {
+            if (!response.success) {
                 nicknameHelper.textContent = "*중복된 닉네임입니다.";
                 nicknameHelper.style.visibility = "visible";
                 formValidity.nickname = false;
