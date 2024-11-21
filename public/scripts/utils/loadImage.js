@@ -9,16 +9,23 @@ export function loadImageToCanvas(userInfo) {
 
     img.onload = function() {
         ctx.clearRect(0, 0, profileCanvas.width, profileCanvas.height);
+        ctx.globalAlpha = 0.7;
         ctx.drawImage(img, 0, 0, profileCanvas.width, profileCanvas.height);
+        ctx.globalAlpha = 1.0;
     };
+
+    return img;
 }
 
 
 
-export function setupProfileImageChange() {
+export function setupProfileImageChange(userInfo) {
     const profileImageInput = document.getElementById('profileImage');
     const profileCanvas = document.getElementById('profileCanvas');
     const ctx = profileCanvas.getContext('2d');
+
+    let lastUploadedImage = loadImageToCanvas(userInfo); 
+
 
     profileImageInput.addEventListener('change', function() {
         const file = this.files[0];
@@ -52,6 +59,11 @@ export function setupProfileImageChange() {
             };
 
             reader.readAsDataURL(file);
+        } else if (lastUploadedImage) {
+            ctx.clearRect(0, 0, profileCanvas.width, profileCanvas.height);
+            ctx.globalAlpha = 0.7;
+            ctx.drawImage(lastUploadedImage, 0, 0, profileCanvas.width, profileCanvas.height);
+            ctx.globalAlpha = 1.0;
         }
     });
 }

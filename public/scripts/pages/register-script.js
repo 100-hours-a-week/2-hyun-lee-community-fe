@@ -1,6 +1,6 @@
 import { registerUser,checkEmailExists, checkNicknameExists } from "../api/api.js";
 import { validateProfile, validateEmail, validatePassword, validateConfirmPassword, validateNickname } from '../utils/validators.js';
-
+//import { loadImage } from "../utils/format-count.js"
 
 const profileImageInput = document.getElementById('profileImage');
 const profileCanvas = document.getElementById('profileCanvas');
@@ -14,6 +14,8 @@ const formValidity = {
     confirmPassword: false,
     nickname: false,
 };
+
+
 
 profileImageInput.addEventListener('change', function() {
     const file = this.files[0];
@@ -47,13 +49,12 @@ profileImageInput.addEventListener('change', function() {
                 ctx.drawImage(img, 0, 0, drawWidth, drawHeight);
 
                 
-                profileCanvas.toBlob((blob) => {
-                    resizedImageBlob = blob;
-                }, 'image/png');
             };
         };
 
         reader.readAsDataURL(file);
+    } else {
+        ctx.clearRect(0, 0, profileCanvas.width, profileCanvas.height);
     }
 });
 

@@ -34,7 +34,7 @@ window.addEventListener('DOMContentLoaded', async() => {
 
         editUser(userInfo);
         loadImageToCanvas(userInfo);
-        setupProfileImageChange();
+        setupProfileImageChange(userInfo);
         
         
         document.getElementById('userForm').addEventListener('submit',async (e)=>{
