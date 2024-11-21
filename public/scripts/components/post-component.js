@@ -6,6 +6,7 @@ export function renderPosts(posts){
     const postTableBody = document.getElementById('postTableBody');
     postTableBody.innerHTML='';
     posts.forEach(post => {
+        console.log("page",post.profile);
         const newRow=document.createElement('tr');
         newRow.className = 'post-item'; 
         newRow.innerHTML=`
@@ -17,7 +18,7 @@ export function renderPosts(posts){
                     <span class="post-date">${formatDate(post.create_at)}</span>
                 </div>
                 <div class="post-footer">
-                    <img class="author-avatar" src=${BASE_URL}/${post.profile}></img>
+                    <img class="author-avatar" src="${BASE_URL}/${post.profile}"></img>
                     <span class="author-name">${post.nickname}</span>
                 </div>
         `;
@@ -32,7 +33,6 @@ export function renderPosts(posts){
 export function renderDetailsPost(post,user_id){
     const postContainer = document.getElementById('container');
     const isOwner = post.user_id === user_id;
-
     const editButtons = isOwner ? `   <span class="work-post">
                 <button class="modify-post-button">수정</button>
                 <button class="delete-post-button">삭제</button>
@@ -44,7 +44,7 @@ export function renderDetailsPost(post,user_id){
         <div class="post-header">
             <div class="post-footer">
                 <div class="author-avatar">
-                 <img class="author-avatar" src=${BASE_URL}/${post.profile}></img>
+                 <img class="author-avatar" src="${BASE_URL}/${post.profile}"></img>
                  </div>
                 <span class="author-name">${post.nickname}</span>
                 <span class="post-date">${formatDate(post.create_at)}</span>

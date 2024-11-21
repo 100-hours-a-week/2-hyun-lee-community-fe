@@ -46,8 +46,10 @@ window.addEventListener('DOMContentLoaded', async() => {
             if(!profileImage){
                 const response = await fetch(`${BASE_URL}/${userInfo.profile}`);
                 const blob = await response.blob();
+                const fileName = userInfo.profile.match(/[^-]+$/)[0];
+                console.log("filename",fileName);
 
-                profileImage = new File([blob], 'profile.jpg', { type: blob.type });
+                profileImage = new File([blob], fileName, { type: blob.type });
             }
             
             const profileHelper = document.getElementById('profileHelper');

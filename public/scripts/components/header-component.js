@@ -2,6 +2,8 @@ const BASE_URL ='http://localhost:3000';
 
 export function headerComponent(userInfo,showBackButton = false){
     const userProfile=userInfo.profile;
+    console.log("user",userInfo);
+    console.log("header",userProfile);
     const topContainer = document.querySelector('.top');
     topContainer.innerHTML=` <h1 class="top-title">아무말 대잔치</h1>
       ${showBackButton ? `<button class="back-button" onclick="history.back()|| '/public/board.html'">&#60;</button>` : ''}
