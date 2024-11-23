@@ -106,10 +106,12 @@ body {
     cursor: pointer;
     display: block;
     margin: 0 auto;
+    top: 30px;
+    position: relative;
 }
 #deleteImage {
-    bottom: 16%;
-    right: 44%;
+    top: 81%;
+    right: 64%;
     position: absolute;
 }
 

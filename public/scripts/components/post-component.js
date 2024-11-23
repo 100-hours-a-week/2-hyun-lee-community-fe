@@ -97,8 +97,7 @@ export function renderEditPost(post){
                     <button type="button" id="uploadButton">파일 선택</button>
                     <span id="fileName">${post.page_image ? post.page_image.match(/[^-]+$/)[0] : "이미지를 선택하세요."}</span>
                     <input type="hidden" name="existingImage" value="기존파일명.jpg">
-                     <input type="checkbox" id="deleteImage" name="deleteImage">
-                     <label for="deleteImage">이미지 삭제</label>
+                     <button type="button" id="deleteImage">이미지 삭제</button>
                   </div>
             </div>
             <button type="submit">수정하기</button>
