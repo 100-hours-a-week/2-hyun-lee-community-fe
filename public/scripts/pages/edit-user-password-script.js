@@ -6,6 +6,30 @@ const result = await getUserProfile();
 const userInfo=result.userInfo;
 const user_id=userInfo.user_id;
 
+
+document.getElementById('password').addEventListener('input', (e) => {
+    const password = e.target.value;
+    const passwordHelper = document.getElementById('passwordHelper');
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const confirmPasswordHelper = document.getElementById('confirmPasswordHelper');
+
+    validatePassword(password, passwordHelper);
+    if (confirmPassword) {
+        validateConfirmPassword(password, confirmPassword, confirmPasswordHelper);
+    }
+    validatePassword(password, passwordHelper);
+});
+
+document.getElementById('confirmPassword').addEventListener('input', (e) => {
+    const password = document.getElementById('password').value;
+    const confirmPassword = e.target.value;
+    const confirmPasswordHelper = document.getElementById('confirmPasswordHelper');
+    validateConfirmPassword(password, confirmPassword, confirmPasswordHelper);
+});
+
+
+
+
 document.getElementById('passwordForm').addEventListener('submit',async (e)=>{
     
     e.preventDefault();

@@ -127,7 +127,13 @@ document.getElementById('useremail').addEventListener('input', async (e) => {
 document.getElementById('password').addEventListener('input', (e) => {
     const password = e.target.value;
     const passwordHelper = document.getElementById('passwordHelper');
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    const confirmPasswordHelper = document.getElementById('confirmPasswordHelper');
+
     formValidity.password = validatePassword(password, passwordHelper);
+    if (confirmPassword) {
+        formValidity.confirmPassword = validateConfirmPassword(password, confirmPassword, confirmPasswordHelper);
+    }
     updateRegisterButton();
 });
 
