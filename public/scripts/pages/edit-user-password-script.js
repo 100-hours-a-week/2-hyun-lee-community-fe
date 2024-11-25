@@ -58,7 +58,7 @@ document.getElementById('passwordForm').addEventListener('submit',async (e)=>{
        
         try{
                const result = await updateUserPassword(formData);
-               //alert(result.message);
+               alert(result.message);
                //window.location.href='/user/${user_id}';
             } catch(error){
                 console.error('Error:',error);

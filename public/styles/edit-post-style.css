@@ -110,9 +110,9 @@ body {
     position: relative;
 }
 #deleteImage {
-    top: 81%;
-    right: 64%;
-    position: absolute;
+    top: 24px;
+    right: 207px;
+    position: relative;
 }
 
 label[for="deleteImage"] {
