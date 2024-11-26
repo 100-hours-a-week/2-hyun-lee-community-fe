@@ -62,6 +62,19 @@ export async function checkNicknameExists(nickname) {
     }
 }
 
+export async function checkNicknameExistsForUpdate(nickname,user_id) {
+    try {
+        const response = await fetch(`${BASE_URL}/users/nickname/update/check?nickname=${nickname}&user_id=${user_id}`,{
+            method: 'GET',
+            credentials: 'include'
+        });
+        return response.json();
+    } catch (error) {
+        console.error('닉네임 중복 확인 중 오류 발생:', error);
+        return true; 
+    }
+}
+
 
 export async function registerUser(formData) {
     const response = await fetch(`${BASE_URL}/users/register`, {
@@ -154,10 +167,7 @@ export async function createPost(formData){
     });
     return response.json();
 }
-/*
-여기서부터 다시 하기
-formdata 말고 post_id도 파라미터로 전달할수있도록
-*/
+
 
 export async function updatePost(formData,post_id) {
     const response = await fetch(`${BASE_URL}/posts/update/${post_id}`,{

@@ -28,7 +28,7 @@ export function editUser(userData){
                 <input type="text" id="nickname" class="input-field2" value="${userData.nickname}">
                 <p class="helper-text" id="nicknameHelper">*helper text</p>
             </div>
-            <button type="submit" id="editBtn">수정하기</button>
+            <button type="submit" id="editBtn" >수정하기</button>
         </div>
     </form>
     <button type="button" id="withdrawBtn">회원탈퇴</button>

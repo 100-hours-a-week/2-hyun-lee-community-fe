@@ -1,6 +1,6 @@
 import { editUser } from '../components/user-component.js';
 import { validateNickname, validateProfile } from '../utils/validators.js'
-import { getUserProfile,updateUserProfile,deleteUserComments,deleteUserPosts,deleteUserAccount } from "../api/api.js";
+import { getUserProfile,updateUserProfile,deleteUserComments,deleteUserPosts,deleteUserAccount, checkNicknameExistsForUpdate } from "../api/api.js";
 import { createModal, openModal, closeModal } from '../components/modal-component.js';
 import { loadImageToCanvas, setupProfileImageChange } from '../utils/loadImage.js';
 
@@ -36,11 +36,36 @@ window.addEventListener('DOMContentLoaded', async() => {
         loadImageToCanvas(userInfo);
         setupProfileImageChange(userInfo);
         
+
+        document.getElementById('nickname').addEventListener('input', async (e) => {
+            const nickname = e.target.value;
+            const nicknameHelper = document.getElementById('nicknameHelper');
+
+            const isValid = validateNickname(nickname,nicknameHelper);
+
+            if (!isValid) {
+                updateEditButton(false);
+                return;
+            }
+            try {
+                    const response = await checkNicknameExistsForUpdate(nickname,user_id);
+                    if (!response.success) {
+                        nicknameHelper.textContent = "*중복된 닉네임입니다.";
+                        nicknameHelper.style.visibility = "visible";
+                        updateEditButton(false);
+                    } else {
+                        updateEditButton(true);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('서버 오류 발생');
+                }
+            
+        });
         
         document.getElementById('userForm').addEventListener('submit',async (e)=>{
             e.preventDefault();
-            
-            const nickname=document.getElementById('nickname').value;
+            const nickname = document.getElementById('nickname').value;
             let profileImage = document.getElementById('profileImage').files[0];
         
             if(!profileImage){
@@ -53,22 +78,11 @@ window.addEventListener('DOMContentLoaded', async() => {
             }
             
             const profileHelper = document.getElementById('profileHelper');
-            const nicknameHelper = document.getElementById('nicknameHelper');
-             
-            
+               
             let isValid=true;
         
             isValid = validateProfile(profileImage,profileHelper) && isValid;
-            isValid=validateNickname(nickname,nicknameHelper) && isValid;
         
-            
-            // if (isValid && !await isNicknameDuplicated(nickname)) {
-            //     nicknameHelper.style.visibility = "hidden";
-            // } else {
-            //     nicknameHelper.textContent = '*중복된 닉네임입니다.';
-            //     nicknameHelper.style.visibility = "visible";
-            //     isValid = false;
-            // }
 
         
             if(isValid){
@@ -125,7 +139,7 @@ window.addEventListener('DOMContentLoaded', async() => {
                     }
                     
                     closeModal(modal);
-                    window.location.href = '/public/login.html';
+                    window.location.href = 'login';
                 } catch (error) {
                     console.error(error);
                     alert('회원탈퇴에 실패했습니다.');
@@ -136,3 +150,18 @@ window.addEventListener('DOMContentLoaded', async() => {
 });
 
 
+
+
+function updateEditButton(isEnabled) {
+    const editBtn = document.getElementById('editBtn');
+    if (isEnabled) {
+        editBtn.style.backgroundColor = '#7F6AEE';
+        editBtn.disabled = false;
+        editBtn.style.cursor='pointer';
+    } else {
+        editBtn.style.backgroundColor = '#ACA0EB';
+        editBtn.disabled = true;
+        editBtn.style.cursor = 'not-allowed';
+        
+    }
+}
