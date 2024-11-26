@@ -11,13 +11,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   
     const postData= await fetchPostDetails(post_id);
     
-    renderEditPost(postData.post);
+
+    renderEditPost(postData.posts[0]);
 
     const uploadButton = document.getElementById('uploadButton');
     const fileNameSpan = document.getElementById('fileName');
     const deleteImage = document.getElementById('deleteImage');
     const fileInput = document.getElementById('postImage');
-    const existingFilePath = postData.post.page_image;
+    const existingFilePath = postData.posts[0].page_image;
     console.log("ex",existingFilePath);
     let fileName;
 
@@ -77,9 +78,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const result = await updatePost(formData,post_id);
             if(result.success){
-                window.location.href=`/public/detail-post.html?post_id=${post_id}`;
+                window.location.href=`detail-post?post_id=${post_id}`;
             } else{
-                window.location.href=`/public/edit-post.html?post_id=${post_id}`;
+                window.location.href=`edit-post?post_id=${post_id}`;
                 }
         } catch(error){
             console.error('Error:',error);

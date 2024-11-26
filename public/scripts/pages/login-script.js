@@ -13,13 +13,13 @@ document.getElementById('password').addEventListener('input', handlePasswordInpu
 
 
 document.getElementById('registerBtn').addEventListener('click', () => {
-    window.location.href = '/public/register.html'; 
+    window.location.href = 'register'; 
 });
 
 
 document.getElementById('login').addEventListener('submit', async(e) => {
     e.preventDefault();
-    window.location.href='/public/board.html';
+    window.location.href='board';
 });
 
 

@@ -2,6 +2,8 @@ import { formatDate } from "../utils/format-date.js";
 
 const BASE_URL ='http://localhost:3000';
 export function addCommentToList(commentData, user_id){
+    console.log("cd",commentData);
+
     const commentList = document.getElementById('commentList');
     const newComment = document.createElement('div');
     newComment.classList.add('comment-author');
@@ -20,7 +22,7 @@ export function addCommentToList(commentData, user_id){
         <div class="comment-details" data-comment-id=${commentData.comment_id}>
             <span class="author-name">${commentData.nickname}</span>
             <span class="comment-date">${formatDate(commentData.create_at)}</span>
-            <p class="comment-content">${commentData.content}</p>
+            <p class="comment-content">${commentData.comment_content}</p>
              ${editButtons}
         </div>
     `;

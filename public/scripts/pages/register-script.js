@@ -68,7 +68,7 @@ document.getElementById('registerForm').addEventListener('submit',async (e)=>{
 
         console.log(response.message);
         if(response.success){
-            window.location.href = '/public/login.html';
+            window.location.href = 'login';
         } 
     } catch(error){
         console.error('Error:',error);

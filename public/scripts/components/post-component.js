@@ -24,7 +24,7 @@ export function renderPosts(posts){
         `;
         postTableBody.appendChild(newRow);
         newRow.querySelector('.post-header').addEventListener('click', () => {
-            window.location.href = `/public/detail-post.html?post_id=${post.post_id}`;
+            window.location.href = `/detail-post?post_id=${post.post_id}`;
         });
         
     });
@@ -97,8 +97,8 @@ export function renderEditPost(post){
                     <button type="button" id="uploadButton">파일 선택</button>
                     <span id="fileName">${post.page_image ? post.page_image.match(/[^-]+$/)[0] : "이미지를 선택하세요."}</span>
                     <input type="hidden" name="existingImage" value="기존파일명.jpg">
-                     <button type="button" id="deleteImage">이미지 삭제</button>
                   </div>
+                  <button type="button" id="deleteImage">이미지 삭제</button>
             </div>
             <button type="submit">수정하기</button>
         </form>

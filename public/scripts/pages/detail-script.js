@@ -4,39 +4,6 @@ import { createModal, openModal, closeModal } from '../components/modal-componen
 import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, updatePostLikes, updatePostCommentsCount, updateComment } from '../api/api.js';
 
 
-//더미 데이터
-const dummyPost = {
-    post_id: 1,
-    page_title: "더미 게시글 제목",
-    nickname: "작성자",
-    create_at: "2024-11-08T12:00:00Z",
-    page_image: "https://via.placeholder.com/150",
-    page_content: "이것은 더미 게시글 내용입니다.",
-    likes_count: 10,
-    view_count: 100,
-    comment_count: 5
-};
-
-const dummyComments = [
-    {
-        comment_id: 1,
-        user_id: 1,
-        nickname: "사용자1",
-        create_at: "2024-11-08T12:30:00Z",
-        content: "첫 번째 더미 댓글입니다.",
-        profile: "https://via.placeholder.com/36"
-    },
-    {
-        comment_id: 2,
-        user_id: 2,
-        nickname: "사용자2",
-        create_at: "2024-11-08T13:00:00Z",
-        content: "두 번째 더미 댓글입니다.",
-        profile: "https://via.placeholder.com/36"
-    }
-];
-
-
 
 let isEditing = false; 
 let editingCommentId = null; 
@@ -49,15 +16,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         
         const postData = await fetchPostDetails(post_id); 
-        console.log(postData);
-        renderDetailsPost(postData.post,postData.user_id); 
+        renderDetailsPost(postData.posts[0],postData.user_id); 
      
-         const results = await fetchComments(post_id);
-   
-         const user_id=results.user_id
-         console.log("uuu",results);
-         results.comment.forEach(c=> addCommentToList(c,user_id)); 
-
+        const results = await fetchComments(post_id);
+        
+    
+        const user_id=results.user_id
+        results.comments.forEach(c=> addCommentToList(c,user_id)); 
+        
         document.querySelectorAll('.delete-comment-button').forEach(button => {
             button.addEventListener('click', () => {
                 const comment_id = button.closest('.comment-details').getAttribute('data-comment-id');
@@ -72,9 +38,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 confirmButton.addEventListener('click', async () => {
                     try {
                        
-                       await deleteComment(post_id, comment_id);
+                       const result = await deleteComment(post_id, comment_id);
+                       if(result.success){
                         closeModal(modal);
                         document.querySelector(`.comment-details[data-comment-id="${comment_id}"]`).parentElement.remove();
+                        window.location.href = `/detail-post?post_id=${post_id}`;
+                       }
                     } catch (error) {
                         console.error(error);
                         alert('댓글 삭제에 실패했습니다.');
@@ -100,7 +69,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 try {
                     const result = await deletePost(post_id);
                     closeModal(modal);
-                    window.location.href = '/public/board.html';
+                    window.location.href = 'board';
                 } catch (error) {
                     console.error(error);
                     alert('게시글 삭제에 실패했습니다.');
@@ -108,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
             });
             modifyButton.addEventListener('click', () => {     
-            window.location.href = `/public/edit-post.html?post_id=${post_id}`;
+            window.location.href = `/edit-post?post_id=${post_id}`;
                 });
         }
 
@@ -185,9 +154,9 @@ document.getElementById('comment-submit').addEventListener('click', async () => 
         console.log(result);
         if(result.success){
             document.getElementById('commentInput').value = ''; 
-            addCommentToList(result.comment, result.user_id);
-            await updatePostCommentsCount(post_id);
-            window.location.href = `/public/detail-post.html?post_id=${post_id}`;
+            addCommentToList(result.comment, result.comment.user_id);
+            //await updatePostCommentsCount(post_id);
+            window.location.href = `/detail-post?post_id=${post_id}`;
         } else {
             alert(result.message);
         }
@@ -202,7 +171,7 @@ document.getElementById('comment-submit').addEventListener('click', async () => 
             console.log(result);
             if(result.success){
                 document.getElementById('commentInput').value = ''; 
-                window.location.href = `/public/detail-post.html?post_id=${post_id}`;
+                window.location.href = `/detail-post?post_id=${post_id}`;
             } else {
                 alert(result.message);
             }

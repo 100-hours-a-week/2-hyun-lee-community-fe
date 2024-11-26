@@ -61,10 +61,11 @@ document.getElementById('postForm').addEventListener('submit',async (e)=>{
     }
     try{
         const result = await createPost(formData);
+        console.log("result",result);
            if(result.success){
-           window.location.href='/public/board.html';
+           window.location.href='board';
          } else{
-             window.location.href='/public/create-post.html'
+             window.location.href='create-post'
              }
     } catch(error){
         console.error('Error:',error);

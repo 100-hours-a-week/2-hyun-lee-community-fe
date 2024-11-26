@@ -19,17 +19,17 @@ document.addEventListener('click', (event) => {
     }
 });
 editUserBtn.addEventListener('click', () => {
-    window.location.href = '/public/edit-user.html';
+    window.location.href = 'edit-user';
 });
 
 editPasswordBtn.addEventListener('click', () => {
-    window.location.href = '/public/edit-user-password.html'; 
+    window.location.href = 'edit-user-password'; 
 });
 
 logoutBtn.addEventListener('click', async() => {
     const result= await logout();
     if(result.success){
-        window.location.href = '/public/login.html';
+        window.location.href = 'login';
     } else{
         alert(result.message);
     }
