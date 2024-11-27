@@ -10,6 +10,7 @@ document.getElementById('createBtn').addEventListener('click', () => {
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         const result = await fetchPosts();
+        console.log("result: ",result);
         if(Array.isArray(result.posts) && result.posts.length !== 0){
             renderPosts(result.posts); 
         }
