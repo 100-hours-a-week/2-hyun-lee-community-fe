@@ -1,7 +1,7 @@
 import { renderDetailsPost } from '../components/post-component.js';
 import { addCommentToList } from '../components/comment-component.js';
 import { createModal, openModal, closeModal } from '../components/modal-component.js';
-import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, updatePostLikes, updatePostCommentsCount, updateComment } from '../api/api.js';
+import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, updatePostLikes, updatePostCommentsCount, updateComment, updatePostViews, getLikeStatus} from '../api/api.js';
 
 
 
@@ -11,12 +11,29 @@ let editingCommentId = null;
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const post_id = urlParams.get('post_id');
-    let liked=false;
+    let likeBtn;
+    let likeCntSpan;
+
+    let currentUserId;
 
     try {
         
-        const postData = await fetchPostDetails(post_id); 
+        const postData = await fetchPostDetails(post_id);
+        currentUserId=postData.user_id;
+
+        await updatePostViews(post_id); 
         renderDetailsPost(postData.posts[0],postData.user_id); 
+
+        likeBtn = document.getElementById('likeBtn');
+        likeCntSpan = document.getElementById('likeCnt');
+
+    
+        const result = await getLikeStatus(post_id);
+
+        if (result.success && result.isLiked) {
+            likeBtn.classList.add('liked'); 
+        }
+
      
         const results = await fetchComments(post_id);
         
@@ -108,30 +125,32 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 
     document.getElementById('likeBtn').addEventListener('click',async()=>{
-        const likeButton=document.getElementById('likeBtn');
-    
-        try {
-            const postData = await fetchPostDetails(post_id); 
-            let likeCnt= postData.likes_count;
-            if(!liked){
-                likeCnt++;
-                liked=true;
-                try{
-                    const result = await updatePostLikes(post_id);
+       
+        let likeCount = parseInt(likeCntSpan.textContent, 10); 
+        const liked = likeBtn.classList.contains('liked'); 
+
+        if (liked) {
+            likeCount -= 1; 
+            likeBtn.classList.remove('liked');
+        } else {
+            likeCount += 1; 
+            likeBtn.classList.add('liked');
+        }
+        likeCntSpan.textContent = likeCount;
+
+            
+            try{
+                const result = await updatePostLikes(post_id,currentUserId);
                     if(!result.success){
                         throw new Error('좋아요 실패');
                     }
                 } catch(error){
                     console.error('좋아요 클릭 오류:',error);
                 }
-            }
-        } catch (error) {
-            console.error(error);
-            alert('게시글 불러오기 실패하였습니다.');
-        }
-        });
-    
-    })
+            
+            })
+})
+
 
     
 
@@ -151,7 +170,6 @@ document.getElementById('comment-submit').addEventListener('click', async () => 
     try {
         
         const result = await addComment(post_id, commentContent);
-        console.log(result);
         if(result.success){
             document.getElementById('commentInput').value = ''; 
             addCommentToList(result.comment, result.comment.user_id);
@@ -168,7 +186,6 @@ document.getElementById('comment-submit').addEventListener('click', async () => 
         try {
         
             const result = await updateComment(post_id,editingCommentId, commentContent);
-            console.log(result);
             if(result.success){
                 document.getElementById('commentInput').value = ''; 
                 window.location.href = `/detail-post?post_id=${post_id}`;

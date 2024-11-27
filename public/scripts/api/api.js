@@ -152,11 +152,20 @@ export async function fetchPosts(){
 
 export async function fetchPostDetails(post_id){
     const response = await fetch(`${BASE_URL}/posts/${post_id}`,{
+        method:'GET',
+        credentials: 'include'
+    });
+    return response.json();
+}
+
+export async function updatePostViews(post_id){
+    const response = await fetch(`${BASE_URL}/posts/${post_id}`,{
         method:'PATCH',
         credentials: 'include'
     });
     return response.json();
 }
+
 
 
 export async function createPost(formData){
@@ -187,11 +196,17 @@ export async function deletePost(post_id){
     return response.json();
 }   
 
+export async function getLikeStatus(post_id){
+    const response = await fetch(`${BASE_URL}/likes/status/${post_id}`,{
+        method:'GET',
+        credentials: 'include'
+    });
+    return response.json();
+}
 
 
-
-export async function updatePostLikes(post_id){
-    const response = await fetch(`${BASE_URL}/posts/likes/${post_id}`,{
+export async function updatePostLikes(post_id,user_id){
+    const response = await fetch(`${BASE_URL}/posts/likes/${post_id}/${user_id}`,{
         method:'PATCH',
         headers:{
             'Content-Type' : 'application/json'
