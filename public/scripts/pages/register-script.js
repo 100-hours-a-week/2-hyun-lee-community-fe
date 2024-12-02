@@ -107,10 +107,10 @@ document.getElementById('useremail').addEventListener('input', async (e) => {
     const emailHelper = document.getElementById('emailHelper');
     const isValid = validateEmail(email, emailHelper);
     formValidity.email = isValid;
-
     if (isValid) {
         try {
             const response = await checkEmailExists(email);
+            
             if (!response.success) {
                 emailHelper.textContent = "*중복된 이메일입니다.";
                 emailHelper.style.visibility = "visible";

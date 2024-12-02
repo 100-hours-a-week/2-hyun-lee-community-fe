@@ -26,7 +26,7 @@ export function editUser(userData){
             <div class="user-container-nickname">
                 <label for="nickname">닉네임</label>
                 <input type="text" id="nickname" class="input-field2" value="${userData.nickname}">
-                <p class="helper-text" id="nicknameHelper">*helper text</p>
+                <p class="helper-text" id="nicknameHelper">&nbsp;</p>
             </div>
             <button type="submit" id="editBtn" >수정하기</button>
         </div>
