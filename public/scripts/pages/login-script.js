@@ -2,10 +2,39 @@ import { login } from "../api/api.js";
 import { validateEmail, validatePassword } from "../utils/validators.js";
 
 
-document.getElementById('useremail').addEventListener('input',(e)=>{
+let isEmailValid = false;
+let isPasswordValid = false;
+
+
+document.getElementById('useremail').addEventListener('input',async (e)=>{
     const email =e.target.value;
     const emailHelper =document.getElementById('emailHelper');
-    validateEmail(email,emailHelper);
+    isEmailValid =validateEmail(email,emailHelper);
+  
+
+    const password = document.getElementById('password').value;
+    const passwordHelper = document.getElementById('passwordHelper');
+
+    isPasswordValid = validatePassword(password,passwordHelper);
+    
+    if (isEmailValid && isPasswordValid) {
+        try {
+            const result = await login(email, password);
+            if (result.success) {
+                updateLoginButton(true);
+            } else {
+                passwordHelper.textContent = "*비밀번호가 다릅니다.";
+                passwordHelper.style.visibility = "visible";
+                updateLoginButton(false);
+            }
+        } catch (error) {
+            console.error('로그인 요청 중 오류 발생:', error);
+            alert('로그인 중 오류가 발생하였습니다. 다시 시도해주세요.');
+            updateLoginButton(false);
+        }
+    } else {
+        updateLoginButton(false);
+    }
 })
 
 document.getElementById('password').addEventListener('input', handlePasswordInput);
@@ -30,12 +59,10 @@ async function handlePasswordInput(e){
     const email = document.getElementById('useremail').value;
     const passwordHelper = document.getElementById('passwordHelper');
 
-    const isValid = validatePassword(password, passwordHelper);
+    isPasswordValid = validatePassword(password, passwordHelper);
 
-    if (!isValid) {
-        updateLoginButton(false);
-        return;
-    }
+
+    if(isPasswordValid && isEmailValid){
     try {
         const result = await login(email, password);
 
@@ -49,6 +76,9 @@ async function handlePasswordInput(e){
     } catch (error) {
         console.error('로그인 요청 중 오류 발생:', error);
         alert('로그인 중 오류가 발생하였습니다. 다시 시도해주세요.');
+        updateLoginButton(false);
+     }
+    } else{
         updateLoginButton(false);
     }
 }
