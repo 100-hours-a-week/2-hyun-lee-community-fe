@@ -1,4 +1,4 @@
-import { formatDate } from "../utils/format-date.js";
+import { formatDate } from "../utils/format-Date.js";
 
 const BASE_URL ='http://localhost:3000';
 export function addCommentToList(commentData, user_id){

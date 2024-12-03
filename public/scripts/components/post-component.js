@@ -1,4 +1,4 @@
-import {formatDate} from '../utils/format-date.js';
+import {formatDate} from '../utils/format-Date.js';
 import {formatCount} from '../utils/format-count.js'
 const BASE_URL ='http://localhost:3000';
 
