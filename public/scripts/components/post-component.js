@@ -31,6 +31,7 @@ export function renderPosts(posts){
 }
 
 export function renderDetailsPost(post,user_id){
+    console.log(`daasdarta:,${post.page_image}`)
     const postContainer = document.getElementById('container');
     const isOwner = post.user_id === user_id;
     const editButtons = isOwner ? `   <span class="work-post">
@@ -38,6 +39,9 @@ export function renderDetailsPost(post,user_id){
                 <button class="delete-post-button">삭제</button>
             </span>`
     : ''; 
+    const pageImage = post.page_image !==''
+    ? ` <img src="${BASE_URL}/${post.page_image}" >` 
+    : '<span class="no-image">이미지가 없습니다</span>';
     
     postContainer.innerHTML = `
         <span class="title">${post.page_title}</span>
@@ -53,7 +57,7 @@ export function renderDetailsPost(post,user_id){
         </div>
         <div class="post-details">
             <div class="post-image">
-                <img src="${BASE_URL}/${post.page_image}" >
+                ${pageImage}
             </div>
         </div>
         <div class="post-content">
