@@ -1,11 +1,12 @@
-const BASE_URL ='http://localhost:3000';
+import { getImageUrl } from "../api/api.js";
+
 
 
 export function loadImageToCanvas(userInfo) {
     const profileCanvas = document.getElementById('profileCanvas');
     const ctx = profileCanvas.getContext('2d');
     const img = new Image();
-    img.src =`${BASE_URL}/${userInfo.profile}`;
+    img.src =getImageUrl(userInfo.profile);
 
     img.onload = function() {
         ctx.clearRect(0, 0, profileCanvas.width, profileCanvas.height);

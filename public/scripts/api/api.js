@@ -291,6 +291,20 @@ export async function deleteUserPosts(user_id){
     return response.json();
 }
 
+//이미지 업로드
+export function getImageUrl(image){
+    if(!image || image.trim()===''){
+        return '';
+    }
+    return `${BASE_URL}/${image}`;
+}
+
+//파일 리소스
+export async function fetchResource(filePath){
+    const response = await fetch(`${BASE_URL}/${filePath}`);
+    return response;
+}
+
 
 
 

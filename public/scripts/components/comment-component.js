@@ -1,9 +1,9 @@
 import { formatDate } from "../utils/format-Date.js";
+import { getImageUrl } from "../api/api.js";
 
-const BASE_URL ='http://localhost:3000';
+
 export function addCommentToList(commentData, user_id){
-    console.log("cd",commentData);
-
+    const profileImageUrl= getImageUrl(commentData.profile);
     const commentList = document.getElementById('commentList');
     const newComment = document.createElement('div');
     newComment.classList.add('comment-author');
@@ -18,7 +18,7 @@ export function addCommentToList(commentData, user_id){
         : ''; 
 
     newComment.innerHTML = `
-       <img class="author-avatar" src=${BASE_URL}/${commentData.profile}></img>
+       <img class="author-avatar" src=${profileImageUrl}></img>
         <div class="comment-details" data-comment-id=${commentData.comment_id}>
             <span class="author-name">${commentData.nickname}</span>
             <span class="comment-date">${formatDate(commentData.create_at)}</span>

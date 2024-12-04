@@ -1,12 +1,12 @@
 import {formatDate} from '../utils/format-Date.js';
-import {formatCount} from '../utils/format-count.js'
-const BASE_URL ='http://localhost:3000';
+import {formatCount} from '../utils/format-count.js';
+import {getImageUrl} from '../api/api.js';
 
 export function renderPosts(posts){
     const postTableBody = document.getElementById('postTableBody');
     postTableBody.innerHTML='';
     posts.forEach(post => {
-        console.log("page",post.profile);
+        const imageUrl = getImageUrl(post.profile);
         const newRow=document.createElement('tr');
         newRow.className = 'post-item'; 
         newRow.innerHTML=`
@@ -18,7 +18,7 @@ export function renderPosts(posts){
                     <span class="post-date">${formatDate(post.create_at)}</span>
                 </div>
                 <div class="post-footer">
-                    <img class="author-avatar" src="${BASE_URL}/${post.profile}"></img>
+                    <img class="author-avatar" src="${imageUrl}"></img>
                     <span class="author-name">${post.nickname}</span>
                 </div>
         `;
@@ -31,8 +31,10 @@ export function renderPosts(posts){
 }
 
 export function renderDetailsPost(post,user_id){
-    console.log(`daasdarta:,${post.page_image}`)
     const postContainer = document.getElementById('container');
+    
+    const profileImageUrl = getImageUrl(post.profile);
+    const pageImageUrl = getImageUrl(post.page_image);
     const isOwner = post.user_id === user_id;
     const editButtons = isOwner ? `   <span class="work-post">
                 <button class="modify-post-button">수정</button>
@@ -40,7 +42,7 @@ export function renderDetailsPost(post,user_id){
             </span>`
     : ''; 
     const pageImage = post.page_image !==''
-    ? ` <img src="${BASE_URL}/${post.page_image}" >` 
+    ? ` <img src="${pageImageUrl}" >` 
     : '<span class="no-image">이미지가 없습니다</span>';
     
     postContainer.innerHTML = `
@@ -48,7 +50,7 @@ export function renderDetailsPost(post,user_id){
         <div class="post-header">
             <div class="post-footer">
                 <div class="author-avatar">
-                 <img class="author-avatar" src="${BASE_URL}/${post.profile}"></img>
+                 <img class="author-avatar" src="${profileImageUrl}"></img>
                  </div>
                 <span class="author-name">${post.nickname}</span>
                 <span class="post-date">${formatDate(post.create_at)}</span>

@@ -1,8 +1,8 @@
 import { renderEditPost } from '../components/post-component.js';
 import { validatePostTitle, validatePostContent } from '../utils/validators.js';
-import {fetchPostDetails, updatePost } from '../api/api.js'
+import {fetchPostDetails, updatePost, fetchResource } from '../api/api.js'
 
-const BASE_URL ='http://localhost:3000';
+
 
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     let postImage;
     if(existingFilePath){
-    const response = await fetch(`${BASE_URL}/${existingFilePath}`);
+    const response = await fetchResource(existingFilePath);
     const blob = await response.blob();
     fileName = existingFilePath.match(/[^-]+$/)[0];
     console.log("filename",fileName);

@@ -3,29 +3,11 @@ import { validateNickname, validateProfile } from '../utils/validators.js'
 import { getUserProfile,updateUserProfile,deleteUserComments,deleteUserPosts,deleteUserAccount, checkNicknameExistsForUpdate } from "../api/api.js";
 import { createModal, openModal, closeModal } from '../components/modal-component.js';
 import { loadImageToCanvas, setupProfileImageChange } from '../utils/loadImage.js';
-
-const BASE_URL ='http://localhost:3000';
-
-
-const withdrawBtn = document.getElementById('withdrawBtn');
-const withdrawModal = document.getElementById('withdrawModal');
-const withdrawCancelBtn = document.getElementById('withdrawCancelBtn');
-const withdrawConfirmBtn = document.getElementById('withdrawConfirmBtn');
-
-const profileImageInput = document.getElementById('profileImage');
-const profileCanvas = document.getElementById('profileCanvas');
-const ctx = profileCanvas.getContext('2d');
+import { fetchResource } from '../api/api.js';
 
 
-const dummyUser = 
-        {
-            user_id: 1,
-            useremail: 'test1@naver.com',
-            reg_date: '2024-11-08T12:00:00Z',
-            profile: 'https://via.placeholder.com/36',
-            nickname: 'test1'
-        }
-    
+
+
 window.addEventListener('DOMContentLoaded', async() => {
 
         const result = await getUserProfile();
@@ -69,7 +51,7 @@ window.addEventListener('DOMContentLoaded', async() => {
             let profileImage = document.getElementById('profileImage').files[0];
         
             if(!profileImage){
-                const response = await fetch(`${BASE_URL}/${userInfo.profile}`);
+                const response = await fetchResource(userInfo.profile);
                 const blob = await response.blob();
                 const fileName = userInfo.profile.match(/[^-]+$/)[0];
                 console.log("filename",fileName);
