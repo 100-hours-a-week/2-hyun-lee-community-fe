@@ -49,6 +49,7 @@ window.addEventListener('DOMContentLoaded', async() => {
             e.preventDefault();
             const nickname = document.getElementById('nickname').value;
             let profileImage = document.getElementById('profileImage').files[0];
+            const success = document.getElementById('editSuccess');
         
             if(!profileImage){
                 const response = await fetchResource(userInfo.profile);
@@ -73,9 +74,7 @@ window.addEventListener('DOMContentLoaded', async() => {
                 formData.append('nickname',nickname);
                 formData.append('user_id',user_id);
                
-                console.log("user_id:",user_id);
-                console.log("profile:",profileImage);
-                console.log("nickname:",nickname);
+                
                 try{
 
                        const result = await updateUserProfile(formData);
@@ -84,13 +83,17 @@ window.addEventListener('DOMContentLoaded', async() => {
                         nicknameHelper.style.visibility = "visible";
                         } else {
                                 alert(result.message);
+                                success.style.visibility='visible';
+                                setTimeout(()=>{
+                                    window.location.href='/board';
+                                },3000);
                         }
                     } catch(error){
                         console.error('Error:',error);
                         alert('서버 오류 발생');
                     }
                 }
-        
+                
         
         })
 

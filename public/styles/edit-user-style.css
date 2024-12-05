@@ -197,28 +197,20 @@ body {
     border-radius: 4px;
     
 }
-.container button[type="button2"] {
-    margin-top: 30px;
-    width: 361px;
-    height: 37px;
-    background-color: #ffffff;
-    border: none;
-}
-.container button[type="button2"] span{
+
+#editSuccess{
     padding: 13px 20px; 
-    background-color: #aca0eb; 
+    background-color: #7f6aee; 
     color:#ffffff;
     border: none;
     border-radius: 20px;
     font-size: 14px;
     line-height: 16.71px;
     font-weight: 400;
-    cursor: pointer;
+    visibility: hidden;
 }
  
-.container button[type="button2"] :hover{
-    background-color: #7f6aee;
-}
+
 
 .modal {
     display: none;

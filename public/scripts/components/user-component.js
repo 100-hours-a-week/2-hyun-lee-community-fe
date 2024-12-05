@@ -32,7 +32,7 @@ export function editUser(userData){
         </div>
     </form>
     <button type="button" id="withdrawBtn">회원탈퇴</button>
-    <button type="button2" onclick="window.location.href='board'"><span>수정완료</span></button>
+    <span id ="editSuccess">수정완료</span>
 
     `
 }
