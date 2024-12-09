@@ -1,4 +1,4 @@
-const BASE_URL ='http://localhost:3000';
+const BASE_URL ='http://localhost:3000/api';
 
 
 // 사용자 인증 관련
