@@ -1,4 +1,5 @@
 const BASE_URL ='http://localhost:3000/api';
+//const BASE_URL = 'http://52.79.119.220:300/api';
 
 
 // 사용자 인증 관련
