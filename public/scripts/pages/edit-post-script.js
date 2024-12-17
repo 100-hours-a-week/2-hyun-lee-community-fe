@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const fileNameSpan = document.getElementById('fileName');
     const deleteImage = document.getElementById('deleteImage');
     const fileInput = document.getElementById('postImage');
-    const existingFilePath = postData.posts[0].page_image;
+    const existingFilePath = postData.posts[0].post_image;
     let fileName;
 
     let postImage;

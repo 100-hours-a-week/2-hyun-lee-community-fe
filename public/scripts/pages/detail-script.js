@@ -1,7 +1,7 @@
 import { renderDetailsPost } from '../components/post-component.js';
 import { addCommentToList } from '../components/comment-component.js';
 import { createModal, openModal, closeModal } from '../components/modal-component.js';
-import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, updatePostLikes, updatePostCommentsCount, updateComment, updatePostViews, getLikeStatus,getComment} from '../api/api.js';
+import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, updatePostLikes, updateComment, updatePostViews, getLikeStatus,getComment, userLikeStatus} from '../api/api.js';
 import {formatDate} from '../utils/format-Date.js';
 
 
@@ -18,23 +18,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     let currentUserId;
 
     try {
-        
+        await updatePostViews(post_id);
         const postData = await fetchPostDetails(post_id);
         currentUserId=postData.user_id;
-
-        await updatePostViews(post_id); 
+        console.log("post",postData.posts[0]);
         renderDetailsPost(postData.posts[0],postData.user_id); 
 
         likeBtn = document.getElementById('likeBtn');
         likeCntSpan = document.getElementById('likeCnt');
         commentCntSpan = document.getElementById('commentCnt');
-
-    
-        const result = await getLikeStatus(post_id);
-
-        if (result.success && result.isLiked) {
-            likeBtn.classList.add('liked'); 
-        }
 
      
         const results = await fetchComments(post_id);
@@ -136,6 +128,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     document.getElementById('likeBtn').addEventListener('click',async()=>{
        
         let likeCount = parseInt(likeCntSpan.textContent, 10); 
+        const result=await userLikeStatus(post_id);
+        const { is_exist: is_exist } = result.result;
+        if (is_exist) {
+            likeBtn.classList.add('liked'); 
+        }
         const liked = likeBtn.classList.contains('liked'); 
 
         if (liked) {
