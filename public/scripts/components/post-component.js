@@ -11,7 +11,7 @@ export function renderPosts(posts){
         newRow.className = 'post-item'; 
         newRow.innerHTML=`
              <div class="post-header">
-                    <h2 class=post-title data-id=${post.post_id}> ${post.page_title}</h2>
+                    <h2 class=post-title data-id=${post.post_id}> ${post.post_title}</h2>
                 </div>
                 <div class="post-details">
                     <div class="post-details2"><span>좋아요 ${formatCount(post.likes_count)}</span> <span>댓글 ${formatCount(post.comment_count)}</span> <span>조회수 ${formatCount(post.view_count)}</span></div>
@@ -46,7 +46,7 @@ export function renderDetailsPost(post,user_id){
     : '<span class="no-image">이미지가 없습니다</span>';
     
     postContainer.innerHTML = `
-        <span class="title">${post.page_title}</span>
+        <span class="title">${post.post_title}</span>
         <div class="post-header">
             <div class="post-footer">
                 <div class="author-avatar">
@@ -63,7 +63,7 @@ export function renderDetailsPost(post,user_id){
             </div>
         </div>
         <div class="post-content">
-            <p>${post.page_content}</p>
+            <p>${post.post_content}</p>
         </div>
         <div class="post-stats">
             <button class="stat-item" id="likeBtn">
@@ -88,12 +88,12 @@ export function renderEditPost(post){
         <form id="postForm">
             <div>
                 <label for="postTitle"> 제목* </label>
-                <input type="text" id="postTitle" name="postTitle" value="${post.page_title}">
+                <input type="text" id="postTitle" name="postTitle" value="${post.post_title}">
                 <p class="helper-text" id="titleHelper" style="visibility: hidden;">*helper text</p>
             </div>
             <div>
             <label for="postContent">내용* </label>
-            <textarea id="postContent" name="postContent" >${post.page_content}</textarea>
+            <textarea id="postContent" name="postContent" >${post.post_content}</textarea>
             <p class="helper-text" id="contentHelper"></p> 
             </div>
             <div>

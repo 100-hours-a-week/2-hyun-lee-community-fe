@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   
     const postData= await fetchPostDetails(post_id);
-    
 
     renderEditPost(postData.posts[0]);
 
