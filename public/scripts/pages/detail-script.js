@@ -1,7 +1,7 @@
 import { renderDetailsPost } from '../components/post-component.js';
 import { addCommentToList } from '../components/comment-component.js';
 import { createModal, openModal, closeModal } from '../components/modal-component.js';
-import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, updatePostLikes, updateComment, updatePostViews, getLikeStatus,getComment, userLikeStatus} from '../api/api.js';
+import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, updatePostLikes, updateComment, updatePostViews,getComment, userLikeStatus} from '../api/api.js';
 import {formatDate} from '../utils/format-Date.js';
 
 

@@ -200,13 +200,6 @@ export async function deletePost(post_id){
     return response.json();
 }   
 
-export async function getLikeStatus(post_id){
-    const response = await fetch(`${BASE_URL}/likes/status/${post_id}`,{
-        method:'GET',
-        credentials: 'include'
-    });
-    return response.json();
-}
 
 export async function userLikeStatus(post_id){
     const response = await fetch(`${BASE_URL}/likes/user/status/${post_id}`,{
