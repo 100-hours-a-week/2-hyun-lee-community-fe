@@ -6,7 +6,7 @@ import { validateEmail, validatePassword } from "../utils/validators.js";
 let isPasswordValid = false;
 let isEmailValid = false;
 
-document.getElementById('useremail').addEventListener('input',async (e)=>{
+document.getElementById('email').addEventListener('input',async (e)=>{
     const email =e.target.value;
     const emailHelper =document.getElementById('emailHelper');
     const password = document.getElementById('password').value;
@@ -33,7 +33,7 @@ document.getElementById('registerBtn').addEventListener('click', () => {
 
 document.getElementById('login').addEventListener('submit', async(e) => {
     e.preventDefault();
-    const email = document.getElementById('useremail').value;
+    const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
  
     if(isPasswordValid && isEmailValid){
@@ -62,7 +62,7 @@ document.getElementById('login').addEventListener('submit', async(e) => {
 
 async function handlePasswordInput(e){
     const password = e.target.value;
-    const email = document.getElementById('useremail').value;
+    const email = document.getElementById('email').value;
     const passwordHelper = document.getElementById('passwordHelper');
 
     isPasswordValid = validatePassword(password, passwordHelper);

@@ -3,7 +3,7 @@ import { getImageUrl } from "../api/api.js";
 
 
 export function addCommentToList(commentData, user_id){
-    const profileImageUrl= getImageUrl(commentData.profile);
+    const profileImageUrl= getImageUrl(commentData.profile_image);
     const commentList = document.getElementById('commentList');
     const newComment = document.createElement('div');
     newComment.classList.add('comment-author');

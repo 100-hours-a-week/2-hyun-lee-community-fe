@@ -8,7 +8,7 @@ const ctx = profileCanvas.getContext('2d');
 let resizedImageBlob;
 
 const formValidity = {
-    profile: false,
+    profile_image: false,
     email: false,
     password: false,
     confirmPassword: false,
@@ -96,13 +96,13 @@ function updateRegisterButton() {
 
 
 document.getElementById('profileImage').addEventListener('input', (e) => {
-    const profile = e.target.value;
+    const profile_image = e.target.value;
     const profileHelper = document.getElementById('profileHelper');
-    formValidity.profile = validateProfile(profile, profileHelper);
+    formValidity.profile_image = validateProfile(profile_image, profileHelper);
     updateRegisterButton();
 });
 
-document.getElementById('useremail').addEventListener('input', async (e) => {
+document.getElementById('email').addEventListener('input', async (e) => {
     const email = e.target.value;
     const emailHelper = document.getElementById('emailHelper');
     const isValid = validateEmail(email, emailHelper);

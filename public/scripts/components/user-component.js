@@ -8,7 +8,7 @@ export function editUser(userData){
     </div>
     <form id="userForm">
         <div class="user-container-profile">
-            <div class="profile-container"><label for="profile">프로필 사진*</label></div>
+            <div class="profile-container"><label for="profile_image">프로필 사진*</label></div>
             <div class="profile-picture-container">
                 <label for="profileImage" class="circle">
                     <canvas id="profileCanvas" width="100" height="100" style="border-radius: 50%;"></canvas>
@@ -21,7 +21,7 @@ export function editUser(userData){
         <div class="user-container">
             <div class="user-container-email">
                 <label for="email">이메일</label>
-                <p id="fix-email">${userData.useremail}</p>
+                <p id="fix-email">${userData.email}</p>
             </div>
             <div class="user-container-nickname">
                 <label for="nickname">닉네임</label>

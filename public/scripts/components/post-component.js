@@ -6,7 +6,7 @@ export function renderPosts(posts){
     const postTableBody = document.getElementById('postTableBody');
     postTableBody.innerHTML='';
     posts.forEach(post => {
-        const imageUrl = getImageUrl(post.profile);
+        const imageUrl = getImageUrl(post.profile_image);
         const newRow=document.createElement('tr');
         newRow.className = 'post-item'; 
         newRow.innerHTML=`
@@ -33,7 +33,7 @@ export function renderPosts(posts){
 export function renderDetailsPost(post,user_id){
     const postContainer = document.getElementById('container');
     
-    const profileImageUrl = getImageUrl(post.profile);
+    const profileImageUrl = getImageUrl(post.profile_image);
     const pageImageUrl = getImageUrl(post.page_image);
     const isOwner = post.user_id === user_id;
     const editButtons = isOwner ? `   <span class="work-post">
@@ -71,11 +71,11 @@ export function renderDetailsPost(post,user_id){
                 <span class="stat-label">좋아요수</span>
             </button>
             <div class="stat-item">
-                <span class="stat-number">${formatCount(post.view_count)}</span>
+                <span class="stat-number" id="viewCnt">${formatCount(post.view_count)}</span>
                 <span class="stat-label">조회수</span>
             </div>
             <div class="stat-item">
-                <span class="stat-number">${formatCount(post.comment_count)}</span>
+                <span class="stat-number" id="commentCnt">${formatCount(post.comment_count)}</span>
                 <span class="stat-label">댓글</span>
             </div>
         </div>
@@ -94,14 +94,14 @@ export function renderEditPost(post){
             <div>
             <label for="postContent">내용* </label>
             <textarea id="postContent" name="postContent" >${post.page_content}</textarea>
-            <p class="helper-text" id="contentHelper">*helper text</p> 
+            <p class="helper-text" id="contentHelper"></p> 
             </div>
             <div>
-                <label for="postImage"> 이미지* </label>
+                <label for="postImage"> 이미지 </label>
                   <div class="post-image">
                     <input type="file" id="postImage" name="postImage" accept="image/*" style="display: none;">
                     <button type="button" id="uploadButton">파일 선택</button>
-                    <span id="fileName">${post.page_image ? post.page_image.match(/[^-]+$/)[0] : "이미지를 선택하세요."}</span>
+                    <span id="fileName">${post.page_image ?decodeURIComponent(post.page_image.match(/[^-]+$/)[0]) : "이미지를 선택하세요."}</span>
                     <input type="hidden" name="existingImage" value="기존파일명.jpg">
                   </div>
                   <button type="button" id="deleteImage">이미지 삭제</button>

@@ -6,7 +6,7 @@ export function loadImageToCanvas(userInfo) {
     const profileCanvas = document.getElementById('profileCanvas');
     const ctx = profileCanvas.getContext('2d');
     const img = new Image();
-    img.src =getImageUrl(userInfo.profile);
+    img.src =getImageUrl(userInfo.profile_image);
 
     img.onload = function() {
         ctx.clearRect(0, 0, profileCanvas.width, profileCanvas.height);

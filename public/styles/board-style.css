@@ -22,6 +22,7 @@ body {
     justify-content: space-between; 
     align-items: center; 
     padding: 0 20px;
+    position: relative;
     box-sizing: border-box;
 }
 
@@ -159,8 +160,8 @@ body {
 }
 
 .dropdown-menu{
-    top: 74px;
-    right: 400px;
+    top: 80px;
+    left: 450px;
     width: 163px;
     height: 219px;
     position: absolute;

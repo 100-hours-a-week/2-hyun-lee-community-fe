@@ -26,6 +26,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const response = await fetchResource(existingFilePath);
     const blob = await response.blob();
     fileName = existingFilePath.match(/[^-]+$/)[0];
+    fileName = decodeURIComponent(fileName);
+
     console.log("filename",fileName);
     postImage = new File([blob], fileName, { type: blob.type });
     }
@@ -76,7 +78,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         try{
 
         const result = await updatePost(formData,post_id);
-            if(result.success){
+        if(result.success){
                 window.location.href=`detail-post?post_id=${post_id}`;
             } else{
                 window.location.href=`edit-post?post_id=${post_id}`;

@@ -52,7 +52,7 @@ window.addEventListener('DOMContentLoaded', async() => {
             const success = document.getElementById('editSuccess');
         
             if(!profileImage){
-                const response = await fetchResource(userInfo.profile);
+                const response = await fetchResource(userInfo.profile_image);
                 const blob = await response.blob();
                 const fileName = userInfo.profile.match(/[^-]+$/)[0];
                 console.log("filename",fileName);

@@ -1,19 +1,20 @@
 import { renderDetailsPost } from '../components/post-component.js';
 import { addCommentToList } from '../components/comment-component.js';
 import { createModal, openModal, closeModal } from '../components/modal-component.js';
-import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, updatePostLikes, updatePostCommentsCount, updateComment, updatePostViews, getLikeStatus} from '../api/api.js';
-
+import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, updatePostLikes, updatePostCommentsCount, updateComment, updatePostViews, getLikeStatus,getComment} from '../api/api.js';
+import {formatDate} from '../utils/format-Date.js';
 
 
 let isEditing = false; 
 let editingCommentId = null; 
+let commentCntSpan;
 
 document.addEventListener('DOMContentLoaded', async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const post_id = urlParams.get('post_id');
     let likeBtn;
     let likeCntSpan;
-
+   
     let currentUserId;
 
     try {
@@ -26,6 +27,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         likeBtn = document.getElementById('likeBtn');
         likeCntSpan = document.getElementById('likeCnt');
+        commentCntSpan = document.getElementById('commentCnt');
 
     
         const result = await getLikeStatus(post_id);
@@ -41,9 +43,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         const user_id=results.user_id
         results.comments.forEach(c=> addCommentToList(c,user_id)); 
         
-        document.querySelectorAll('.delete-comment-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const comment_id = button.closest('.comment-details').getAttribute('data-comment-id');
+        document.body.addEventListener('click', async (event) => {
+            if (event.target.classList.contains('delete-comment-button')) {
+                const button = event.target;
+                const commentElement = button.closest('.comment-details');
+                const comment_id = commentElement.getAttribute('data-comment-id');
+        
                 const { modal, confirmButton } = createModal({
                     title: '댓글을 삭제하시겠습니까?',
                     message: '삭제한 내용은 복구할 수 없습니다.',
@@ -51,23 +56,27 @@ document.addEventListener('DOMContentLoaded', async () => {
                     cancelText: '취소'
                 });
                 openModal(modal);
-
+        
                 confirmButton.addEventListener('click', async () => {
                     try {
-                       
-                       const result = await deleteComment(post_id, comment_id);
-                       if(result.success){
-                        closeModal(modal);
-                        document.querySelector(`.comment-details[data-comment-id="${comment_id}"]`).parentElement.remove();
-                        window.location.href = `/detail-post?post_id=${post_id}`;
-                       }
+                        const result = await deleteComment(post_id, comment_id);
+                        if (result.success) {
+                            closeModal(modal);
+                            commentElement.parentElement.remove();
+        
+                            
+                            let commentCount = parseInt(commentCntSpan.textContent, 10);
+                            commentCount--;
+                            commentCntSpan.textContent = commentCount;
+                        }
                     } catch (error) {
                         console.error(error);
                         alert('댓글 삭제에 실패했습니다.');
                     }
                 });
-            });
+            }
         });
+        
 
         const deleteButton = document.querySelector('.delete-post-button');
         const modifyButton = document.querySelector('.modify-post-button');
@@ -101,23 +110,23 @@ document.addEventListener('DOMContentLoaded', async () => {
 
        
 
-        document.querySelectorAll('.modify-comment-button').forEach(button => {
-            button.addEventListener('click', (event) => {
-                const commentElement = event.target.closest('.comment-details');
-                const commentContent = commentElement.querySelector('.comment-content').textContent; 
-        
-                
-                const commentInput = document.getElementById('commentInput');
-                commentInput.value = commentContent;
-        
-                
-                const submitButton = document.getElementById('comment-submit');
-                submitButton.textContent = '댓글 수정';
-        
-                isEditing=true;
-                editingCommentId = commentElement.getAttribute('data-comment-id'); 
-            });
-        });
+    
+    document.body.addEventListener('click', (event) => {
+        if (event.target.classList.contains('modify-comment-button')) {
+         const commentElement = event.target.closest('.comment-details');
+         const commentContent = commentElement.querySelector('.comment-content').textContent; 
+
+         const commentInput = document.getElementById('commentInput');
+          commentInput.value = commentContent;
+
+          const submitButton = document.getElementById('comment-submit');
+          submitButton.textContent = '댓글 수정';
+
+         isEditing = true;
+         editingCommentId = commentElement.getAttribute('data-comment-id');
+    }
+    });
+
 
     } catch (error) {
         console.error('게시글 데이터를 불러오는 중 오류가 발생했습니다:', error);
@@ -170,11 +179,13 @@ document.getElementById('comment-submit').addEventListener('click', async () => 
     try {
         
         const result = await addComment(post_id, commentContent);
+        const oneComment = await getComment(result.comment.comment_id);
         if(result.success){
             document.getElementById('commentInput').value = ''; 
-            addCommentToList(result.comment, result.comment.user_id);
-            //await updatePostCommentsCount(post_id);
-            window.location.href = `/detail-post?post_id=${post_id}`;
+            addCommentToList(oneComment.comments[0], result.comment.user_id);
+            let commentCount = parseInt(commentCntSpan.textContent, 10); 
+            commentCount++;
+            commentCntSpan.textContent=commentCount; 
         } else {
             alert(result.message);
         }
@@ -185,12 +196,22 @@ document.getElementById('comment-submit').addEventListener('click', async () => 
     } else{
         try {
         
-            const result = await updateComment(post_id,editingCommentId, commentContent);
-            if(result.success){
+            const oneComment = await updateComment(post_id,editingCommentId, commentContent);
+            
+            if(oneComment.success){
+                const element= document.querySelector(`[data-comment-id="${oneComment.comments[0].comment_id}"]`);
+                
+                const date = element.querySelector('.comment-date');
+                const content = element.querySelector('.comment-content');
+            
+                content.textContent = oneComment.comments[0].comment_content;
+                date.textContent = formatDate(oneComment.comments[0].create_at);
                 document.getElementById('commentInput').value = ''; 
-                window.location.href = `/detail-post?post_id=${post_id}`;
+                const submitButton = document.getElementById('comment-submit');
+                submitButton.textContent = '댓글 등록';
+                isEditing = false;
             } else {
-                alert(result.message);
+                alert(oneComment.message);
             }
            
         } catch (error) {

@@ -1,16 +1,19 @@
 const BASE_URL ='http://localhost:3000/api';
-//const BASE_URL = 'http://52.79.119.220:300/api';
+const CDN_URL = 'https://d2m8tt5bgy55i.cloudfront.net/';
+const S3_URL = 'https://s3.ap-northeast-2.amazonaws.com/hyun.lee.bucket/';
+  
+//const BASE_URL = 'http://52.79.119.220:3001/api';
 
 
 // 사용자 인증 관련
-export async function login(useremail,password){
+export async function login(email,password){
     const response = await fetch(`${BASE_URL}/users/login`,{
         method:'POST',
         headers: {
             'Content-Type': 'application/json'  
         },    
         credentials: 'include',
-        body: JSON.stringify({useremail, password}),
+        body: JSON.stringify({email, password}),
     });
 
     const result= await response.json();
@@ -240,6 +243,14 @@ export async function fetchComments(post_id){
     return response.json();
 }
 
+export async function getComment(comment_id){
+    const response = await fetch(`${BASE_URL}/posts/${comment_id}/comment`,{
+        method:'GET',
+        credentials: 'include'
+    });
+    return response.json();
+}
+
 
 export async function addComment(post_id,content){
     const response = await fetch(`${BASE_URL}/posts/${post_id}/comment`,{
@@ -297,12 +308,12 @@ export function getImageUrl(image){
     if(!image || image.trim()===''){
         return '';
     }
-    return `${BASE_URL}/${image}`;
+    return `${image}`;
 }
 
 //파일 리소스
 export async function fetchResource(filePath){
-    const response = await fetch(`${BASE_URL}/${filePath}`);
+    const response = await fetch(`${filePath.replace(CDN_URL,S3_URL)}`);
     return response;
 }
 
