@@ -85,6 +85,7 @@ window.addEventListener('DOMContentLoaded', async() => {
                         } else {
                                 alert(result.message);
                                 success.style.visibility='visible';
+                                document.getElementById('nickname').readOnly=true;
                                 setTimeout(()=>{
                                     window.location.href='/board';
                                 },3000);
