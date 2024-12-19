@@ -3,21 +3,19 @@ import { validateEmail, validatePassword } from "../utils/validators.js";
 
 
 
-let isPasswordValid = false;
-let isEmailValid = false;
+
 
 document.getElementById('email').addEventListener('input',async (e)=>{
     const email =e.target.value;
     const emailHelper =document.getElementById('emailHelper');
+    
     const password = document.getElementById('password').value;
     const passwordHelper = document.getElementById('passwordHelper');
-    isEmailValid = validateEmail(email,emailHelper);
-    isPasswordValid =validatePassword(password,passwordHelper);
-    if(isPasswordValid && isEmailValid){
-        updateLoginButton(true);
-    } else{
-        updateLoginButton(false);
-    }
+    
+    let emailValid = validateEmail(email,emailHelper);
+    let passwordValid =validatePassword(password,passwordHelper);
+
+    updateLoginButton(emailValid,passwordValid);
   
 
 })
@@ -34,9 +32,17 @@ document.getElementById('registerBtn').addEventListener('click', () => {
 document.getElementById('login').addEventListener('submit', async(e) => {
     e.preventDefault();
     const email = document.getElementById('email').value;
+    const emailHelper =document.getElementById('emailHelper');
+
     const password = document.getElementById('password').value;
- 
-    if(isPasswordValid && isEmailValid){
+    const passwordHelper = document.getElementById('passwordHelper');
+
+    let isValid=true;
+        
+    isValid=validateEmail(email, emailHelper) && isValid;
+    isValid=validatePassword(password, passwordHelper) && isValid;
+
+    if(isValid){
         try {
             const result = await login(email, password);
     
@@ -61,32 +67,31 @@ document.getElementById('login').addEventListener('submit', async(e) => {
 
 
 async function handlePasswordInput(e){
-    const password = e.target.value;
     const email = document.getElementById('email').value;
+    const emailHelper =document.getElementById('emailHelper');
+
+    const password = e.target.value;
     const passwordHelper = document.getElementById('passwordHelper');
 
-    isPasswordValid = validatePassword(password, passwordHelper);
-    isEmailValid = validateEmail(email,emailHelper);
-    if(isPasswordValid && isEmailValid){
-        updateLoginButton(true);
-    } else{
-        updateLoginButton(false);
-    }
+    let emailValid = validateEmail(email,emailHelper);
+    let passwordValid =validatePassword(password,passwordHelper);
+
+    updateLoginButton(emailValid,passwordValid);
 
 }
 
 
 
-function updateLoginButton(isEnabled) {
+function updateLoginButton(emailValid,passwordValid) {
     const loginButton = document.getElementById('loginBtn');
-    if (isEnabled) {
+
+    if (emailValid && passwordValid) {
         loginButton.style.backgroundColor = '#7F6AEE';
         loginButton.disabled = false;
-        loginButton.style.cursor='pointer';
+        loginButton.style.cursor = 'pointer';
     } else {
         loginButton.style.backgroundColor = '#ACA0EB';
         loginButton.disabled = true;
         loginButton.style.cursor = 'not-allowed';
-        
     }
 }
