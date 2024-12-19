@@ -81,7 +81,7 @@ export function validatePostTitle(postTitle,titleHelper) {
         titleHelper.textContent="*제목을 26자 이하로 작성해주세요.";
         titleHelper.style.visibility="visible";
         return false;
-    } else if(!postTitle.trim()){
+    } else if(!postTitle){
         titleHelper.textContent="*제목을 입력해주세요.";
         titleHelper.style.visibility="visible";
         return false;
@@ -92,8 +92,8 @@ export function validatePostTitle(postTitle,titleHelper) {
 }
 
 export function validatePostContent(postContent,contentHelper) {
-    if (!postContent.trim()) {
-        contentHelper.textContent = '내용을 입력해주세요.';
+    if (!postContent) {
+        contentHelper.textContent = '*내용을 입력해주세요.';
         contentHelper.style.visibility = "visible";
         return false;
     }   else{

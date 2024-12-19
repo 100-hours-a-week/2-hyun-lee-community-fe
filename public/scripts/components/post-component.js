@@ -106,7 +106,7 @@ export function renderEditPost(post){
                   </div>
                   <button type="button" id="deleteImage">이미지 삭제</button>
             </div>
-            <button type="submit">수정하기</button>
+            <button type="submit" id="registerBtn">수정하기</button>
         </form>
     </div>
     `

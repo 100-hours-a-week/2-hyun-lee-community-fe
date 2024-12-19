@@ -1,11 +1,10 @@
-import { registerUser,checkEmailExists, checkNicknameExists } from "../api/api.js";
+import { registerUser,  } from "../api/api.js";
 import { validateProfile, validateEmail, validatePassword, validateConfirmPassword, validateNickname } from '../utils/validators.js';
-//import { loadImage } from "../utils/format-count.js"
 
 const profileImageInput = document.getElementById('profileImage');
 const profileCanvas = document.getElementById('profileCanvas');
 const ctx = profileCanvas.getContext('2d');
-let resizedImageBlob;
+
 
 const formValidity = {
     profile_image: false,
@@ -62,11 +61,27 @@ profileImageInput.addEventListener('change', function() {
 document.getElementById('registerForm').addEventListener('submit',async (e)=>{
     e.preventDefault();
     const formData = new FormData(document.getElementById('registerForm'));
+    const emailHelper = document.getElementById('emailHelper');
+    const nicknameHelper = document.getElementById('nicknameHelper');
     try{
-        
         const response = await registerUser(formData);
 
         console.log(response.message);
+        if(!response.success && response.message.includes('중복된 이메일 입니다.')){
+            emailHelper.textContent = "*중복된 이메일입니다.";
+            emailHelper.style.visibility = "visible";
+            formValidity.email = false;
+            updateRegisterButton();
+        }
+        if(!response.success && response.message.includes('중복된 닉네임 입니다.')){
+            nicknameHelper.textContent = "*중복된 닉네임입니다.";
+            nicknameHelper.style.visibility = "visible";
+            formValidity.nickname = false;
+            updateRegisterButton();
+        }
+        if(!response.success){
+            updateRegisterButton();
+        } 
         if(response.success){
             window.location.href = 'login';
         } 
@@ -75,24 +90,6 @@ document.getElementById('registerForm').addEventListener('submit',async (e)=>{
         alert('서버 오류 발생');
     }
 })
-
-
-
-
-function updateRegisterButton() {
-    const allValid = Object.values(formValidity).every((isValid) => isValid);
-    const registerButton = document.getElementById('registerBtn');
-
-    if (allValid) {
-        registerButton.style.background = '#7F6AEE';
-        registerButton.disabled = false;
-        registerButton.style.cursor = 'pointer';
-    } else {
-        registerButton.style.background = '#ACA0EB';
-        registerButton.disabled = true;
-        registerButton.style.cursor = 'not-allowed';
-    }
-}
 
 
 document.getElementById('profileImage').addEventListener('input', (e) => {
@@ -107,20 +104,7 @@ document.getElementById('email').addEventListener('input', async (e) => {
     const emailHelper = document.getElementById('emailHelper');
     const isValid = validateEmail(email, emailHelper);
     formValidity.email = isValid;
-    if (isValid) {
-        try {
-            const response = await checkEmailExists(email);
-            
-            if (!response.success) {
-                emailHelper.textContent = "*중복된 이메일입니다.";
-                emailHelper.style.visibility = "visible";
-                formValidity.email = false;
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('서버 오류 발생');
-        }
-    }
+  
     updateRegisterButton();
 });
 
@@ -151,17 +135,20 @@ document.getElementById('nickname').addEventListener('input', async (e) => {
     const isValid = validateNickname(nickname, nicknameHelper);
     formValidity.nickname = isValid;
 
-    if (isValid) {
-        try {
-            const response = await checkNicknameExists(nickname);
-            if (!response.success) {
-                nicknameHelper.textContent = "*중복된 닉네임입니다.";
-                nicknameHelper.style.visibility = "visible";
-                formValidity.nickname = false;
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    }
     updateRegisterButton();
 });
+
+function updateRegisterButton() {
+    const allValid = Object.values(formValidity).every((isValid) => isValid);
+    const registerButton = document.getElementById('registerBtn');
+    console.log(allValid);
+    if (allValid) {
+        registerButton.style.background = '#7F6AEE';
+        registerButton.disabled = false;
+        registerButton.style.cursor = 'pointer';
+    } else {
+        registerButton.style.background = '#ACA0EB';
+        registerButton.disabled = true;
+        registerButton.style.cursor = 'not-allowed';
+    }
+}

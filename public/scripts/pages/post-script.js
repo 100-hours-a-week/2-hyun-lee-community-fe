@@ -2,8 +2,7 @@ import { createPost } from '../api/api.js';
 import { validatePostTitle, validatePostContent } from '../utils/validators.js';
 import { checkAuth } from '../utils/auth-check.js';
 
-let titleIsValid = false;
-let contentIsValid = false;
+
 
 window.addEventListener('DOMContentLoaded', async() => {
     const isAuthenticated =await checkAuth();
@@ -11,32 +10,31 @@ window.addEventListener('DOMContentLoaded', async() => {
 
 })
 document.getElementById('postTitle').addEventListener('input', (e) => {
-    titleIsValid = !!e.target.value.trim(); 
-    updateRegisterButton();
+    const titleHelper = document.getElementById('titleHelper');
+    let postTitle = e.target.value;
+    
+    const contentHelper = document.getElementById('contentHelper');
+    const postContent=document.getElementById('postContent').value;
+    
+    let contentValid=validatePostContent(postContent,contentHelper);
+    let titleValid = validatePostTitle(postTitle,titleHelper);
+    
+    updateRegisterButton(contentValid,titleValid);
 });
 
 
 document.getElementById('postContent').addEventListener('input', (e) => {
-    contentIsValid = !!e.target.value.trim();
-    updateRegisterButton();
+    const contentHelper = document.getElementById('contentHelper');
+    let postContent = e.target.value;
+
+    const titleHelper = document.getElementById('titleHelper');
+    const postTitle=document.getElementById('postTitle').value;
+
+    let contentValid = validatePostContent(postContent,contentHelper);
+    let titleValid = validatePostTitle(postTitle,titleHelper);
+
+    updateRegisterButton(contentValid,titleValid);
 });
-
-
-function updateRegisterButton() {
-    const registerBtn = document.getElementById('registerBtn');
-
-    if (titleIsValid && contentIsValid) {
-        registerBtn.style.backgroundColor = '#7F6AEE';
-        registerBtn.disabled = false;
-        registerBtn.style.cursor = 'pointer';
-    } else {
-        registerBtn.style.backgroundColor = '#ACA0EB';
-        registerBtn.disabled = true;
-        registerBtn.style.cursor = 'not-allowed';
-    }
-}
-
-
 
 
 document.getElementById('postForm').addEventListener('submit',async (e)=>{
@@ -53,7 +51,6 @@ document.getElementById('postForm').addEventListener('submit',async (e)=>{
     
     isValid=validatePostTitle(postTitle,titleHelper) && isValid;
     isValid=validatePostContent(postContent,contentHelper) && isValid;
-
 
 
     if(isValid){
@@ -78,3 +75,20 @@ document.getElementById('postForm').addEventListener('submit',async (e)=>{
     }
 }
 })
+
+
+
+
+function updateRegisterButton(contentValid,titleValid) {
+    const registerBtn = document.getElementById('registerBtn');
+
+    if (contentValid && titleValid) {
+        registerBtn.style.backgroundColor = '#7F6AEE';
+        registerBtn.disabled = false;
+        registerBtn.style.cursor = 'pointer';
+    } else {
+        registerBtn.style.backgroundColor = '#ACA0EB';
+        registerBtn.disabled = true;
+        registerBtn.style.cursor = 'not-allowed';
+    }
+}

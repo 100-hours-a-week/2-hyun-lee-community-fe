@@ -1,6 +1,6 @@
 import { editUser } from '../components/user-component.js';
 import { validateNickname, validateProfile } from '../utils/validators.js'
-import { getUserProfile,updateUserProfile,deleteUserComments,deleteUserPosts,deleteUserAccount, checkNicknameExistsForUpdate } from "../api/api.js";
+import { getUserProfile,updateUserProfile,deleteUserComments,deleteUserPosts,deleteUserAccount } from "../api/api.js";
 import { createModal, openModal, closeModal } from '../components/modal-component.js';
 import { loadImageToCanvas, setupProfileImageChange } from '../utils/loadImage.js';
 import { fetchResource } from '../api/api.js';
@@ -30,20 +30,7 @@ window.addEventListener('DOMContentLoaded', async() => {
                 updateEditButton(false);
                 return;
             }
-            try {
-                    const response = await checkNicknameExistsForUpdate(nickname,user_id);
-                    if (!response.success) {
-                        nicknameHelper.textContent = "*중복된 닉네임입니다.";
-                        nicknameHelper.style.visibility = "visible";
-                        updateEditButton(false);
-                    } else {
-                        updateEditButton(true);
-                    }
-                } catch (error) {
-                    console.error('Error:', error);
-                    alert('서버 오류 발생');
-                }
-            
+            updateEditButton(true);
         });
         
         document.getElementById('userForm').addEventListener('submit',async (e)=>{
@@ -79,11 +66,15 @@ window.addEventListener('DOMContentLoaded', async() => {
                 try{
 
                        const result = await updateUserProfile(formData);
-                        if (result.result==="nickname"){
-                        nicknameHelper.textContent = "*중복된 닉네임입니다.";
-                        nicknameHelper.style.visibility = "visible";
-                        } else {
-                                alert(result.message);
+                        if (!result.success && result.message.includes('중복된 닉네임 입니다.')){
+                            nicknameHelper.textContent = "*중복된 닉네임입니다.";
+                            nicknameHelper.style.visibility = "visible";
+                            updateEditButton(false);
+                        } else if(!result.success) {
+                            console.log(result.message);
+                            updateEditButton(false);
+                        } else{
+                            alert(result.message);
                                 success.style.visibility='visible';
                                 document.getElementById('nickname').disabled=true;
                                 document.getElementById('profileImage').disabled = true;
@@ -137,9 +128,6 @@ window.addEventListener('DOMContentLoaded', async() => {
         });
 
 });
-
-
-
 
 function updateEditButton(isEnabled) {
     const editBtn = document.getElementById('editBtn');

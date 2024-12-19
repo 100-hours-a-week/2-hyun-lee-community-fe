@@ -49,7 +49,35 @@ document.addEventListener('DOMContentLoaded', async () => {
         fileNameSpan.textContent = '이미지를 선택하세요.';
         fileInput.value='';
         postImage = fileInput.files[0];
-    })
+    });
+
+    document.getElementById('postTitle').addEventListener('input', (e) => {
+        const titleHelper = document.getElementById('titleHelper');
+        let postTitle = e.target.value;
+        
+        const contentHelper = document.getElementById('contentHelper');
+        const postContent=document.getElementById('postContent').value;
+        
+        let contentValid=validatePostContent(postContent,contentHelper);
+        let titleValid = validatePostTitle(postTitle,titleHelper);
+        
+        updateRegisterButton(contentValid,titleValid);
+    });
+    
+    
+    document.getElementById('postContent').addEventListener('input', (e) => {
+        const contentHelper = document.getElementById('contentHelper');
+        let postContent = e.target.value;
+    
+        const titleHelper = document.getElementById('titleHelper');
+        const postTitle=document.getElementById('postTitle').value;
+    
+        let contentValid = validatePostContent(postContent,contentHelper);
+        let titleValid = validatePostTitle(postTitle,titleHelper);
+    
+        updateRegisterButton(contentValid,titleValid);
+    });
+
 
     document.getElementById('postForm').addEventListener('submit',async (e)=>{
         e.preventDefault();
@@ -66,7 +94,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         isValid=validatePostTitle(postTitle,titleHelper) && isValid;
         isValid=validatePostContent(postContent,contentHelper) && isValid;
     
-    
+        console.log(isValid);
         if(isValid){
         const formData = new FormData();
         formData.append('postTitle',postTitle);
@@ -94,4 +122,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 })
 
 
- 
+
+function updateRegisterButton(contentValid,titleValid) {
+    const registerBtn = document.getElementById('registerBtn');
+
+    if (contentValid && titleValid) {
+        registerBtn.style.backgroundColor = '#7F6AEE';
+        registerBtn.disabled = false;
+        registerBtn.style.cursor = 'pointer';
+    } else {
+        registerBtn.style.backgroundColor = '#ACA0EB';
+        registerBtn.disabled = true;
+        registerBtn.style.cursor = 'not-allowed';
+    }
+}
