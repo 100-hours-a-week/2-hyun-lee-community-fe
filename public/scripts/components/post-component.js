@@ -23,7 +23,7 @@ export function renderPosts(posts){
                 </div>
         `;
         postTableBody.appendChild(newRow);
-        newRow.querySelector('.post-header').addEventListener('click', () => {
+        newRow.addEventListener('click', () => {
             window.location.href = `/detail-post?post_id=${post.post_id}`;
         });
         
