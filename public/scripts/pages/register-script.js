@@ -113,7 +113,6 @@ document.getElementById('password').addEventListener('input', (e) => {
     const passwordHelper = document.getElementById('passwordHelper');
     const confirmPassword = document.getElementById('confirmPassword').value;
     const confirmPasswordHelper = document.getElementById('confirmPasswordHelper');
-
     formValidity.password = validatePassword(password, passwordHelper);
     if (confirmPassword) {
         formValidity.confirmPassword = validateConfirmPassword(password, confirmPassword, confirmPasswordHelper);
@@ -141,7 +140,6 @@ document.getElementById('nickname').addEventListener('input', async (e) => {
 function updateRegisterButton() {
     const allValid = Object.values(formValidity).every((isValid) => isValid);
     const registerButton = document.getElementById('registerBtn');
-    console.log(allValid);
     if (allValid) {
         registerButton.style.background = '#7F6AEE';
         registerButton.disabled = false;

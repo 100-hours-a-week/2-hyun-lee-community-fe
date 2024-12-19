@@ -44,11 +44,15 @@ document.getElementById('login').addEventListener('submit', async(e) => {
             const result = await login(email, password);
     
             if (result.message ==="*비밀번호가 다릅니다.") {
-                passwordHelper.textContent = "*비밀번호가 다릅니다.";
+                passwordHelper.textContent = "*존재하지 않은 이메일 또는 비밀번호입니다.";
+                emailHelper.textContent = "*존재하지 않은 이메일 또는 비밀번호입니다."
                 passwordHelper.style.visibility = "visible";
-            } else if(result.message ==="*이메일이 존재하지않습니다."){
-                emailHelper.textContent ="*이메일이 존재하지않습니다.";
                 emailHelper.style.visibility = "visible";
+            } else if(result.message ==="*이메일이 존재하지않습니다."){
+                passwordHelper.textContent = "*존재하지 않은 이메일 또는 비밀번호입니다.";
+                emailHelper.textContent = "*존재하지 않은 이메일 또는 비밀번호입니다."
+                emailHelper.style.visibility = "visible";
+                passwordHelper.style.visibility = "visible";
             } else{
                 window.location.href='board';
             }
