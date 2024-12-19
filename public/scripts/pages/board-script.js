@@ -11,6 +11,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const isAuthenticated =await checkAuth();
         if(!isAuthenticated) return;
+
+        history.pushState(null, '', location.href);
+
         const result = await fetchPosts();
         console.log("result: ",result);
         if(Array.isArray(result.posts) && result.posts.length !== 0){
@@ -19,6 +22,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (error) {
         console.error('게시글 데이터를 불러오는 중 오류가 발생했습니다:', error);
     }
+
+    window.addEventListener('popstate', () => {
+    history.pushState(null, '', location.href); 
 });
+});
+
 
 

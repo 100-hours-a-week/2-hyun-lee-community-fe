@@ -2,9 +2,6 @@ import { login } from "../api/api.js";
 import { validateEmail, validatePassword } from "../utils/validators.js";
 
 
-
-
-
 document.getElementById('email').addEventListener('input',async (e)=>{
     const email =e.target.value;
     const emailHelper =document.getElementById('emailHelper');

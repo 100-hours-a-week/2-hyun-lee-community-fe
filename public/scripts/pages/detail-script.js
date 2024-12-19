@@ -12,6 +12,8 @@ let commentCntSpan;
 document.addEventListener('DOMContentLoaded', async () => {
     const isAuthenticated =await checkAuth();
     if(!isAuthenticated) return;
+    history.pushState(null, '', location.href);
+
     const urlParams = new URLSearchParams(window.location.search);
     const post_id = urlParams.get('post_id');
     let likeBtn;
@@ -101,7 +103,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
         }
 
-
+    window.addEventListener('popstate', () => {
+        history.pushState(null, '',location.href = 'board'); 
+    });
        
 
     
