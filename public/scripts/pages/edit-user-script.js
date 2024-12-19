@@ -78,7 +78,8 @@ window.addEventListener('DOMContentLoaded', async() => {
                                 success.style.visibility='visible';
                                 document.getElementById('nickname').disabled=true;
                                 document.getElementById('profileImage').disabled = true;
-
+                                document.getElementById('withdrawBtn').disabled = true;
+                                document.getElementById('editBtn').disabled = true;
                                 setTimeout(()=>{
                                     window.location.href='/board';
                                 },2000);
