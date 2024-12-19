@@ -3,13 +3,15 @@ import { addCommentToList } from '../components/comment-component.js';
 import { createModal, openModal, closeModal } from '../components/modal-component.js';
 import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, updatePostLikes, updateComment, updatePostViews,getComment, userLikeStatus} from '../api/api.js';
 import {formatDate} from '../utils/format-Date.js';
-
+import { checkAuth } from '../utils/auth-check.js';
 
 let isEditing = false; 
 let editingCommentId = null; 
 let commentCntSpan;
 
 document.addEventListener('DOMContentLoaded', async () => {
+    const isAuthenticated =await checkAuth();
+    if(!isAuthenticated) return;
     const urlParams = new URLSearchParams(window.location.search);
     const post_id = urlParams.get('post_id');
     let likeBtn;

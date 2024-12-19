@@ -1,10 +1,15 @@
 import { createPost } from '../api/api.js';
 import { validatePostTitle, validatePostContent } from '../utils/validators.js';
+import { checkAuth } from '../utils/auth-check.js';
 
 let titleIsValid = false;
 let contentIsValid = false;
 
+window.addEventListener('DOMContentLoaded', async() => {
+    const isAuthenticated =await checkAuth();
+    if(!isAuthenticated) return;
 
+})
 document.getElementById('postTitle').addEventListener('input', (e) => {
     titleIsValid = !!e.target.value.trim(); 
     updateRegisterButton();

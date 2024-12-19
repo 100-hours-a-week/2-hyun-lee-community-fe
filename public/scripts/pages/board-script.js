@@ -1,6 +1,6 @@
 import { renderPosts} from '../components/post-component.js';
 import { fetchPosts } from '../api/api.js';
-
+import { checkAuth } from '../utils/auth-check.js';
 
 
 document.getElementById('createBtn').addEventListener('click', () => {
@@ -9,6 +9,8 @@ document.getElementById('createBtn').addEventListener('click', () => {
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
+        const isAuthenticated =await checkAuth();
+        if(!isAuthenticated) return;
         const result = await fetchPosts();
         console.log("result: ",result);
         if(Array.isArray(result.posts) && result.posts.length !== 0){

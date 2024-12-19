@@ -1,10 +1,13 @@
 import { renderEditPost } from '../components/post-component.js';
 import { validatePostTitle, validatePostContent } from '../utils/validators.js';
 import {fetchPostDetails, updatePost, fetchResource } from '../api/api.js'
-
+import { checkAuth } from '../utils/auth-check.js';
 
 
 document.addEventListener('DOMContentLoaded', async () => {
+
+    const isAuthenticated =await checkAuth();
+    if(!isAuthenticated) return;
     const urlParams = new URLSearchParams(window.location.search);
     const post_id = urlParams.get('post_id');
   

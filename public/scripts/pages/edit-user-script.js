@@ -4,12 +4,13 @@ import { getUserProfile,updateUserProfile,deleteUserComments,deleteUserPosts,del
 import { createModal, openModal, closeModal } from '../components/modal-component.js';
 import { loadImageToCanvas, setupProfileImageChange } from '../utils/loadImage.js';
 import { fetchResource } from '../api/api.js';
-
+import { checkAuth } from '../utils/auth-check.js';
 
 
 
 window.addEventListener('DOMContentLoaded', async() => {
-
+        const isAuthenticated =await checkAuth();
+        if(!isAuthenticated) return;
         const result = await getUserProfile();
         const userInfo=result.userInfo;
         const user_id=userInfo.user_id;

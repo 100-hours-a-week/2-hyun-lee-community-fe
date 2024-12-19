@@ -1,9 +1,11 @@
 import { validatePassword, validateConfirmPassword } from '../utils/validators.js';
-import { updateUserPassword, getUserProfile } from '../api/api.js';
-
+import { updateUserPassword, getUserProfile ,logout} from '../api/api.js';
+import { checkAuth } from '../utils/auth-check.js';
 
 window.addEventListener('DOMContentLoaded', async() => {
 
+const isAuthenticated =await checkAuth();
+if(!isAuthenticated) return;
 const result = await getUserProfile();
 const userInfo=result.userInfo;
 const user_id=userInfo.user_id;
@@ -65,8 +67,14 @@ document.getElementById('passwordForm').addEventListener('submit',async (e)=>{
         try{
                const result = await updateUserPassword(formData);
                if(result){
-                alert(result.message);
-               //window.location.href='/user/${user_id}';
+                    alert(result.message);
+                    
+                    const logoutResult= await logout();
+                    if(logoutResult.success){
+                        window.location.href = 'login';
+                    } else{
+                        alert(logoutResult.message);
+                    }
                }
 
             } catch(error){

@@ -12,7 +12,6 @@ const app =express()
 const PORT = process.env.PORT || 8000;
 
 
-
 app.use(express.urlencoded({ extended: true }));
 
 
@@ -28,7 +27,7 @@ app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'register.html'));
 });
 
-app.get('/board', (req, res) => {
+app.get('/board', async (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'board.html'));
 });
 
@@ -55,6 +54,7 @@ app.get('/login', (req, res) => {
 app.get('/edit-user-password', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'edit-user-password.html'));
 });
+
 
 
 

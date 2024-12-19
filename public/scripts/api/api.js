@@ -22,22 +22,6 @@ export async function login(email,password){
 }
 
 
-export async function checkLogin(email, password) {
-    try {
-        const response = await fetch(`${BASE_URL}/users/check`, {
-            method: 'POST',
-            body: JSON.stringify({ email, password }),
-            credentials: 'include'
-        });
-
-        const data = await response.json();
-        return data.success;
-    } catch (error) {
-        console.error('비밀번호 확인 중 오류 발생:', error);
-        return false;
-    }
-}
-
 export async function checkEmailExists(email) {
     try {
         const encodedEmail = encodeURIComponent(email);
