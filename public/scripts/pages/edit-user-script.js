@@ -85,10 +85,12 @@ window.addEventListener('DOMContentLoaded', async() => {
                         } else {
                                 alert(result.message);
                                 success.style.visibility='visible';
-                                document.getElementById('nickname').readOnly=true;
+                                document.getElementById('nickname').disabled=true;
+                                document.getElementById('profileImage').disabled = true;
+
                                 setTimeout(()=>{
                                     window.location.href='/board';
-                                },3000);
+                                },2000);
                         }
                     } catch(error){
                         console.error('Error:',error);
