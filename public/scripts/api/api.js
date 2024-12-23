@@ -1,8 +1,8 @@
-const BASE_URL ='http://localhost:3000/api';
+//const BASE_URL ='http://localhost:3001/api';
 const CDN_URL = 'https://d2m8tt5bgy55i.cloudfront.net/';
 const S3_URL = 'https://s3.ap-northeast-2.amazonaws.com/hyun.lee.bucket/';
   
-//const BASE_URL = 'http://52.79.119.220:3001/api';
+const BASE_URL = 'http://52.78.32.212:3001/api';
 
 
 // 사용자 인증 관련

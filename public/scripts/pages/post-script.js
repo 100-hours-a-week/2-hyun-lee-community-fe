@@ -62,10 +62,9 @@ document.getElementById('postForm').addEventListener('submit',async (e)=>{
         formData.append('postImage',postImage);
     }
     try{
-        const result = await createPost(formData);
-        console.log("result",result);
-           if(result.success){
-           window.location.href='board';
+        const post = await createPost(formData);
+           if(post.success){
+           window.location.href=`board`;
          } else{
              window.location.href='create-post'
              }
