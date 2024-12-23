@@ -2,7 +2,7 @@ function getBaseUrl() {
     if (window.location.hostname === 'localhost') {
       return 'http://localhost:3001/api'; 
     } else {
-      return 'http://52.78.32.212:3001/api'; 
+      return 'd2m8tt5bgy55i.cloudfront.net/api'; 
     }
   }
   
