@@ -54,7 +54,7 @@ jobs:
         with:
           script: |
             const owner = 'donet12'; 
-            const repo = '2-hyun-lee-community-be'; 
+            const repo = '100-hours-a-week/2-hyun-lee-community-be'; 
             const workflow_id = 'backend_deploy.yml'; 
             const ref = 'main'; 
 
