@@ -60,7 +60,7 @@ jobs:
               workflow_id: 'backend_deploy.yml',
               ref: 'main',
               headers: {
-                authorization: `token ${process.env.PERSONAL_ACCESS_TOKEN}`,
+                authorization: `token ${secrets.PERSONAL_ACCESS_TOKEN}`,
               },
               inputs: {
                 frontend_updated: 'true'
