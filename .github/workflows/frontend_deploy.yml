@@ -55,6 +55,7 @@ jobs:
           PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
           script: |
+            console.log(process.env.PERSONAL_ACCESS_TOKEN)
             const response = await github.rest.actions.createWorkflowDispatch({
               owner: '100-hours-a-week',
               repo: '2-hyun-lee-community-be',
