@@ -52,7 +52,7 @@ jobs:
       - name: Trigger Backend Workflow
         uses: actions/github-script@v6
         env:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
           script: |
             const response = await github.rest.actions.createWorkflowDispatch({
