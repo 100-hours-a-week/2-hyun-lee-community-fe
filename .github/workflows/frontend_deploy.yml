@@ -57,7 +57,7 @@ jobs:
           script: |
             const response = await github.rest.actions.createWorkflowDispatch({
               owner: 'donet12',
-              repo: '100-hours-a-week/2-hyun-lee-community-be',
+              repo: '2-hyun-lee-community-be',
               workflow_id: 'backend_deploy.yml',
               ref: 'main',
               inputs: {
