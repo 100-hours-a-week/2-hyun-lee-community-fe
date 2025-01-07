@@ -1,9 +1,12 @@
 function getBaseUrl() {
-    if (window.location.hostname === 'localhost') {
+    const hostname = window.location.hostname;
+    if (hostname === 'localhost') {
       return 'http://localhost:3001/api'; 
-    } else {
-      return 'http://52.78.32.212:3001/api'; 
-    }
+    } else if (hostname === 'communityapp-env.eba-6tkf3pgq.ap-northeast-2.elasticbeanstalk.com') {
+        return 'http://communityapp-env.eba-6tkf3pgq.ap-northeast-2.elasticbeanstalk.com/api';
+      } else {
+        return 'http://52.78.32.212:3001/api'; 
+      }
   }
   
 const BASE_URL = getBaseUrl();
