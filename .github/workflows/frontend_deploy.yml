@@ -48,3 +48,23 @@ jobs:
           echo "$FE_IMAGE_TAG" > frontend-latest.txt
 
           aws s3 cp frontend-latest.txt s3://$S3_BUCKET/frontend-latest.txt --region $AWS_REGION
+      
+      - name: Trigger Backend Workflow
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const owner = 'donet12'; 
+            const repo = '2-hyun-lee-community-be'; 
+            const workflow_id = 'backend_deploy.yml'; 
+            const ref = 'main'; 
+
+            const response = await github.actions.createWorkflowDispatch({
+              owner,
+              repo,
+              workflow_id,
+              ref,
+              inputs: {
+                frontend_updated: 'true',
+              },
+            });
+            console.log(`Triggered backend workflow: ${response.status}`);
