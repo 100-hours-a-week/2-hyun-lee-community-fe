@@ -51,7 +51,8 @@ jobs:
       
       - name: Trigger Backend Workflow
         uses: actions/github-script@v6
-        
+        env:
+          PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
           script: |
             const response = await github.rest.actions.createWorkflowDispatch({
@@ -60,7 +61,7 @@ jobs:
               workflow_id: 'backend_deploy.yml',
               ref: 'main',
               headers: {
-                authorization: `token ${secrets.PERSONAL_ACCESS_TOKEN}`,
+                authorization: `token ${process.env.PERSONAL_ACCESS_TOKEN}`,
               },
               inputs: {
                 frontend_updated: 'true'
