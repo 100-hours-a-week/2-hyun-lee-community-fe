@@ -34,6 +34,17 @@ jobs:
           ECR_REPOSITORY: hyun.lee/community-fe
           IMAGE_TAG: ${{ github.sha }}
         run: |
+          echo "Building and pushing FE image: $IMAGE_TAG"
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-  
+
+      - name: Save Frontend Image Tag to S3
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          S3_BUCKET: hyun.lee.bucket
+          FE_IMAGE_TAG: ${{ github.sha }}
+        run: |
+          echo "Saving FE_IMAGE_TAG=$FE_IMAGE_TAG to S3..."
+          echo "$FE_IMAGE_TAG" > frontend-latest.txt
+
+          aws s3 cp frontend-latest.txt s3://$S3_BUCKET/frontend-latest.txt --region $AWS_REGION
