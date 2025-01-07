@@ -55,19 +55,14 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
         with:
           script: |
-            console.log("Testing github object:", github);
-            const owner = 'donet12'; 
-            const repo = '100-hours-a-week/2-hyun-lee-community-be'; 
-            const workflow_id = 'backend_deploy.yml'; 
-            const ref = 'main'; 
-
-            const response = await github.actions.createWorkflowDispatch({
-              owner,
-              repo,
-              workflow_id,
-              ref,
+            const response = await github.rest.actions.createWorkflowDispatch({
+              owner: 'donet12',
+              repo: '100-hours-a-week/2-hyun-lee-community-be',
+              workflow_id: 'backend_deploy.yml',
+              ref: 'main',
               inputs: {
-                frontend_updated: 'true',
+                frontend_updated: 'true'
               },
             });
+            
             console.log(`Triggered backend workflow: ${response.status}`);
