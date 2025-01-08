@@ -40,8 +40,15 @@ body {
     border: none;
     background-color: #F4F5F7;
     cursor: pointer;
+    width: 36px;
+    height: 36px; 
 }
 
+.back-button.empty {
+    border: none; 
+    background-color: transparent; 
+    cursor: default; 
+}
 
 .preview {
     width: 36px;

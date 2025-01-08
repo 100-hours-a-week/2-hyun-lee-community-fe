@@ -64,7 +64,7 @@ document.getElementById('postForm').addEventListener('submit',async (e)=>{
     try{
         const post = await createPost(formData);
            if(post.success){
-           window.location.href=`board`;
+             window.location.href=`/detail-post?post_id=${post.post.post_id}`;
          } else{
              window.location.href='create-post'
              }
