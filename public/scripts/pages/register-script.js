@@ -1,5 +1,6 @@
 import { registerUser,  } from "../api/api.js";
 import { validateProfile, validateEmail, validatePassword, validateConfirmPassword, validateNickname } from '../utils/validators.js';
+import { escapeHtml } from "../utils/escape.js";
 
 const profileImageInput = document.getElementById('profileImage');
 const profileCanvas = document.getElementById('profileCanvas');
@@ -63,8 +64,20 @@ document.getElementById('registerForm').addEventListener('submit',async (e)=>{
     const formData = new FormData(document.getElementById('registerForm'));
     const emailHelper = document.getElementById('emailHelper');
     const nicknameHelper = document.getElementById('nicknameHelper');
+    
+    const escapeFormData = new FormData();
+
+    for(const [key, value] of formData.entries()){
+        if(key ==='nickname'){
+            escapeFormData.append(key,escapeHtml(value));
+        } else{
+            escapeFormData.append(key,value);
+        }
+    }
+
+    
     try{
-        const response = await registerUser(formData);
+        const response = await registerUser(escapeFormData);
 
         console.log(response.message);
         if(!response.success && response.message.includes('중복된 이메일 입니다.')){
@@ -83,7 +96,7 @@ document.getElementById('registerForm').addEventListener('submit',async (e)=>{
             updateRegisterButton();
         } 
         if(response.success){
-            window.location.href = 'login';
+            //window.location.href = 'login';
         } 
     } catch(error){
         console.error('Error:',error);

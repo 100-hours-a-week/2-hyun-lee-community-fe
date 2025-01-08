@@ -95,7 +95,6 @@ body {
 .author-name{
     font-size: 15px;
     line-height: 19.5px;
-    font-weight: 700;
 }
 .post-date {
     font-size: 14px;
@@ -218,24 +217,28 @@ body {
 }
 
 .comment-author{
+    position: relative;
     display: flex;
     width: 100%;
-    align-items: left;
+    align-items: flex-start; 
     gap: 10px;
     padding-top: 10px;
-    margin-bottom: 5px; 
+    margin-bottom: 5px;
+    border-top:2px solid #DDD;
+     
 }
 
-.comment{
-    align-items: left;
-    width: 595px;
-    position: relative;
-    left: 440px;
-    bottom:60px
+.comment-buttons {
+    position: absolute; /* 오른쪽 상단 고정 */
+    top: 0;
+    right: 0;
+    display: flex; /* 버튼을 나란히 배치 */
+    gap: 5px; /* 버튼 간격 */
 }
 
 .comment-content {
-    margin-top: 20px; 
+    margin-top: 20px;
+    max-width: 500px;
 }
 
 .action{
@@ -248,17 +251,6 @@ body {
 }
 
 
-
-.comment-action{
-    border: 1px solid #aca0eb;
-    padding: 5px 10px;
-    background-color: #ffffff;
-    border-radius: 6px;
-    text-align: center; 
-    cursor: pointer;
-    margin: 0 auto;
-    font-size: 14px;
-}
 .comment button{
     border: 1px solid #aca0eb;
     padding: 5px 10px;

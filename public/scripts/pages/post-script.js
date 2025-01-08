@@ -1,7 +1,7 @@
 import { createPost } from '../api/api.js';
 import { validatePostTitle, validatePostContent } from '../utils/validators.js';
 import { checkAuth } from '../utils/auth-check.js';
-
+import { escapeHtml } from '../utils/escape.js';
 
 
 window.addEventListener('DOMContentLoaded', async() => {
@@ -56,8 +56,8 @@ document.getElementById('postForm').addEventListener('submit',async (e)=>{
     if(isValid){
 
     const formData = new FormData();
-    formData.append('postTitle',postTitle);
-    formData.append('postContent',postContent);
+    formData.append('postTitle',escapeHtml(postTitle));
+    formData.append('postContent',escapeHtml(postContent));
     if(postImage){
         formData.append('postImage',postImage);
     }

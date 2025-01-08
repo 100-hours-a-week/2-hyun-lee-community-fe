@@ -11,7 +11,7 @@ export function addCommentToList(commentData, user_id){
     const isOwner = commentData.user_id === user_id;
     const editButtons = isOwner
 
-        ? `  <div class="comment">
+        ? `  <div class="comment-buttons">
             <button class="modify-comment-button">수정</button>
             <button class="delete-comment-button">삭제</button>
             </div>`

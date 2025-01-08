@@ -5,7 +5,7 @@ import { createModal, openModal, closeModal } from '../components/modal-componen
 import { loadImageToCanvas, setupProfileImageChange } from '../utils/loadImage.js';
 import { fetchResource } from '../api/api.js';
 import { checkAuth } from '../utils/auth-check.js';
-
+import { escapeHtml } from '../utils/escape.js';
 
 
 window.addEventListener('DOMContentLoaded', async() => {
@@ -59,7 +59,7 @@ window.addEventListener('DOMContentLoaded', async() => {
             if(isValid){
                 const formData = new FormData();
                 formData.append('profileImage',profileImage);
-                formData.append('nickname',nickname);
+                formData.append('nickname',escapeHtml(nickname));
                 formData.append('user_id',user_id);
                
                 

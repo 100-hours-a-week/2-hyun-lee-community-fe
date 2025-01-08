@@ -2,7 +2,7 @@ import { renderEditPost } from '../components/post-component.js';
 import { validatePostTitle, validatePostContent } from '../utils/validators.js';
 import {fetchPostDetails, updatePost, fetchResource } from '../api/api.js'
 import { checkAuth } from '../utils/auth-check.js';
-
+import { escapeHtml } from '../utils/escape.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
 
@@ -97,8 +97,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.log(isValid);
         if(isValid){
         const formData = new FormData();
-        formData.append('postTitle',postTitle);
-        formData.append('postContent',postContent);
+        formData.append('postTitle',escapeHtml(postTitle));
+        formData.append('postContent',escapeHtml(postContent));
         if (!postImage) {
             formData.append('postDelete', true); 
         } else {

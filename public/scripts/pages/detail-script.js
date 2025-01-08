@@ -4,6 +4,7 @@ import { createModal, openModal, closeModal } from '../components/modal-componen
 import { fetchPostDetails, fetchComments, deletePost, deleteComment, addComment, updatePostLikes, updateComment, updatePostViews,getComment, userLikeStatus} from '../api/api.js';
 import {formatDate} from '../utils/format-Date.js';
 import { checkAuth } from '../utils/auth-check.js';
+import { escapeHtml,unescapeHtml } from '../utils/escape.js';
 
 let isEditing = false; 
 let editingCommentId = null; 
@@ -181,7 +182,7 @@ document.getElementById('comment-submit').addEventListener('click', async () => 
     if(!isEditing){
     try {
         
-        const result = await addComment(post_id, commentContent);
+        const result = await addComment(post_id, escapeHtml(commentContent));
         const oneComment = await getComment(result.comment.comment_id);
         if(result.success){
             document.getElementById('commentInput').value = ''; 
@@ -199,15 +200,14 @@ document.getElementById('comment-submit').addEventListener('click', async () => 
     } else{
         try {
         
-            const oneComment = await updateComment(post_id,editingCommentId, commentContent);
-            
+            const oneComment = await updateComment(post_id,editingCommentId, escapeHtml(commentContent));
             if(oneComment.success){
                 const element= document.querySelector(`[data-comment-id="${oneComment.comments[0].comment_id}"]`);
                 
                 const date = element.querySelector('.comment-date');
                 const content = element.querySelector('.comment-content');
             
-                content.textContent = oneComment.comments[0].comment_content;
+                content.textContent = unescapeHtml(oneComment.comments[0].comment_content);
                 date.textContent = formatDate(oneComment.comments[0].create_at);
                 document.getElementById('commentInput').value = ''; 
                 const submitButton = document.getElementById('comment-submit');
