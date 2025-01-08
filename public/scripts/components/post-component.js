@@ -43,7 +43,7 @@ export function renderDetailsPost(post,user_id){
     : ''; 
     const pageImage = post.post_image !==''
     ? ` <img src="${pageImageUrl}" >` 
-    : '<span class="no-image">이미지가 없습니다</span>';
+    : '';
     
     postContainer.innerHTML = `
         <span class="title">${post.post_title}</span>

@@ -7,7 +7,7 @@ import { initializeProfileDropdown } from "./user-menu.js";
 document.addEventListener("DOMContentLoaded", async()=>{
     try {
         const result = await getUserProfile();
-        const isBoardPage = window.location.pathname.includes('/public/board.html');
+        const isBoardPage = window.location.pathname.includes('/board');
         headerComponent(result.userInfo, !isBoardPage); 
         initializeProfileDropdown();
     } catch (error) {

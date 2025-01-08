@@ -55,9 +55,6 @@ body {
 
 .post{
     height: 31px; 
-    position: absolute;
-    top: 15%;  
-    left: 46%;
     gap: 0px;
     opacity: 0px;
     font-size: 24px;   
@@ -71,7 +68,6 @@ body {
     flex-direction: column;
     justify-content: center; 
     width: 570px;
-    margin-top: 100px;
 }
 
 .container label {
