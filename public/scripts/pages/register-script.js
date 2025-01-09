@@ -75,7 +75,6 @@ document.getElementById('registerForm').addEventListener('submit',async (e)=>{
         }
     }
 
-    
     try{
         const response = await registerUser(escapeFormData);
 
@@ -96,7 +95,7 @@ document.getElementById('registerForm').addEventListener('submit',async (e)=>{
             updateRegisterButton();
         } 
         if(response.success){
-            //window.location.href = 'login';
+            window.location.href = 'login';
         } 
     } catch(error){
         console.error('Error:',error);

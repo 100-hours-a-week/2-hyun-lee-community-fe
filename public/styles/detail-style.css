@@ -225,15 +225,15 @@ body {
     padding-top: 10px;
     margin-bottom: 5px;
     border-top:2px solid #DDD;
-     
+
 }
 
 .comment-buttons {
-    position: absolute; /* 오른쪽 상단 고정 */
+    position: absolute;
     top: 0;
     right: 0;
-    display: flex; /* 버튼을 나란히 배치 */
-    gap: 5px; /* 버튼 간격 */
+    display: flex; 
+    gap: 5px;
 }
 
 .comment-content {
