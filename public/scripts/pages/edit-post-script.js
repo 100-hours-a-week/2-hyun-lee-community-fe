@@ -1,6 +1,6 @@
 import { renderEditPost } from '../components/post-component.js';
 import { validatePostTitle, validatePostContent } from '../utils/validators.js';
-import {fetchPostDetails, updatePost, fetchResource } from '../api/api.js'
+import { getUserProfile, fetchPostDetails, updatePost, fetchResource } from '../api/api.js'
 import { checkAuth } from '../utils/auth-check.js';
 import { escapeHtml } from '../utils/escape.js';
 
@@ -8,11 +8,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     const isAuthenticated =await checkAuth();
     if(!isAuthenticated) return;
+    const result = await getUserProfile();
+    const userInfo=result.userInfo;
+    const user_id=userInfo.user_id;
+    
     const urlParams = new URLSearchParams(window.location.search);
     const post_id = urlParams.get('post_id');
   
-  
     const postData= await fetchPostDetails(post_id);
+  
+    if(user_id !== postData.posts[0].user_id) {
+        alert("권한이 없습니다!");
+        window.location.href = '/board';
+        return ;
+    }
+
 
     renderEditPost(postData.posts[0]);
 
