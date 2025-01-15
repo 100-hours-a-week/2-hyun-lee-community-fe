@@ -7,7 +7,7 @@ export function headerComponent(userInfo,showBackButton = false){
     topContainer.innerHTML=`
      <div class="top-content">
      ${showBackButton ? `<button class="back-button" onclick="history.back()|| 'board'">&#60;</button>` : '<button class="back-button empty"></button>'}
-  <h1 class="top-title">아무말 대잔치</h1>
+  <h1 class="top-title">아무말 123 대잔치</h1>
     <img id="imagePreview" class="preview" src="${profileImageUrl}" alt="">
         <div id= "dropdownMenu"class="dropdown-menu" style="display: none;">
             <div class="menu">
